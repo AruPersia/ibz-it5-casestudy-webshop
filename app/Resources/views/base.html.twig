@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/css/bootstrap-reboot.min.css.map') }}"/>
+    <link rel="stylesheet" href="{{ asset('/css/main.css') }}"/>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-inverse">
+
+    <a class="navbar-brand" href="{{ path('homepage') }}">IBZ CASE-STUDY | WEB-SHOP</a>
+
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('showProducts') }}">Products</a>
+        </li>
+    </ul>
+
+    <ul class="nav navbar-nav float-xs-right">
+        <li class="nav-item">
+            <form class="form-inline">
+                <input class="form-control" type="text" placeholder="Article name">
+                <button class="btn btn-outline-info" type="submit">Search</button>
+            </form>
+        </li>
+    </ul>
+
+</nav>
+
+<div class="web-shop-body">
+    {% block body %}{% endblock %}
+</div>
+
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
 </html>

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {% for product in products %}
+            <div class="col-md-3">
+                <figure class="figure web-shop-product">
+                    <img src="{{ asset('images/noProduct.png') }}" class="figure-img img-fluid rounded"
+                         alt="A generic square placeholder image with rounded corners in a figure.">
+                    <figcaption class="figure-caption">{{ product.name }}</figcaption>
+                </figure>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
