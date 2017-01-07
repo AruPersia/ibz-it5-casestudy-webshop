@@ -7,8 +7,8 @@
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('/css/bootstrap-reboot.min.css.map') }}"/>
-    <link rel="stylesheet" href="{{ asset('/css/main.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css.map') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-inverse">
@@ -22,6 +22,9 @@
     </ul>
 
     <ul class="nav navbar-nav float-xs-right">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('customerCreate') }}">Join</a>
+        </li>
         <li class="nav-item">
             <form class="form-inline">
                 <input class="form-control" type="text" placeholder="Article name">
