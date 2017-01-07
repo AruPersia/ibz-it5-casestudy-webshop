@@ -2,40 +2,42 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Model\Image;
-use AppBundle\Model\Product;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Image;
+use AppBundle\Entity\ImageEntity;
+use AppBundle\Entity\ProductEntity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 
-class ProductController extends Controller
+class ProductController extends WebShopController
 {
 
     /**
-     * @Route("/product/{productId}", name="showProduct")
+     * @A\Route("/product/{productId}", name="showProduct")
      * @param $productId
      */
     public function showAction($productId)
     {
-        // TODO: Load product from database using $productId
+        $productEntity = new ProductEntity();
+        $productEntity->setName('Galaxy S7');
+        $productEntity->addImage(new ImageEntity());
+        $productEntity->addImage(new ImageEntity());
+        $productEntity->addImage(new ImageEntity());
 
-        $product = new Product($productId, 'Galaxy S7', new Image('loadImageContentFromDb'));
-
-        return $this->render('product/show.product.html.twig', ['product' => $product]);
+        return $this->render('product/show.product.html.twig', ['product' => $productEntity]);
     }
 
     /**
-     * @Route("/products", name="showProducts")
+     * @A\Route("/products", name="showProducts")
      */
     public function showProducts()
     {
-        $products = [
-            new Product(1, 'Galaxy S1', new Image('loadImageContentFromDb')),
-            new Product(2, 'Galaxy S2', new Image('loadImageContentFromDb')),
-            new Product(3, 'Galaxy S3', new Image('loadImageContentFromDb')),
-            new Product(4, 'Galaxy S4', new Image('loadImageContentFromDb')),
-            new Product(5, 'Galaxy S5', new Image('loadImageContentFromDb')),
-            new Product(6, 'Galaxy S6', new Image('loadImageContentFromDb')),
-            new Product(7, 'Galaxy S7', new Image('loadImageContentFromDb'))];
+        $products = array();
+        for ($i = 0; $i < 10; $i++) {
+            $product = new ProductEntity();
+            $product->setName('Galaxy S' . $i);
+            $product->addImage(new ImageEntity());
+            $product->addImage(new ImageEntity());
+            $products[] = $product;
+        }
 
         return $this->render('product/show.products.html.twig', ['products' => $products]);
     }
