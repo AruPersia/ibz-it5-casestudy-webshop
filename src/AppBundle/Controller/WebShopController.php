@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Core\Controller\CoreController;
 use Symfony\Component\HttpFoundation\Request;
 
-class WebShopController extends Controller
+class WebShopController extends CoreController
 {
 
     /**
@@ -24,16 +24,6 @@ class WebShopController extends Controller
     public function isPostRequest(Request $request)
     {
         return $request->isMethod('POST');
-    }
-
-    public function addError($errorMessage)
-    {
-        $this->addFlash('error', $errorMessage);
-    }
-
-    public function addSuccess($successMessage)
-    {
-        $this->addFlash('success', $successMessage);
     }
 
 

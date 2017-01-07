@@ -3,11 +3,9 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class DefaultController extends WebShopController
 {
     /**
      * @A\Route("/", name="homepage")
