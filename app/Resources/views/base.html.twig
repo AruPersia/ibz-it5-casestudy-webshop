@@ -17,13 +17,13 @@
 
     <ul class="nav navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('showProducts') }}">Products</a>
+            <a class="nav-link" href="#">Products</a>
         </li>
     </ul>
 
     <ul class="nav navbar-nav float-xs-right">
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('customerCreate') }}">Join</a>
+            <a class="nav-link" href="{{ path('frontendRegistrationShowForm') }}">Join</a>
         </li>
         <li class="nav-item">
             <form class="form-inline">
@@ -36,6 +36,11 @@
 </nav>
 
 <div class="web-shop-body">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.type }}" role="alert">
+            <strong>{{ message.title }}</strong> {{ message.text }}
+        </div>
+    {% endfor %}
     {% block body %}{% endblock %}
 </div>
 

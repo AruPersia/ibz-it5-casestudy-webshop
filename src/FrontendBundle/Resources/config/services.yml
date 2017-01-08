@@ -1,0 +1,13 @@
+services:
+#    frontend.example:
+#        class: FrontendBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+  services.db.customer:
+    class:  FrontendBundle\Service\Db\CustomerService
+    arguments: ["@doctrine.orm.entity_manager"]
+  services.db.product:
+    class:  FrontendBundle\Service\Db\ProductService
+    arguments: ["@doctrine.orm.entity_manager"]
+  frontend.service.db.registration:
+    class:  FrontendBundle\Service\Db\RegistrationService
+    arguments: ["@doctrine.orm.entity_manager"]
