@@ -1,8 +1,14 @@
-admin:
-    resource: "@AdminBundle/Controller/"
+core:
+    resource: "@CoreBundle/Controller/"
     type:     annotation
-    prefix:   /admin
+    prefix:   /core
 
-app:
-    resource: "@AppBundle/Controller/"
+backend:
+    resource: "@BackendBundle/Controller/"
     type:     annotation
+    prefix:   /backend
+
+frontend:
+    resource: "@FrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
