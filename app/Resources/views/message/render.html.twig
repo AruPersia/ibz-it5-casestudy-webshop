@@ -1,0 +1,8 @@
+<div class="web-shop-body">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.type }}" role="alert">
+            <strong>{{ message.title }}</strong> {{ message.text }}
+        </div>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</div>

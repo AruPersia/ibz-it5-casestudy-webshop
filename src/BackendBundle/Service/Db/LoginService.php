@@ -1,6 +1,6 @@
 <?php
 
-namespace BackendBundle\Service;
+namespace BackendBundle\Service\Db;
 
 use BackendBundle\Entity\UserEntity;
 use BackendBundle\Form\LoginData;
@@ -16,10 +16,10 @@ class LoginService extends EntityManagerService
      */
     public function findByEmailAndPassword(LoginData $loginData)
     {
-        return $this->getAdminRepository()->findOneBy(['email' => $loginData->getEmail(), 'password' => PasswordUtil::encrypt($loginData->getPassword())]);
+        return $this->getUserRepository()->findOneBy(['email' => $loginData->getEmail(), 'password' => PasswordUtil::encrypt($loginData->getPassword())]);
     }
 
-    private function getAdminRepository()
+    private function getUserRepository()
     {
         return $this->em->getRepository('BackendBundle:UserEntity');
     }

@@ -3,10 +3,9 @@
 namespace FrontendBundle\Controller;
 
 use CoreBundle\Controller\CoreController;
-use FrontendBundle\Entity\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 
-class FrontendController extends CoreController
+class ServiceController extends CoreController
 {
 
     /**
@@ -16,5 +15,15 @@ class FrontendController extends CoreController
     {
         return $this->get('frontend.service.db.registration');
     }
+
+    /**
+     * @return \FrontendBundle\Service\Db\CategoryService
+     */
+    protected function getCategoryService()
+    {
+        return $this->get('frontend.service.db.frontend.category');
+    }
+
+
 
 }

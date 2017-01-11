@@ -8,7 +8,7 @@ class DashboardController extends BackendController
 {
 
     /**
-     * @A\Route("/dashboard", name="dashboard")
+     * @A\Route("/", name="backendShowDashboard")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function dashboard()

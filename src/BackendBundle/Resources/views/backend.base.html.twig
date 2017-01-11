@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css.map') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/ws-backend.css') }}"/>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-dark bg-inverse">
+
+    <a class="navbar-brand" href="{{ path('backendShowDashboard') }}">Administration</a>
+
+    <ul class="nav navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">Create</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ path('backendProductCreate') }}"><i class="fa fa-product-hunt"></i>&nbsp;Product</a>
+            </div>
+        </li>
+    </ul>
+
+</nav>
+
+<div class="web-shop-body">
+    {% embed 'message/render.html.twig' %}{% endembed %}
+    {% block body %}{% endblock %}
+</div>
+
+<script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
