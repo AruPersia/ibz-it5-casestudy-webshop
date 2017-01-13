@@ -1,0 +1,29 @@
+{% extends '@Backend/backend.base.html.twig' %}
+
+{% block title %}Join us{% endblock %}
+
+{% block body %}
+
+    {{ form_start(productForm, {'action': path('backendProductCreateSubmit')}) }}
+
+    <div class="form-group row">
+        <div class="col-xs-12">
+            {{ form_row(productForm.category, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-12">
+            {{ form_row(productForm.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-12">
+            {{ form_row(productForm.price, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {{ form_row(productForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
+    {{ form_row(productForm._token) }}
+    {{ form_end(productForm) }}
+
+{% endblock %}

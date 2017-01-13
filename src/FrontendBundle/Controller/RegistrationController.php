@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
-class RegistrationController extends FrontendController
+class RegistrationController extends NavigatorController
 {
 
     /**
@@ -43,7 +43,7 @@ class RegistrationController extends FrontendController
         if ($registrationForm->isValid()) {
             $this->getRegistrationService()->register($registrationForm->getData());
             $this->addMessage(Message::success('registration.successful', 'thanks.for.your.registration'));
-            return $this->render('base.html.twig');
+            return $this->render('@Frontend/base.html.twig');
         }
 
         return $this->renderRegistrationForm($registrationForm);

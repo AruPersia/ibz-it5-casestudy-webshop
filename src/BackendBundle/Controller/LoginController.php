@@ -12,17 +12,17 @@ class LoginController extends BackendController
 {
 
     /**
-     * @A\Route("/login", name="adminLogin")
+     * @A\Route("/login", name="backendLoginForm")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function login()
+    public function loginAction()
     {
         return $this->renderLoginForm($this->getLoginForm());
     }
 
     private function renderLoginForm(Form $loginForm)
     {
-        return $this->render('@Backend/Login/login.html.twig', ['loginForm' => $loginForm->createView()]);
+        return $this->render('@Backend/Login/login.form.html.twig', ['loginForm' => $loginForm->createView()]);
     }
 
     /**
@@ -34,7 +34,7 @@ class LoginController extends BackendController
     }
 
     /**
-     * @A\Route("/login/signIn", name="adminLoginSignIn")
+     * @A\Route("/login/signIn", name="backendLoginSignIn")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -42,7 +42,7 @@ class LoginController extends BackendController
     {
         $loginForm = $this->getLoginForm()->handleRequest($request);
         if ($loginForm->isValid()) {
-            $adminEntity = $this->loginService()->findByEmailAndPassword($loginForm->getData());
+            $adminEntity = $this->getLoginService()->findByEmailAndPassword($loginForm->getData());
             if ($adminEntity != null) {
                 $this->addMessage(Message::success('login.successful', 'your.login.was.successful'));
                 return $this->render('@Backend/Dashboard/dashboard.html.twig');

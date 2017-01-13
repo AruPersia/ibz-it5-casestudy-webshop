@@ -1,0 +1,29 @@
+<button class="navbar-toggler hidden-md-up pull-right" type="button" data-toggle="collapse" data-target="#navbar">
+    &#9776;
+</button>
+
+<a class="navbar-brand" href="{{ path('frontendShowAllRootCategories') }}">
+    <img src="{{ asset('images/logo.png') }}">
+</a>
+
+<div class="collapse navbar-toggleable-sm" id="navbar">
+
+    <!-- Left navigation -->
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+        </li>
+    </ul>
+
+    <!-- Right navigation -->
+    <ul class="nav navbar-nav pull-right">
+        <li class="nav-item">
+            <form class="form-inline">
+                <i class="fa fa-search"></i>
+                <input class="form-control" type="text" placeholder="Search">
+                <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </li>
+    </ul>
+
+</div>

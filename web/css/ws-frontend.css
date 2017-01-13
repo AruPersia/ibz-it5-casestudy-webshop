@@ -1,0 +1,12 @@
+nav {
+    margin-bottom: 2rem !important;
+}
+
+nav .nav-item {
+    margin-top: 0.4em;
+    font-size: 1.5em;
+}
+
+nav img {
+    height: 3em;
+}

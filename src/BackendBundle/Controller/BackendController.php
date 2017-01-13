@@ -8,11 +8,19 @@ class BackendController extends CoreController
 {
 
     /**
-     * @return \BackendBundle\Service\LoginService
+     * @return \BackendBundle\Service\Db\LoginService
      */
-    protected function loginService()
+    protected function getLoginService()
     {
         return $this->get('backend.service.login');
+    }
+
+    /**$
+     * @return \BackendBundle\Service\Db\ProductService
+     */
+    protected function getProductService()
+    {
+        return $this->get('backend.service.product');
     }
 
 }
