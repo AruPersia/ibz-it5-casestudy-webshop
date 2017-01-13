@@ -1,6 +1,17 @@
 <div class="container-fluid">
+
+    {% if breadcrumbs is not empty %}
+        <div class="col col-md-12">
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item">{{ breadcrumb }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    {% endif %}
+
     {% for product in products %}
-        <div class="col col-md-3">
+        <div class="col col-md-4">
             <div class="card">
                 <img class="card-img-top" src="{{ asset('images/noProduct.png') }}">
                 <div class="card-block">
@@ -13,4 +24,5 @@
             </div>
         </div>
     {% endfor %}
+
 </div>

@@ -1,34 +1,12 @@
-body {
-    border: solid 10px #0068ab;
+nav {
+    margin-bottom: 2rem !important;
 }
 
-a, a:hover, a:link {
-    text-decoration: none !important;
-    color: inherit;
+nav .nav-item {
+    margin-top: 0.4em;
+    font-size: 1.5em;
 }
 
-header {
- background-color: #ccc;
-}
-
-header div:first-child {
-    margin-top:0.4em;
-}
-
-nav, footer {
-    background-color: #0068ab;
-    color: #FFFFFF;
-}
-
-nav ul, nav li {
-    list-style-type: none;
-    padding: 0;
-}
-
-nav li {
-    border-bottom: solid 1px #2d81b8;
-}
-
-nav li a {
-    color: #FFFFFF;
+nav img {
+    height: 3em;
 }

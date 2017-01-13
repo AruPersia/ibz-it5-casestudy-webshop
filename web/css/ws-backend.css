@@ -2,6 +2,10 @@ body {
     background-color: #f5f8fa;
 }
 
+nav img {
+    height: 3em;
+}
+
 .ws-panel {
     background-color: #ffffff;
     border: solid 1px rgba(0, 0, 0, 0.125);
