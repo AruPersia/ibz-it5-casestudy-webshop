@@ -19,10 +19,13 @@ Composer version 1.2.2 2016-11-03 17:43:15
 ```
 6. Install IntelliJ minimum PhpStorm: https://www.jetbrains.com/phpstorm/?fromMenu 
 7. Install Symfony Plugin in IntelliJ:
+
 ![alt text](docs/github/symfony-plugin.jpg)
 8. Create new Project from GIT:
+
 ![alt text](docs/github/intelliJ-checkout-from-git.png)
 9. Checkout with Repository URL:
+
 ![alt text](docs/github/intellij-checkout-repository.jpg)
 10. Open git-bash console and type
 ```shel
@@ -263,3 +266,36 @@ secret (ThisTokenIsNotSoSecretChangeIt):
 > Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::prepareDeploymentTarget
 ```
 
+11. Crate MySql Database
+
+host: `localhost`, port: `3306`, db-name: `webshop`, db-user: `devUser` db-password: `Secure4Access`
+
+12. Configure MySQL Parameters in Symfony file `C:\dev\workspaces\intellij\ibz-it5-casestudy-webshop\app\config\parameters.yml`
+```yml
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: 3306
+    database_name: webshop
+    database_user: devUser
+    database_password: Secure4Access
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt
+```
+
+13. Open git-bash console and type
+```shel
+$ cd /c/dev/workspaces/intellij/ibz-it5-casestudy-webshop/
+$ php bin/console doctrine:schema:create
+```
+
+**Output should be something like that:**
+```shell
+ATTENTION: This operation should not be executed in a production environment.
+
+Creating database schema...
+Database schema created successfully!
+```
