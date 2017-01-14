@@ -2,7 +2,6 @@
 1. Install git-bash: https://git-scm.com/downloads
 2. Install PHP
 3. Open git-bash console and type: `php -version`
-
 **Output should be something like that:**
 ```shell
 PHP 7.0.1 (cli) (built: Dec 16 2015 13:36:30) ( ZTS )
@@ -12,30 +11,22 @@ Zend Engine v3.0.0, Copyright (c) 1998-2015 Zend Technologies
 ```
 4. Install Composer Dependency Manager: https://getcomposer.org/
 5. Open git-bash console and type: `php composer.phar --version`
-
 **Output should be something like that:**
 ```shell
 Composer version 1.2.2 2016-11-03 17:43:15
 ```
 6. Install IntelliJ minimum PhpStorm: https://www.jetbrains.com/phpstorm/?fromMenu 
 7. Install Symfony Plugin in IntelliJ:
-
 ![alt text](docs/github/symfony-plugin.jpg)
-
 8. Create new Project from GIT:
-
 ![alt text](docs/github/intelliJ-checkout-from-git.png)
-
 9. Checkout with Repository URL:
-
 ![alt text](docs/github/intellij-checkout-repository.jpg)
-
 10. Open git-bash console and type
 ```shel
 cd /c/dev/workspaces/intellij/ibz-it5-casestudy-webshop/
 composer.phar install
 ```
-
 **Output should be something like that:**
 ```shell
 Loading composer repositories with package information
