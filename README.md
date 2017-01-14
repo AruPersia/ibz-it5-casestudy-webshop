@@ -21,12 +21,15 @@ Composer version 1.2.2 2016-11-03 17:43:15
 7. Install Symfony Plugin in IntelliJ:
 
 ![alt text](docs/github/symfony-plugin.jpg)
+
 8. Create new Project from GIT:
 
 ![alt text](docs/github/intelliJ-checkout-from-git.png)
+
 9. Checkout with Repository URL:
 
 ![alt text](docs/github/intellij-checkout-repository.jpg)
+
 10. Open git-bash console and type
 ```shel
 cd /c/dev/workspaces/intellij/ibz-it5-casestudy-webshop/
