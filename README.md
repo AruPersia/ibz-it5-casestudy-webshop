@@ -1,7 +1,12 @@
-# Installation for IntelliJ
+# Getting Started
+
+## Install Git Bash
 1. Install git-bash: https://git-scm.com/downloads
-2. Install PHP
-3. Open git-bash console and type: `php -version`
+
+## Install PHP
+1. Install PHP
+2. Open git-bash console and type: `php -version`
+
 **Output should be something like that:**
 ```shell
 PHP 7.0.1 (cli) (built: Dec 16 2015 13:36:30) ( ZTS )
@@ -9,24 +14,35 @@ Copyright (c) 1997-2015 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2015 Zend Technologies
     with Xdebug v2.5.0, Copyright (c) 2002-2016, by Derick Rethans
 ```
-4. Install Composer Dependency Manager: https://getcomposer.org/
-5. Open git-bash console and type: `php composer.phar --version`
+
+## Install Composer Dependency Manager
+1. Link: https://getcomposer.org/
+2. Open git-bash console and type: `php composer.phar --version`
+
 **Output should be something like that:**
 ```shell
 Composer version 1.2.2 2016-11-03 17:43:15
 ```
-6. Install IntelliJ minimum PhpStorm: https://www.jetbrains.com/phpstorm/?fromMenu 
-7. Install Symfony Plugin in IntelliJ:
+
+## Create IntelliJ project
+### IntelliJ
+1. Install IntelliJ in minimum PhpStorm: https://www.jetbrains.com/phpstorm/?fromMenu 
+2. Install Symfony Plugin in IntelliJ:
 ![alt text](docs/github/symfony-plugin.jpg)
-8. Create new Project from GIT:
+
+### Create new GIT project
+1. Create new Project from GIT:
 ![alt text](docs/github/intelliJ-checkout-from-git.png)
-9. Checkout with Repository URL:
+2. Checkout with Repository URL:
 ![alt text](docs/github/intellij-checkout-repository.jpg)
-10. Open git-bash console and type
+
+### Configure Project with Composer
+1. Open git-bash console and type
 ```shel
 cd /c/dev/workspaces/intellij/ibz-it5-casestudy-webshop/
 composer.phar install
 ```
+
 **Output should be something like that:**
 ```shell
 Loading composer repositories with package information
@@ -260,11 +276,9 @@ secret (ThisTokenIsNotSoSecretChangeIt):
 > Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::prepareDeploymentTarget
 ```
 
-11. Crate MySql Database
-
-host: `localhost`, port: `3306`, db-name: `webshop`, db-user: `devUser` db-password: `Secure4Access`
-
-12. Configure MySQL Parameters in Symfony file `C:\dev\workspaces\intellij\ibz-it5-casestudy-webshop\app\config\parameters.yml`
+## Create MySql database
+1. Crate MySql database using PhpAdmin: host: `localhost`, port: `3306`, db-name: `webshop`, db-user: `devUser` db-password: `Secure4Access`
+2. Configure MySQL Parameters in Symfony file `C:\dev\workspaces\intellij\ibz-it5-casestudy-webshop\app\config\parameters.yml`
 ```yml
 # This file is auto-generated during the composer install
 parameters:
@@ -279,8 +293,8 @@ parameters:
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
 ```
-
-13. Open git-bash console and type
+## Create Tables with Doctrine
+1. Open git-bash console and type
 ```shel
 $ cd /c/dev/workspaces/intellij/ibz-it5-casestudy-webshop/
 $ php bin/console doctrine:schema:create
