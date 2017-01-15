@@ -21,6 +21,13 @@ class LoadDefaultData implements FixtureInterface
     ];
 
     private $products = [
+        ['Lenovo ThinkCentre S510 SFF', 599.00, 1],
+        ['HP ProDesk 400 G3 MT', 749.00, 1],
+        ['Apple iMac Retina', 2099.00, 1],
+        ['MSI Aegis 084', 1599.00, 1],
+        ['Lenovo IdeaCentre 300-20ISH', 499.00, 1],
+        ['Dell OptiPlex 7040 MT', 999.00, 1],
+
         ['Logitech MX Anywhere 2', 69.00, 4],
         ['Logitech MX Master', 85.00, 4],
         ['Logitech Wireless Mouse M705', 85.00, 4],
