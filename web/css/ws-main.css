@@ -1,0 +1,34 @@
+.ws-static-box {
+    border-radius: 4px;
+    padding: 1em;
+}
+
+.ws-static-box > div.ws-caption {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.ws-static-box > div.ws-value {
+    font-size: 1.2em;
+    text-align: right;
+}
+
+.ws-bg-green {
+    background-color: #46c35f;
+    color: #FFFFFF;
+}
+
+.ws-bg-red {
+    background-color: #fa424a;
+    color: #FFFFFF;
+}
+
+.ws-bg-yellow {
+    background-color: #fdad2a;
+    color: #FFFFFF;
+}
+
+.ws-bg-purple {
+    background-color: #ac6bec;
+    color: #FFFFFF;
+}

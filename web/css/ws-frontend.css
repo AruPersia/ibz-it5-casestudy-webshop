@@ -10,3 +10,7 @@ nav .nav-item {
 nav img {
     height: 3em;
 }
+
+article img {
+    width: 13em;
+}

@@ -8,35 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductController extends BackendController
+class CategoryController extends BackendController
 {
 
     /**
-     * @A\Route("product/edit", name="backendProductEdit")
+     * @A\Route("category/edit", name="backendCategoryEdit")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction()
     {
-        return $this->render('@Backend/product.edit.html.twig', ['products' => $this->getProductService()->findAll()]);
-    }
-
-    /**
-     * @A\Route("/product/create", name="backendProductCreate")
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function createAction()
-    {
-        return $this->renderProductForm($this->getProductForm());
-    }
-
-    private function renderProductForm(Form $form)
-    {
-        return $this->render('@Backend/Product/create.form.html.twig', ['productForm' => $form->createView()]);
-    }
-
-    private function getProductForm()
-    {
-        return $this->createForm(ProductFormType::class);
+        return $this->render('@Backend/category.edit.html.twig', ['categories' => $this->getCategoryService()->findAll()]);
     }
 
     /**
@@ -53,6 +34,16 @@ class ProductController extends BackendController
         }
 
         return $this->renderProductForm($productForm);
+    }
+
+    private function getProductForm()
+    {
+        return $this->createForm(ProductFormType::class);
+    }
+
+    private function renderProductForm(Form $form)
+    {
+        return $this->render('@Backend/Product/create.form.html.twig', ['productForm' => $form->createView()]);
     }
 
 }

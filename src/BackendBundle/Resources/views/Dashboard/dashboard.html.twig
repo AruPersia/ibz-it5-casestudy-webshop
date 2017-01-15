@@ -1,9 +1,41 @@
-{% extends '@Backend/backend.base.html.twig' %}
+{% extends '@Backend/base.html.twig' %}
 
 {% block title %}Join us{% endblock %}
 
 {% block body %}
 
-    Welcome to dashboard!
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <article class="ws-static-box ws-bg-red">
+                    <div class="ws-caption">Open Orders</div>
+                    <div class="ws-value">26</div>
+                </article>
+            </div>
+
+            <div class="col-sm-3">
+                <article class="ws-static-box ws-bg-purple">
+                    <div class="ws-caption">Re-Ordering</div>
+                    <div class="ws-value">12</div>
+                </article>
+            </div>
+
+            <div class="col-sm-3">
+                <article class="ws-static-box ws-bg-yellow">
+                    <div class="ws-caption">Open Questions</div>
+                    <div class="ws-value">2</div>
+                </article>
+            </div>
+
+            <div class="col-sm-3">
+                <article class="ws-static-box ws-bg-green">
+                    <div class="ws-caption">User online</div>
+                    <div class="ws-value">10</div>
+                </article>
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}

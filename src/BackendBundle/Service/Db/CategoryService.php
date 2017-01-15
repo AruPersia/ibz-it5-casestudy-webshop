@@ -28,4 +28,12 @@ class CategoryService extends \CoreBundle\Service\Db\CategoryService
         return $this->getCategoryRepository()->findOneBy(['name' => $categoryName, 'parentCategory' => $categoryId]);
     }
 
+    /**
+     * @return CategoryEntity[]
+     */
+    public function findAll()
+    {
+        return $this->getCategoryRepository()->findAll();
+    }
+
 }

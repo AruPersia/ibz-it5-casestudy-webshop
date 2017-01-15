@@ -35,4 +35,17 @@ class ProductService extends EntityManagerService
         $this->em->flush();
     }
 
+    public function findAll()
+    {
+        return $this->getRepository()->findAll();
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getRepository()
+    {
+        return $this->em->getRepository('CoreBundle:ProductEntity');
+    }
+
 }

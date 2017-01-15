@@ -1,0 +1,32 @@
+<button class="navbar-toggler hidden-md-up pull-right" type="button" data-toggle="collapse" data-target="#navbar">
+    &#9776;
+</button>
+
+<a class="navbar-brand" href="{{ path('backendShowDashboard') }}">
+    <img src="{{ asset('images/administrator.png') }}">
+</a>
+
+<div class="collapse navbar-toggleable-sm" id="navbar">
+
+    <!-- Left navigation -->
+    <ul class="nav navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"> Category </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#"><i class="fa fa-plus"></i>Create</a>
+                <a class="dropdown-item" href="{{ path('backendCategoryEdit') }}"><i class="fa fa-edit"></i>Edit</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"> Product </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#"><i class="fa fa-plus"></i>Create</a>
+                <a class="dropdown-item" href="{{ path('backendProductEdit') }}"><i class="fa fa-edit"></i>Edit</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Orders</a>
+        </li>
+    </ul>
+
+</div>

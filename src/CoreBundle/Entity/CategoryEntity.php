@@ -52,26 +52,6 @@ class CategoryEntity
         $this->products = new ArrayCollection();
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
     public function getPath()
     {
         return $this->path;
@@ -87,6 +67,10 @@ class CategoryEntity
         return $this->parentCategory;
     }
 
+    /**
+     * @return CategoryEntity
+     * @param $parentCategory
+     */
     public function setParentCategory($parentCategory)
     {
         $this->parentCategory = $parentCategory;
@@ -117,5 +101,31 @@ class CategoryEntity
         $this->products->add($productEntity);
         $productEntity->setCategory($this);
     }
+
+    function __toString()
+    {
+        return sprintf('%s [%d]', $this->getName(), $this->getId());
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
 
 }
