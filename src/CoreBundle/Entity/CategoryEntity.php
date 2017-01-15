@@ -30,7 +30,7 @@ class CategoryEntity
     private $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="parentCategory", fetch="LAZY")
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="children", fetch="LAZY")
      * @ORM\JoinColumn(name="parentCategoryId", referencedColumnName="id", nullable=TRUE)
      */
     private $parentCategory;
