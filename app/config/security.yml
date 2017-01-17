@@ -4,22 +4,21 @@ security:
 
     encoders:
         BackendBundle\Entity\UserEntity:
-          algorithm: bcrypt
+            algorithm: bcrypt
 
     providers:
         default.provider:
-          entity:
-            class: BackendBundle:UserEntity
-
+            entity:
+                class: BackendBundle:UserEntity
 
     firewalls:
         main:
             anonymous: ~
-            logout:
-                path: /backend/logout
-                target: /backend
-            form_login:
-                login_path: backendLoginSignIn
-                check_path: backendLoginSignIn
-                username_parameter: login_form[email]
-                password_parameter: login_form[password]
+                logout:
+                    path: /backend/logout
+                    target: /backend
+                form_login:
+                    login_path: backendLoginSignIn
+                    check_path: backendLoginSignIn
+                    username_parameter: login_form[email]
+                    password_parameter: login_form[password]

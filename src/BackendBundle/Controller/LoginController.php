@@ -4,9 +4,10 @@ namespace BackendBundle\Controller;
 
 use BackendBundle\Form\LoginData;
 use BackendBundle\Form\LoginFormType;
-use CoreBundle\Message\Message;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 
 class LoginController extends BackendController
 {
@@ -15,19 +16,19 @@ class LoginController extends BackendController
      * @A\Route("/login/signIn", name="backendLoginSignIn")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function signIn()
+    public function signIn(Request $request)
     {
         $authenticationUtils = $this->getAuthenticationUtils();
-        $email = $authenticationUtils->getLastUsername();
+        $authenticationException = $authenticationUtils->getLastAuthenticationError();
 
         $loginData = new LoginData();
-        $loginData->setEmail($email);
+        $loginData->setEmail($authenticationUtils->getLastUsername());
+
         $loginForm = $this->getLoginForm();
         $loginForm->setData($loginData);
 
-        $errorMessage = $authenticationUtils->getLastAuthenticationError();
-        if ($errorMessage != null) {
-            $this->addMessage(Message::info('login.failed', $errorMessage->getMessage()));
+        if ($authenticationException != null) {
+            $loginForm->addError(new FormError($authenticationException->getMessage()));
         }
 
         return $this->renderLoginForm($loginForm);
