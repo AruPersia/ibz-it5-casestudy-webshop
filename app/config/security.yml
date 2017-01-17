@@ -3,13 +3,13 @@
 security:
 
     encoders:
-        BackendBundle\Entity\UserEntity:
+        BackendBundle\Entity\AdministratorEntity:
             algorithm: bcrypt
 
     providers:
-        default.provider:
+        backend.administrator:
             entity:
-                class: BackendBundle:UserEntity
+                class: BackendBundle:AdministratorEntity
 
     firewalls:
         main:

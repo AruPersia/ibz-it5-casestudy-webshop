@@ -2,7 +2,7 @@
 
 namespace BackendBundle\Service\Db;
 
-use BackendBundle\Entity\UserEntity;
+use BackendBundle\Entity\AdministratorEntity;
 use BackendBundle\Form\LoginData;
 use CoreBundle\Service\Db\EntityManagerService;
 use CoreBundle\Util\PasswordUtil;
@@ -12,7 +12,7 @@ class LoginService extends EntityManagerService
 
     /**
      * @param LoginData $loginData
-     * @return null|UserEntity
+     * @return null|AdministratorEntity
      */
     public function findByEmailAndPassword(LoginData $loginData)
     {

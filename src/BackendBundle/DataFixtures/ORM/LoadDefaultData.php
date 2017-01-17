@@ -2,7 +2,7 @@
 
 namespace BackendBundle\DataFixtures\ORM;
 
-use BackendBundle\Entity\UserEntity;
+use BackendBundle\Entity\AdministratorEntity;
 use CoreBundle\Entity\CategoryEntity;
 use CoreBundle\Entity\ProductEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -57,7 +57,7 @@ class LoadDefaultData implements FixtureInterface
     private function loadUsers(ObjectManager $manager)
     {
         foreach ($this->users as $user) {
-            $userEntity = new UserEntity();
+            $userEntity = new AdministratorEntity();
             $userEntity->setId($user[0]);
             $userEntity->setFirstName($user[1]);
             $userEntity->setLastName($user[2]);
