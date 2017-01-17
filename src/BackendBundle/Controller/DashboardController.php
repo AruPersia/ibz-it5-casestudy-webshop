@@ -4,6 +4,10 @@ namespace BackendBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 
+/**
+ * @A\Security("has_role('EMPLOYEE')")
+ * @package BackendBundle\Controller
+ */
 class DashboardController extends BackendController
 {
 

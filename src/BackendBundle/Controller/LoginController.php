@@ -2,7 +2,6 @@
 
 namespace BackendBundle\Controller;
 
-use BackendBundle\Entity\UserEntity;
 use BackendBundle\Form\LoginData;
 use BackendBundle\Form\LoginFormType;
 use CoreBundle\Message\Message;
@@ -18,11 +17,6 @@ class LoginController extends BackendController
      */
     public function signIn()
     {
-        $user = new UserEntity();
-        $encoder = $this->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($user, 'admin');
-        $afs = 'test';
-
         $authenticationUtils = $this->getAuthenticationUtils();
         $email = $authenticationUtils->getLastUsername();
 
