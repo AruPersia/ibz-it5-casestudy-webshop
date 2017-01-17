@@ -17,6 +17,7 @@
     {% embed '@Backend/nav.html.twig' %}{% endembed %}
 </nav>
 
+{% embed 'message/render.html.twig' %}{% endembed %}
 {% block body %}{% endblock %}
 
 <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>

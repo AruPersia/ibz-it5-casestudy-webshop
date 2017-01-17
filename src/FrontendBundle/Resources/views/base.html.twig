@@ -35,6 +35,7 @@
 
     <!-- Center Column -->
     <article class="col-sm-7">
+        {% embed 'message/render.html.twig' %}{% endembed %}
         {% embed '@Frontend/render.products.html.twig' %}{% endembed %}
         {% block body %}{% endblock %}
     </article>

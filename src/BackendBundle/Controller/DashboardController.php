@@ -13,7 +13,7 @@ class DashboardController extends BackendController
      */
     public function dashboard()
     {
-        return $this->render('@Backend/Dashboard/dashboard.html.twig');
+        return $this->render('@Backend/dashboard.html.twig');
     }
 
 }

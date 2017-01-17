@@ -2,6 +2,7 @@
 
 namespace BackendBundle\DataFixtures\ORM;
 
+use BackendBundle\Entity\UserEntity;
 use CoreBundle\Entity\CategoryEntity;
 use CoreBundle\Entity\ProductEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -9,6 +10,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadDefaultData implements FixtureInterface
 {
+
+    private $users = [
+        [1, 'Admin', 'Admin', 'admin@localhost.ch', 'ADMIN;EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC'],
+        [2, 'EMPLOYEE', 'EMPLOYEE', 'employee@localhost.ch', 'EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC']
+    ];
 
     private $categoryEntities = array();
     private $categories = [
@@ -42,9 +48,25 @@ class LoadDefaultData implements FixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $this->loadUsers($manager);
         $this->loadCategories($manager);
         $this->loadProduct($manager);
         $manager->flush();
+    }
+
+    private function loadUsers(ObjectManager $manager)
+    {
+        foreach ($this->users as $user) {
+            $userEntity = new UserEntity();
+            $userEntity->setId($user[0]);
+            $userEntity->setFirstName($user[1]);
+            $userEntity->setLastName($user[2]);
+            $userEntity->setEmail($user[3]);
+            $userEntity->setRoles($user[4]);
+            $userEntity->setPassword($user[5]);
+
+            $manager->persist($userEntity);
+        }
     }
 
     private function loadCategories(ObjectManager $manager)

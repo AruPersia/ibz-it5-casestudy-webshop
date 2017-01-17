@@ -8,6 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class ProductController
+ * @package BackendBundle\Controller
+ * @A\Security("has_role('EMPLOYEE')")
+ */
 class ProductController extends BackendController
 {
 
@@ -31,7 +36,7 @@ class ProductController extends BackendController
 
     private function renderProductForm(Form $form)
     {
-        return $this->render('@Backend/Product/create.form.html.twig', ['productForm' => $form->createView()]);
+        return $this->render('@Backend/product.create.form.html.twig', ['productForm' => $form->createView()]);
     }
 
     private function getProductForm()

@@ -2,10 +2,38 @@
 
 namespace BackendBundle\Service\Db;
 
+use BackendBundle\Form\CategoryData;
 use CoreBundle\Entity\CategoryEntity;
 
 class CategoryService extends \CoreBundle\Service\Db\CategoryService
 {
+
+    /**
+     * @param CategoryData $categoryData
+     * @return CategoryEntity|null
+     */
+    public function createCategoryByPath(CategoryData $categoryData)
+    {
+        $categoryEntity = $this->assembleCategoryByPath($categoryData->getPath());
+        $this->em->flush();
+        return $categoryEntity;
+    }
+
+    /**
+     * @param String $path
+     * @return CategoryEntity
+     */
+    public function assembleCategoryByPath(String $path)
+    {
+        $categoryPathArray = new CategoryPathArray($path, $this);
+
+        $categoryEntity = null;
+        foreach ($categoryPathArray as $categoryPath) {
+            $categoryEntity = $categoryPath;
+        }
+
+        return $categoryEntity;
+    }
 
     /**
      * @param String $categoryName

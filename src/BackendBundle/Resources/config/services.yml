@@ -8,9 +8,6 @@ services:
   backend.service.category:
     class:  BackendBundle\Service\Db\CategoryService
     arguments: ["@doctrine.orm.entity_manager"]
-  backend.service.category.path.extractor:
-    class:  BackendBundle\Service\Db\CategoryPathExtractorService
-    arguments: ["@backend.service.category"]
   backend.service.product:
     class:  BackendBundle\Service\Db\ProductService
-    arguments: ["@doctrine.orm.entity_manager", "@backend.service.category.path.extractor"]
+    arguments: ["@doctrine.orm.entity_manager", "@backend.service.category"]

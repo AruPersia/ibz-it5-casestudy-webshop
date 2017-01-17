@@ -9,23 +9,24 @@ use Doctrine\ORM\EntityManager;
 
 class ProductService extends EntityManagerService
 {
-    private $categoryPathExtractorService;
+    private $categoryService;
 
-    public function __construct(EntityManager $entityManager, CategoryPathExtractorService $categoryPathExtractorService)
+    public function __construct(EntityManager $entityManager, CategoryService $categoryService)
     {
         parent::__construct($entityManager);
-        $this->categoryPathExtractorService = $categoryPathExtractorService;
+        $this->categoryService = $categoryService;
     }
 
     public function create(ProductData $productData)
     {
+        $categoryEntity = $this->categoryService->assembleCategoryByPath($productData->getCategoryPath());
+
         $productEntity = new ProductEntity();
         $productEntity->setName($productData->getName());
         $productEntity->setPrice($productData->getPrice());
+        $productEntity->setCategory($categoryEntity);
 
-        $categoryEntity = $this->categoryPathExtractorService->getCategoryEntity($productData->getCategory());
-        $categoryEntity->addProduct($productEntity);
-
+        $this->em->persist($productEntity);
         $this->em->flush();
     }
 

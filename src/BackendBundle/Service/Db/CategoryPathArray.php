@@ -17,8 +17,7 @@ class CategoryPathArray implements \Iterator
 
     public function __construct(String $categoryPath, CategoryService $categoryService)
     {
-        $categoryPath = ltrim($categoryPath, '/');
-        $categoryPath = rtrim($categoryPath, '/');
+        $categoryPath = ltrim(rtrim($categoryPath, '/'), '/');
         $this->categoryNames = explode('/', $categoryPath);
         $this->categoryService = $categoryService;
     }
