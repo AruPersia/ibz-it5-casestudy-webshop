@@ -2,6 +2,7 @@
 
 namespace BackendBundle\Form;
 
+use CoreBundle\Util\PasswordUtil;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class LoginData
@@ -41,7 +42,7 @@ class LoginData
 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = PasswordUtil::encrypt($password);
         return $this;
     }
 

@@ -6,6 +6,8 @@ use FrontendBundle\Form\RegistrationFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class RegistrationController extends NavigatorController
 {
@@ -13,23 +15,20 @@ class RegistrationController extends NavigatorController
     /**
      * @A\Route("/registration", name="frontendRegistrationShowForm")
      */
-    public function showFormAction()
+    public function showFormAction(Request $request)
     {
-        return $this->renderRegistrationForm($this->getRegistrationForm());
-    }
 
-    /**
-     * @param Form $form
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    private function renderRegistrationForm(Form $form)
-    {
-        return $this->render('@Frontend/Registration/registration.form.html.twig', ['registrationForm' => $form->createView()]);
-    }
+        $customer = $this->get('doctrine.orm.entity_manager')->getReference('CoreBundle:CustomerEntity', 1);
 
-    private function getRegistrationForm()
-    {
-        return $this->createForm(RegistrationFormType::class);
+        $token = new UsernamePasswordToken($customer, $customer->getPassword(), 'public', $customer->getRoles());
+
+        $this->get('security.token_storage')->setToken($token);
+
+        $event = new InteractiveLoginEvent($request, $token);
+        $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+
+        return $this->redirectToRoute('frontendShowAllRootCategories');
+        //return $this->renderRegistrationForm($this->getRegistrationForm());
     }
 
     /**
@@ -47,6 +46,20 @@ class RegistrationController extends NavigatorController
         }
 
         return $this->renderRegistrationForm($registrationForm);
+    }
+
+    private function getRegistrationForm()
+    {
+        return $this->createForm(RegistrationFormType::class);
+    }
+
+    /**
+     * @param Form $form
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function renderRegistrationForm(Form $form)
+    {
+        return $this->render('@Frontend/Registration/registration.form.html.twig', ['registrationForm' => $form->createView()]);
     }
 
 }

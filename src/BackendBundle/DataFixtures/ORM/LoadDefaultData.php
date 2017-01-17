@@ -4,6 +4,7 @@ namespace BackendBundle\DataFixtures\ORM;
 
 use BackendBundle\Entity\AdministratorEntity;
 use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\ProductEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -11,9 +12,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 class LoadDefaultData implements FixtureInterface
 {
 
-    private $users = [
-        [1, 'Admin', 'Admin', 'admin@localhost.ch', 'ADMIN;EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC'],
-        [2, 'EMPLOYEE', 'EMPLOYEE', 'employee@localhost.ch', 'EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC']
+    private $administrators = [
+        [1, 'Jason', 'Statham', 'admin@localhost.ch', 'ADMIN;EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC'],
+        [2, 'Liam', 'Neeson', 'employee@localhost.ch', 'EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC']
     ];
 
     private $categoryEntities = array();
@@ -46,26 +47,32 @@ class LoadDefaultData implements FixtureInterface
         ['ASUS ROG Swift PG348Q', 12806.00, 6],
     ];
 
+    private $customers = [
+        [1, 'Brad', 'Pitt', 'brad.pitt@localhost.ch', 'CUSTOMER', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC'],
+        [2, 'Angelina', 'Jolie', 'angelia.jolie@localhost.ch', 'CUSTOMER', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC']
+    ];
+
     public function load(ObjectManager $manager)
     {
-        $this->loadUsers($manager);
+        $this->loadAdministrators($manager);
         $this->loadCategories($manager);
         $this->loadProduct($manager);
+        $this->loadCustomers($manager);
         $manager->flush();
     }
 
-    private function loadUsers(ObjectManager $manager)
+    private function loadAdministrators(ObjectManager $manager)
     {
-        foreach ($this->users as $user) {
-            $userEntity = new AdministratorEntity();
-            $userEntity->setId($user[0]);
-            $userEntity->setFirstName($user[1]);
-            $userEntity->setLastName($user[2]);
-            $userEntity->setEmail($user[3]);
-            $userEntity->setRoles($user[4]);
-            $userEntity->setPassword($user[5]);
+        foreach ($this->administrators as $user) {
+            $administratorEntity = new AdministratorEntity();
+            $administratorEntity->setId($user[0]);
+            $administratorEntity->setFirstName($user[1]);
+            $administratorEntity->setLastName($user[2]);
+            $administratorEntity->setEmail($user[3]);
+            $administratorEntity->setRoles($user[4]);
+            $administratorEntity->setPassword($user[5]);
 
-            $manager->persist($userEntity);
+            $manager->persist($administratorEntity);
         }
     }
 
@@ -92,6 +99,20 @@ class LoadDefaultData implements FixtureInterface
             $productEntity->setPrice($product[1]);
             $productEntity->setCategory($this->categoryEntities[$product[2]]);
             $manager->persist($productEntity);
+        }
+    }
+
+    private function loadCustomers(ObjectManager $manager)
+    {
+        foreach ($this->customers as $customer) {
+            $customerEntity = new CustomerEntity();
+            $customerEntity->setId($customer[0]);
+            $customerEntity->setFirstName($customer[1]);
+            $customerEntity->setLastName($customer[2]);
+            $customerEntity->setEmail($customer[3]);
+            $customerEntity->setRoles($customer[4]);
+            $customerEntity->setPassword($customer[5]);
+            $manager->persist($customerEntity);
         }
     }
 

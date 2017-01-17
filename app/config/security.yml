@@ -10,6 +10,9 @@ security:
         backend.administrator:
             entity:
                 class: BackendBundle:AdministratorEntity
+        frontend.customer:
+            entity:
+                class: CoreBundle:CustomerEntity
 
     firewalls:
         main:
@@ -18,7 +21,4 @@ security:
                 path: /backend/logout
                 target: /backend
             form_login:
-                login_path: backendLoginSignIn
-                check_path: backendLoginSignIn
-                username_parameter: login_form[email]
-                password_parameter: login_form[password]
+                login_path: backendLogin

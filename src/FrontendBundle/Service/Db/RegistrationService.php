@@ -20,6 +20,7 @@ class RegistrationService extends EntityManagerService
         $customerEntity->setLastName($registrationFormData->getLastName());
         $customerEntity->setEmail($registrationFormData->getEmail());
         $customerEntity->setPassword(PasswordUtil::encrypt($registrationFormData->getPassword()));
+        $customerEntity->setRoles('CUSTOMER');
         $this->save($customerEntity);
 
         return $customerEntity;

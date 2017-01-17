@@ -2,14 +2,14 @@
 
 namespace BackendBundle\Entity;
 
-use CoreBundle\Entity\MappedUserInterface;
+use CoreBundle\Entity\UserAuthentication;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="BackendBundle\Repository\AdministratorRepository")
+ * @ORM\Table(name="administrator")
+ * @ORM\Entity(repositoryClass="CoreBundle\Repository\UserAuthenticationRepository")
  */
-class AdministratorEntity extends MappedUserInterface
+class AdministratorEntity extends UserAuthentication
 {
     /**
      * @ORM\Column(type="string", length=50)

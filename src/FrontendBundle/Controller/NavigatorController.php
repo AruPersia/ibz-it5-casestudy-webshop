@@ -21,7 +21,7 @@ class NavigatorController extends ServiceController
 
     protected function render($view, array $parameters = array(), Response $response = null)
     {
-        if (empty($parameters)) {
+        if (!array_key_exists('categories', $parameters)) {
             $parameters = array_merge($parameters, $this->getDefaultParameters($this->getRootCategories()));
         }
 

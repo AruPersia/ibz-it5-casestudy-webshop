@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\MappedSuperclass
  * @package CoreBundle\Entity
  */
-class MappedUserInterface implements UserInterface, \Serializable
+class UserAuthentication implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -90,7 +90,7 @@ class MappedUserInterface implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-        // TODO AFS: Implement if needed
+        // TODO AAF: Implement if needed
     }
 
     public function unserialize($serialized)

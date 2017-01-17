@@ -22,4 +22,28 @@ class CoreController extends Controller
         $this->messages[] = $message;
     }
 
+    /**
+     * @return \CoreBundle\Service\Security\UserAuthenticationService|object
+     */
+    protected function getAuthenticationService()
+    {
+        return $this->get('core.service.authentication');
+    }
+
+    /**
+     * @return \CoreBundle\Repository\UserAuthenticationRepository
+     */
+    protected function getUserAuthenticationRepository()
+    {
+        return $this->getEntityManager()->getRepository('BackendBundle:AdministratorEntity');
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    protected function getEntityManager()
+    {
+        return $this->get('doctrine.orm.entity_manager');
+    }
+
 }

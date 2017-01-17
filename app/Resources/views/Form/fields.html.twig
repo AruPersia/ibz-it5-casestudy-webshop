@@ -2,7 +2,7 @@
     Bootstrap default draft
 #####################################}
 {% block renderLabel %}
-    <label for="{{ form.vars.id }}">{{ form.vars.name|capitalize }}</label>
+    <label for="{{ id }}">{{ label|default(name)|capitalize }}</label>
 {% endblock %}
 
 {% block renderWidget %}
