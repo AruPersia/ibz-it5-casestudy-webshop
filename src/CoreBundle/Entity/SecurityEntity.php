@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\MappedSuperclass
  * @package CoreBundle\Entity
  */
-class UserAuthentication implements UserInterface, \Serializable
+class SecurityEntity implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")

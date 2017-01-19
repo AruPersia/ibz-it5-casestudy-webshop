@@ -2,16 +2,17 @@
 
 namespace CoreBundle\Repository;
 
-use BackendBundle\Form\LoginData;
-use CoreBundle\Entity\UserAuthentication;
+use CoreBundle\Entity\SecurityEntity;
+use CoreBundle\Form\LoginData;
+use CoreBundle\Service\Security\SecurityRepositorySupport;
 use Doctrine\ORM\EntityRepository;
 
-class UserAuthenticationRepository extends EntityRepository
+class SecurityRepository extends EntityRepository implements SecurityRepositorySupport
 {
 
     /**
      * @param LoginData $loginData
-     * @return UserAuthentication
+     * @return SecurityEntity
      */
     public function loadUserByEmailAndPassword(LoginData $loginData)
     {

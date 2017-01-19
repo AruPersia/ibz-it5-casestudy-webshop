@@ -2,7 +2,7 @@
     &#9776;
 </button>
 
-<a class="navbar-brand" href="{{ path('backendShowDashboard') }}">
+<a class="navbar-brand" href="{{ path('backend_dashboard_index') }}">
     <img src="{{ asset('images/administrator.png') }}">
 </a>
 
@@ -35,7 +35,7 @@
                     <span class="dropdown-item"><b>First name:</b> {{ app.user.firstName }}</span>
                     <span class="dropdown-item"><b>Last name:</b> {{ app.user.lastName }}</span>
                     <span class="dropdown-item"><b>Roles:</b> {{ app.user.roles|join(', ') }}</span>
-                    <a class="dropdown-item" href="{{ path('backendLogout') }}"><i class="fa fa-edit"></i>Logout</a>
+                    <a class="dropdown-item" href="{{ path('backend_security_logout') }}"><i class="fa fa-edit"></i>Logout</a>
                 </div>
             </li>
         </ul>

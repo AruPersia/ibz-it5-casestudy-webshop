@@ -1,4 +1,4 @@
 services:
-    core.service.authentication:
-        class:  CoreBundle\Service\Security\UserAuthenticationService
-        arguments: ["@security.token_storage", "@event_dispatcher"]
+    core.service.security:
+        class:  CoreBundle\Service\Security\SecurityService
+        arguments: ["@request_stack", "@security.token_storage", "@event_dispatcher"]

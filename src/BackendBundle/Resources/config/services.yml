@@ -1,7 +1,4 @@
 services:
-    backend.service.login:
-        class:  BackendBundle\Service\Db\LoginService
-        arguments: ["@doctrine.orm.entity_manager"]
     backend.service.category:
         class:  BackendBundle\Service\Db\CategoryService
         arguments: ["@doctrine.orm.entity_manager"]

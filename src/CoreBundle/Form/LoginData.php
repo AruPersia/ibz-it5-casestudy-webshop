@@ -1,6 +1,6 @@
 <?php
 
-namespace BackendBundle\Form;
+namespace CoreBundle\Form;
 
 use CoreBundle\Util\PasswordUtil;
 use Symfony\Component\Validator\Constraints as Assert;

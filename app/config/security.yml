@@ -17,8 +17,5 @@ security:
     firewalls:
         main:
             anonymous: ~
-            logout:
-                path: /backend/logout
-                target: /backend
             form_login:
-                login_path: backendLogin
+                login_path: backend_security_login
