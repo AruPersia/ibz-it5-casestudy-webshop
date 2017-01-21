@@ -47,10 +47,12 @@
         <div class="card">
             <div class="card-header p-b-0">
                 <h5 class="card-title">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping cart
                 </h5>
             </div>
-            <div class="card-block">Your shopping cart is empty</div>
+            <div class="card-block">
+                {% embed '@Frontend/shopping.cart.html.twig' %}{% endembed %}
+            </div>
         </div>
 
         <!-- Login Form -->
@@ -58,7 +60,7 @@
             <div class="card-header p-b-0">
                 <h5 class="card-title">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    Log In
+                    Login
                 </h5>
             </div>
             <div class="card-block">
@@ -87,6 +89,22 @@
 <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 {% block javascripts %}{% endblock %}
+
+<script style="javascripts">
+
+    function changeQuantity(url) {
+        $(document).ready(function () {
+            $.get(url, function (data, status) {
+                if (status == 'success') {
+                    console.log(data);
+                    $('input[name=' + data.id + ']').val(data.quantity);
+                    $('#product-' + data.id + ' .ws-shopping-cart-sum').html(data.sum + '.-');
+                }
+            });
+        })
+    }
+
+</script>
 
 </body>
 </html>

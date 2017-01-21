@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="customer")
- * @ORM\Entity(repositoryClass="CoreBundle\Repository\UserAuthenticationRepository")
+ * @ORM\Entity(repositoryClass="CoreBundle\Repository\SecurityRepository")
  */
-class CustomerEntity extends UserAuthentication
+class CustomerEntity extends SecurityEntity
 {
 
     /**

@@ -25,6 +25,8 @@ class NavigatorController extends ServiceController
             $parameters = array_merge($parameters, $this->getDefaultParameters($this->getRootCategories()));
         }
 
+        $parameters['shoppingCart'] = $this->getShoppingCartService();
+
         return parent::render($view, $parameters, $response);
     }
 

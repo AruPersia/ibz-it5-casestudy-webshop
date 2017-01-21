@@ -14,3 +14,35 @@ nav img {
 article img {
     width: 13em;
 }
+
+.ws-shopping-cart-row {
+    border-bottom: solid 1px #cccccc;
+}
+
+.ws-shopping-cart-quantity-controller input,
+.ws-shopping-cart-quantity-controller span {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid #5bc0de;
+    color: #5bc0de;
+    background-image: none;
+    background-color: transparent;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: .2rem;
+}
+
+.ws-shopping-cart-quantity-controller input {
+    width: 3em;
+    color: black;
+    font-weight: bolder;
+}

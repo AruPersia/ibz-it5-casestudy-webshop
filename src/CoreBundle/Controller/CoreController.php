@@ -4,10 +4,9 @@ namespace CoreBundle\Controller;
 
 use CoreBundle\Form\LoginFormType;
 use CoreBundle\Message\Message;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class CoreController extends Controller
+class CoreController extends ServiceController
 {
 
     private $messages = array();
@@ -29,14 +28,6 @@ class CoreController extends Controller
     protected function getEntityManager()
     {
         return $this->get('doctrine.orm.entity_manager');
-    }
-
-    /**
-     * @return \CoreBundle\Service\Security\SecurityService
-     */
-    protected function getSecurityService()
-    {
-        return $this->get('core.service.security');
     }
 
     /**

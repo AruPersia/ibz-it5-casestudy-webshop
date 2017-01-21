@@ -1,0 +1,11 @@
+<div class="ws-shopping-cart-quantity-controller">
+    <button class="btn btn-sm btn-outline-info"
+            onclick="changeQuantity('{{ path("frontend_json_shoppingcart_decrementitem", {'itemId': item.id}) }}')">
+        <i class="fa fa-arrow-down"></i>
+    </button>
+    <input type="text" name="{{ item.id }}" value="{{ item.quantity }}">
+    <button class="btn btn-sm btn-outline-info"
+            onclick="changeQuantity('{{ path("frontend_json_shoppingcart_incrementitem", {'itemId': item.id}) }}')">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+</div>
