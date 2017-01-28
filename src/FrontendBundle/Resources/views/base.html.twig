@@ -2,90 +2,24 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css.map') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-grid.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/ws-frontend.css') }}"/>
     {% block stylesheets %}{% endblock %}
 </head>
-<body>
+<body ng-app="shoppingCartModule">
 
-<nav class="navbar navbar-full navbar-dark bg-inverse">
-    {% embed '@Frontend/nav.html.twig' %}{% endembed %}
-</nav>
-
-<div class="container-fluid">
-
-    <!-- Left Column -->
-    <div class="col-sm-2">
-
-        <!-- Categories -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title"><i class="fa fa-" aria-hidden="true"></i> Categories</h5>
-            </div>
-            <div class="list-group list-group-flush">
-                {% embed '@Frontend/render.categories.html.twig' %}{% endembed %}
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Center Column -->
-    <article class="col-sm-7">
-        {% embed '@Frontend/render.products.html.twig' %}{% endembed %}
-        {% block body %}{% endblock %}
-    </article>
-
-    <!-- Right Column -->
-    <div class="col-sm-3">
-
-        <!-- Shopping Cart -->
-        <div class="card">
-            <div class="card-header p-b-0">
-                <h5 class="card-title">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
-                </h5>
-            </div>
-            <div class="card-block">Your shopping cart is empty</div>
-        </div>
-
-        <!-- Login Form -->
-        <div class="card">
-            <div class="card-header p-b-0">
-                <h5 class="card-title">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    Log In
-                </h5>
-            </div>
-            <div class="card-block">
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="uid" name="uid" placeholder="Username">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Log In</button>
-                </form>
-            </div>
-            <div class="card-block">
-                You don't have an account?<a href="{{ path('frontendRegistrationShowForm') }}"> Register here</a>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<footer class="bg-faded">
-    {% embed '@Frontend/footer.html.twig' %}{% endembed %}
-</footer>
+{% block body %}{% endblock %}
 
 <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+<script src="{{ asset('js/tether.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-{% block javascripts %}{% endblock %}
-
+<script src="{{ asset('js/angular.min.js') }}"></script>
+<script src="{{ asset('js/ws.shopping.cart.js') }}"></script>
+{% block javascript %}{% endblock %}
 </body>
 </html>

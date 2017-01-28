@@ -1,0 +1,7 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% block title %}Create - Category{% endblock %}
+
+{% block body %}
+    {{ form(productForm, {'title': 'Create Product', 'action': path('backendProductCreateSubmit')}) }}
+{% endblock %}

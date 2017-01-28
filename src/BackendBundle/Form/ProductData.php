@@ -9,7 +9,7 @@ class ProductData
     /**
      * @Assert\NotBlank()
      */
-    private $category;
+    private $categoryPath;
 
     /**
      * @Assert\NotBlank()
@@ -22,14 +22,14 @@ class ProductData
     private $price;
 
 
-    public function getCategory()
+    public function getCategoryPath()
     {
-        return $this->category;
+        return $this->categoryPath;
     }
 
-    public function setCategory($category)
+    public function setCategoryPath($categoryPath)
     {
-        $this->category = $category;
+        $this->categoryPath = $categoryPath;
     }
 
     public function getName()

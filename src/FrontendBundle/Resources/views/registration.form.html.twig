@@ -1,0 +1,9 @@
+{% extends '@Frontend/base.html.twig' %}
+
+{% block title %}Join us{% endblock %}
+
+{% block body %}
+
+    {{ form(registrationForm, {'title': 'Create an account', 'action': path('frontendRegistrationSubmitForm')}) }}
+
+{% endblock %}

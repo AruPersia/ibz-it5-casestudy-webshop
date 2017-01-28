@@ -2,18 +2,22 @@
 
 namespace BackendBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * @Security("has_role('EMPLOYEE')")
+ */
 class DashboardController extends BackendController
 {
 
     /**
-     * @A\Route("/", name="backendShowDashboard")
+     * @Route("/")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard()
+    public function indexAction()
     {
-        return $this->render('@Backend/Dashboard/dashboard.html.twig');
+        return $this->render('@Backend/dashboard.html.twig');
     }
 
 }

@@ -13,7 +13,7 @@ class RegistrationController extends NavigatorController
     /**
      * @A\Route("/registration", name="frontendRegistrationShowForm")
      */
-    public function showFormAction()
+    public function showFormAction(Request $request)
     {
         return $this->renderRegistrationForm($this->getRegistrationForm());
     }

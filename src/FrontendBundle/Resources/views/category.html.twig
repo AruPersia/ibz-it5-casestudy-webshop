@@ -1,0 +1,5 @@
+{% for category in categories %}
+    <div>
+        <a href="{{ path('frontendShowCategory', {'categoryPath': category.path}) }}">{{ category.name|capitalize }}</a>
+    </div>
+{% endfor %}

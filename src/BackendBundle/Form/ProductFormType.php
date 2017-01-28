@@ -14,7 +14,7 @@ class ProductFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('category', TextType::class, ['label' => 'Category (f.e.: pc-components/peripherals/monitors)'])
+            ->add('categoryPath', TextType::class, ['label' => 'Category Path (f.e.: pc-components/peripherals/monitors)'])
             ->add('name', TextType::class)
             ->add('price', NumberType::class)
             ->add('save', SubmitType::class, ['label' => 'Create']);
@@ -22,8 +22,6 @@ class ProductFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => ProductData::class
-        ]);
+        $resolver->setDefaults(['data_class' => ProductData::class]);
     }
 }

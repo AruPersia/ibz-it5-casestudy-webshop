@@ -1,10 +1,12 @@
 services:
-#    frontend.example:
-#        class: FrontendBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
-  frontend.service.db.registration:
-    class:  FrontendBundle\Service\Db\RegistrationService
-    arguments: ["@doctrine.orm.entity_manager"]
-  frontend.service.db.frontend.category:
-    class:  FrontendBundle\Service\Db\CategoryService
-    arguments: ["@doctrine.orm.entity_manager"]
+    frontend.service.db.registration:
+        class:  FrontendBundle\Service\Db\RegistrationService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    frontend.service.db.frontend.category:
+        class:  FrontendBundle\Service\Db\CategoryService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    frontend.service.shopping.cart:
+        class: FrontendBundle\Service\ShoppingCart\DbShoppingCartService
+        arguments: ["@request_stack"]

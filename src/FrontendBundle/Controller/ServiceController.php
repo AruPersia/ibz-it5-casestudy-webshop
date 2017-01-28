@@ -24,6 +24,12 @@ class ServiceController extends CoreController
         return $this->get('frontend.service.db.frontend.category');
     }
 
-
+    /**
+     * @return \FrontendBundle\Service\ShoppingCart\DbShoppingCartService
+     */
+    protected function getShoppingCartService()
+    {
+        return $this->get('frontend.service.shopping.cart');
+    }
 
 }

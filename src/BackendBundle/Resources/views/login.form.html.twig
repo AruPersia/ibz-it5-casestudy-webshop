@@ -1,0 +1,17 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% block title %}Join us{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 ws-panel">
+                {{ form(loginForm, {'title': 'Login', 'action': path('backend_security_loginverify')}) }}
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+
+{% endblock %}

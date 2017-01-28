@@ -1,0 +1,17 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% block title %}Create - Category{% endblock %}
+
+{% block body %}
+    {{ form_start(categoryForm, {'action': path('backendCategoryCreateSubmit')}) }}
+
+    <div class="form-group row">
+        <div class="col-xs-12">
+            {{ form_row(categoryForm.path, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {{ form_row(categoryForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
+    {{ form_row(categoryForm._token) }}
+    {{ form_end(categoryForm) }}
+{% endblock %}

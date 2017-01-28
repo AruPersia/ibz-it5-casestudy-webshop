@@ -16,14 +16,16 @@ class NavigatorController extends ServiceController
     public function showCategoryAction($categoryPath)
     {
         $category = $this->getCategoryService()->findByPath($categoryPath);
-        return $this->render('@Frontend/base.html.twig', $this->getDefaultParameters($category->getChildren(), $categoryPath, $category->getProducts()));
+        return $this->render('@Frontend/shop.html.twig', $this->getDefaultParameters($category->getChildren(), $categoryPath, $category->getProducts()));
     }
 
     protected function render($view, array $parameters = array(), Response $response = null)
     {
-        if (empty($parameters)) {
+        if (!array_key_exists('categories', $parameters)) {
             $parameters = array_merge($parameters, $this->getDefaultParameters($this->getRootCategories()));
         }
+
+        $parameters['shoppingCart'] = $this->getShoppingCartService();
 
         return parent::render($view, $parameters, $response);
     }
@@ -51,7 +53,8 @@ class NavigatorController extends ServiceController
      */
     public function showAllRootCategories()
     {
-        return $this->render('@Frontend/base.html.twig', $this->getDefaultParameters($this->getRootCategories()));
+        return $this->render('@Frontend/shop.html.twig');
+        //return $this->render('@Frontend/base.html.twig', $this->getDefaultParameters($this->getRootCategories()));
     }
 
 

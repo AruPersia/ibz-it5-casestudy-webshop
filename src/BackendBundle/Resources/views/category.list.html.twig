@@ -1,0 +1,23 @@
+<table class="table table-striped">
+
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Path</th>
+        <th>Parent Category</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for category in categories %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.path }}</td>
+            <td>{{ category.parentCategory }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>

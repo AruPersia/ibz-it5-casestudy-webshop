@@ -2,7 +2,7 @@
 
 namespace CoreBundle\Util;
 
-class PasswordUtil
+final class PasswordUtil
 {
     private static $options = [
         'cost' => 4,

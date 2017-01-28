@@ -2,7 +2,7 @@
 
 namespace Tests\BackendBundle\Service\Db;
 
-use BackendBundle\Entity\UserEntity;
+use BackendBundle\Entity\AdministratorEntity;
 use BackendBundle\Form\LoginData;
 use CoreBundle\Util\PasswordUtil;
 use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
@@ -32,7 +32,7 @@ class LoginServiceTest extends KernelTestCaseWithDbSupport
 
     private function createUserEntity(String $firstName, String $lastName, String $email, String $password)
     {
-        $userEntity = new UserEntity();
+        $userEntity = new AdministratorEntity();
         $userEntity->setFirstName($firstName);
         $userEntity->setLastName($lastName);
         $userEntity->setEmail($email);

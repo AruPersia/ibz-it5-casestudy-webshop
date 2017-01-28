@@ -1,0 +1,80 @@
+{#####################################
+    Bootstrap default draft
+#####################################}
+{% block renderLabel %}
+    <label for="{{ id }}">{{ label|default(name)|capitalize }}</label>
+{% endblock %}
+
+{% block renderWidget %}
+    <input class="form-control" type="{{ type }}" value="{{ value }}" id="{{ id }}" name="{{ full_name }}">
+    {{ form_errors(form) }}
+{% endblock %}
+
+{% block renderField %}
+    {% set class = 'form-group' %}
+    {% if errors.valid %}
+        {% set class = class ~ ' has-danger' %}
+    {% endif %}
+    <div class="{{ class }}">
+        {{ block('renderLabel') }}
+        {{ block('renderWidget') }}
+    </div>
+{% endblock %}
+
+{#####################################
+    Bootstrap default form
+#####################################}
+{% block form %}
+    <form action="{{ action|default('#') }}" method="{{ method|default('POST') }}">
+        {% if title is defined %}
+            <div class="form-group">
+                <h5>{{ title }}</h5>
+            </div>
+        {% endif %}
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            <ul>
+                {% for error in errors %}
+                    <li class="text-danger">{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{#####################################
+    Bootstrap default fields
+#####################################}
+{% block text_row %}
+    {% set type = 'text' %}
+    {{ block('renderField') }}
+{% endblock %}
+
+{% block number_row %}
+    {% set type = 'number' %}
+    {{ block('renderField') }}
+{% endblock %}
+
+{% block email_row %}
+    {% set type = 'email' %}
+    {{ block('renderField') }}
+{% endblock %}
+
+{% block password_row %}
+    {% set type = 'password' %}
+    {{ block('renderField') }}
+{% endblock %}
+
+{% block submit_row %}
+    <div class="form-group pull-right">
+        <label></label>
+        <button type="submit" class="btn btn-primary" value="{{ value }}" id="{{ id }}"
+                name="{{ full_name }}">{{ label }}</button>
+    </div>
+{% endblock %}
