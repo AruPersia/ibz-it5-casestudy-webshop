@@ -1,26 +1,8 @@
-nav {
-    margin-bottom: 2rem !important;
-}
-
-nav .nav-item {
-    margin-top: 0.4em;
-    font-size: 1.5em;
-}
-
-nav img {
-    height: 3em;
-}
-
-article img {
-    width: 13em;
-}
-
-.ws-shopping-cart-row {
+.ws-shopping-cart-items .ws-shopping-cart-row {
     border-bottom: solid 1px #cccccc;
 }
 
-.ws-shopping-cart-quantity-controller input,
-.ws-shopping-cart-quantity-controller span {
+.ws-shopping-cart-items .ws-shopping-cart-item input {
     display: inline-block;
     font-weight: 400;
     line-height: 1.25;
@@ -41,8 +23,10 @@ article img {
     border-radius: .2rem;
 }
 
-.ws-shopping-cart-quantity-controller input {
+.ws-shopping-cart-items .ws-shopping-cart-item input {
     width: 3em;
     color: black;
     font-weight: bolder;
+    padding-right: 0;
+    padding-left: 0;
 }

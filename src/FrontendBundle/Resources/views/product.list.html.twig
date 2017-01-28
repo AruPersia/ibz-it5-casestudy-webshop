@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="row">
 
     {% if breadcrumbs is not empty %}
         <div class="col col-md-12">
@@ -11,14 +11,14 @@
     {% endif %}
 
     {% for product in products %}
-        <div class="col col-md-4">
+        <div class="col col-md-3">
             <div class="card">
                 <img class="card-img-top" src="{{ asset('images/noProduct.png') }}">
                 <div class="card-block">
                     <h4 class="card-title">{{ product.name }}</h4>
                     <p class="card-text">CHF {{ product.price|number_format(2) }}</p>
                     <div class="text-md-right">
-                        <i class="fa fa-cart-arrow-down fa-2x"></i>
+                        <i onclick="shoppingCart.add({{ product.id }})" class="fa fa-cart-arrow-down fa-2x"></i>
                     </div>
                 </div>
             </div>

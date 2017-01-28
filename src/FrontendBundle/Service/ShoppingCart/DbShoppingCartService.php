@@ -19,7 +19,7 @@ class DbShoppingCartService implements ShoppingCartService
     }
 
     /**
-     * @return ShoppingCartItem[]
+     * @return Item[]
      */
     private function loadShoppingCart()
     {
@@ -30,15 +30,11 @@ class DbShoppingCartService implements ShoppingCartService
         return array();
     }
 
-    public function incrementItem($itemId): ShoppingCartItem
-    {
-        return $this->changeQuantity($itemId, 1);
-    }
-
-    private function changeQuantity($itemId, $quantity): ShoppingCartItem
+    public function setQuantity($itemId, $quantity): Item
     {
         if ($item = $this->getItem($itemId)) {
-            $item->setQuantity($item->getQuantity() + $quantity);
+            $item->setQuantity($quantity);
+            $this->flushSession();
         }
 
         return $item;
@@ -53,12 +49,12 @@ class DbShoppingCartService implements ShoppingCartService
         return null;
     }
 
-    public function decrementItem($itemId): ShoppingCartItem
+    private function flushSession()
     {
-        return $this->changeQuantity($itemId, -1);
+        $this->request->getSession()->set(self::SESSION_KEY, $this->shoppingCartItems);
     }
 
-    public function add(ShoppingCartItem $item): ShoppingCartItem
+    public function add(Item $item): Item
     {
         if ($availableItem = $this->getItem($item->getId())) {
             $availableItem->setQuantity($availableItem->getQuantity() + 1);
@@ -67,25 +63,32 @@ class DbShoppingCartService implements ShoppingCartService
             $this->shoppingCartItems[$item->getId()] = $item;
         }
 
-        $this->updateShoppingCartSession();
+        $this->flushSession();
         return $item;
     }
-
-    private function updateShoppingCartSession()
-    {
-        $this->request->getSession()->set(self::SESSION_KEY, $this->shoppingCartItems);
-    }
-
 
     public function hasItems()
     {
         return count($this->shoppingCartItems) > 0;
     }
 
-    public function remove(ShoppingCartItem $item)
+    public function remove($itemId): Item
     {
-        unset($this->shoppingCartItems[$item->getId()]);
-        $this->updateShoppingCartSession();
+        $itemToDelete = $this->getItem($itemId);
+        unset($this->shoppingCartItems[$itemId]);
+        $this->flushSession();
+        return $itemToDelete;
+    }
+
+    public function getJsonData()
+    {
+        $jsonData = array();
+        foreach ($this->getItems() as $item) {
+            $jsonData['items'][] = $item->getJsonData();
+        }
+        $jsonData['sum'] = $this->getSum();
+
+        return $jsonData;
     }
 
     public function getItems()
@@ -101,6 +104,15 @@ class DbShoppingCartService implements ShoppingCartService
         }
 
         return $total;
+    }
+
+    private function changeQuantity($itemId, $quantity): ItemChanged
+    {
+        if ($item = $this->getItem($itemId)) {
+            $item->setQuantity($item->getQuantity() + $quantity);
+        }
+
+        return new ItemChanged($this, $item);
     }
 
 

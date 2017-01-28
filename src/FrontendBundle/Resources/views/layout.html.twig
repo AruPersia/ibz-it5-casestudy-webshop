@@ -1,0 +1,19 @@
+{% extends '@Frontend/base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">{% block header %}{% endblock %}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">{% block menuLeft %}{% endblock %}</div>
+            <div class="col-md-7">{% block content %}{% endblock %}</div>
+            <div class="col-md-3">{% block menuRight %}{% endblock %}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">{% block footer %}{% endblock %}</div>
+        </div>
+    </div>
+
+{% endblock %}

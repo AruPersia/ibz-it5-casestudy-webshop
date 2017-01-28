@@ -6,25 +6,31 @@ use BackendBundle\Entity\AdministratorEntity;
 use CoreBundle\Entity\CategoryEntity;
 use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\ProductEntity;
+use CoreBundle\Util\PasswordUtil;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadDefaultData implements FixtureInterface
 {
 
-    private $administrators = [
-        [1, 'Jason', 'Statham', 'admin@localhost.ch', 'ADMIN;EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC'],
-        [2, 'Liam', 'Neeson', 'employee@localhost.ch', 'EMPLOYEE', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC']
-    ];
-
     private $categoryEntities = array();
+
     private $categories = [
         [1, 'pc', 'pc', 0],
         [2, 'components', 'pc/components', 1],
         [3, 'peripherals', 'pc/components/peripherals', 2],
         [4, 'mice', 'pc/components/peripherals/mice', 3],
         [5, 'keyboard', 'pc/components/peripherals/keyboard', 3],
-        [6, 'monitor', 'pc/components/peripherals/monitor', 3]
+        [6, 'monitor', 'pc/components/peripherals/monitor', 3],
+
+        [7, 'Audio & Hi-Fi', 'audio & hi-fi', 0],
+        [8, 'Office supplies', 'office supplies', 0],
+        [9, 'Printers & Scanners', 'printers & scanners', 0],
+        [10, 'TV & Video', 'tv & video', 0],
+        [11, 'Cameras', 'cameras', 0],
+        [12, 'Networking', 'networking', 0],
+        [13, 'Storage', 'storage', 0],
+        [14, 'Software', 'software', 0]
     ];
 
     private $products = [
@@ -47,11 +53,6 @@ class LoadDefaultData implements FixtureInterface
         ['ASUS ROG Swift PG348Q', 12806.00, 6],
     ];
 
-    private $customers = [
-        [1, 'Brad', 'Pitt', 'brad.pitt@localhost.ch', 'CUSTOMER', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC'],
-        [2, 'Angelina', 'Jolie', 'angelia.jolie@localhost.ch', 'CUSTOMER', '$2y$13$rOOTFHElgu6xwsXE60shN.LYdbCzUaUGsynMXuVw1xBeatoAuPtvC']
-    ];
-
     public function load(ObjectManager $manager)
     {
         $this->loadAdministrators($manager);
@@ -63,7 +64,7 @@ class LoadDefaultData implements FixtureInterface
 
     private function loadAdministrators(ObjectManager $manager)
     {
-        foreach ($this->administrators as $user) {
+        foreach ($this->administrators() as $user) {
             $administratorEntity = new AdministratorEntity();
             $administratorEntity->setId($user[0]);
             $administratorEntity->setFirstName($user[1]);
@@ -74,6 +75,14 @@ class LoadDefaultData implements FixtureInterface
 
             $manager->persist($administratorEntity);
         }
+    }
+
+    private function administrators()
+    {
+        return [
+            [1, 'Jason', 'Statham', 'admin@localhost.ch', 'ADMIN;EMPLOYEE', PasswordUtil::encrypt('admin')],
+            [2, 'Liam', 'Neeson', 'employee@localhost.ch', 'EMPLOYEE', PasswordUtil::encrypt('admin')]
+        ];
     }
 
     private function loadCategories(ObjectManager $manager)
@@ -104,7 +113,7 @@ class LoadDefaultData implements FixtureInterface
 
     private function loadCustomers(ObjectManager $manager)
     {
-        foreach ($this->customers as $customer) {
+        foreach ($this->customers() as $customer) {
             $customerEntity = new CustomerEntity();
             $customerEntity->setId($customer[0]);
             $customerEntity->setFirstName($customer[1]);
@@ -114,6 +123,14 @@ class LoadDefaultData implements FixtureInterface
             $customerEntity->setPassword($customer[5]);
             $manager->persist($customerEntity);
         }
+    }
+
+    private function customers()
+    {
+        return [
+            [1, 'Brad', 'Pitt', 'brad.pitt@localhost.ch', 'CUSTOMER', PasswordUtil::encrypt('customer')],
+            [2, 'Angelina', 'Jolie', 'angelia.jolie@localhost.ch', 'CUSTOMER', PasswordUtil::encrypt('customer')]
+        ];
     }
 
 

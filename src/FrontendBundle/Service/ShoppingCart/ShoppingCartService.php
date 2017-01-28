@@ -2,24 +2,24 @@
 
 namespace FrontendBundle\Service\ShoppingCart;
 
-interface ShoppingCartService
+use CoreBundle\Util\Json\JsonData;
+
+interface ShoppingCartService extends JsonData
 {
-    public function incrementItem($itemId): ShoppingCartItem;
+    public function add(Item $item): Item;
 
-    public function decrementItem($itemId): ShoppingCartItem;
+    public function remove($itemId): Item;
 
-    public function add(ShoppingCartItem $item): ShoppingCartItem;
-
-    public function remove(ShoppingCartItem $item);
+    public function setQuantity($itemId, $quantity): Item;
 
     /**
      * @param $itemId
-     * @return ShoppingCartItem|null
+     * @return Item|null
      */
     public function getItem($itemId);
 
     /**
-     * @return ShoppingCartItem[]
+     * @return Item[]
      */
     public function getItems();
 

@@ -5,7 +5,7 @@ namespace FrontendBundle\Service\ShoppingCart;
 use CoreBundle\Entity\ProductEntity;
 use Symfony\Component\Intl\Exception\MethodNotImplementedException;
 
-class DbShoppingCartItem implements ShoppingCartItem
+class DbItem implements Item
 {
 
     private $productEntity;

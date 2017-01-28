@@ -4,7 +4,7 @@ namespace FrontendBundle\Service\ShoppingCart;
 
 use CoreBundle\Util\Json\JsonData;
 
-interface ShoppingCartItem extends JsonData
+interface Item extends JsonData
 {
 
     public function getId();
