@@ -2,29 +2,39 @@
 
 namespace CoreBundle\Service\Db;
 
-class CategoryService extends EntityManagerService
+use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Model\Category;
+use CoreBundle\Repository\CategoryRepository;
+use CoreBundle\Util\ValidateUtil;
+use Doctrine\ORM\EntityManager;
+
+class CategoryService extends EntityService
 {
-    /**
-     * @param String $categoryName
-     * @return \CoreBundle\Entity\CategoryEntity|null
-     */
-    public function findByName(String $categoryName)
+
+    private $categoryRepository;
+
+    public function __construct(EntityManager $entityManager, CategoryRepository $categoryRepository)
     {
-        return $this->getCategoryRepository()->findOneBy(['name' => $categoryName]);
+        parent::__construct($entityManager);
+        ValidateUtil::notNull($categoryRepository);
+        $this->categoryRepository = $categoryRepository;
     }
 
-    protected function getCategoryRepository()
+    public function create(Category $category): Category
     {
-        return $this->em->getRepository('CoreBundle:CategoryEntity');
+        $entity = $this->doCreate($category);
+        $this->flush();
+        return CategoryMapper::mapToCategory($entity);
     }
 
-    /**
-     * @param String $path
-     * @return \CoreBundle\Entity\CategoryEntity
-     */
-    public function findByPath(String $path)
+    private function doCreate(Category $category): CategoryEntity
     {
-        return $this->getCategoryRepository()->findOneBy(['path' => $path]);
+        $entity = $this->categoryRepository->create($category->getPath());
+        foreach ($category->getChildren() as $child) {
+            $entity->addChild($this->doCreate($child));
+        }
+
+        return $entity;
     }
 
 }

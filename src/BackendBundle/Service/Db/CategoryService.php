@@ -46,7 +46,7 @@ class CategoryService extends \CoreBundle\Service\Db\CategoryService
         $categoryEntity = new CategoryEntity();
         $categoryEntity->setName($categoryName);
         $categoryEntity->setPath(rtrim($path, '/'));
-        $categoryEntity->setParentCategory($parentCategoryEntity);
+        $categoryEntity->setParent($parentCategoryEntity);
         $this->em->persist($categoryEntity);
         return $categoryEntity;
     }

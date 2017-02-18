@@ -2,3 +2,22 @@ services:
     core.service.security:
         class:  CoreBundle\Service\Security\SecurityService
         arguments: ["@request_stack", "@security.token_storage", "@event_dispatcher"]
+
+    # Repositories
+    repository.category:
+        class: CoreBundle\Repository\CategoryRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.image:
+        class: CoreBundle\Repository\ImageRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.product:
+        class: CoreBundle\Repository\ProductRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    # Services
+    service.category:
+        class: CoreBundle\Service\Db\CategoryService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.category"]
+    service.product:
+        class: CoreBundle\Service\Db\ProductService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]

@@ -2,28 +2,22 @@
 
 namespace CoreBundle\Repository;
 
-use CoreBundle\Entity\ProductEntity;
+
+use CoreBundle\Entity\ImageEntity;
 use Doctrine\ORM\EntityRepository;
 
-class ProductRepository extends EntityRepository
+class ImageRepository extends AbstractRepository
 {
 
-    /**
-     * @param $productId
-     * @return ProductEntity|object
-     */
-    public function findOneByProductId($productId)
+    public function create($binary): ImageEntity
     {
-        return $this->findOneBy(['id' => $productId]);
+        return $this->persist(ImageEntity::create($binary));
     }
 
-    /**
-     * @param $categoryId
-     * @return ProductEntity[]
-     */
-    public function findByCategoryId($categoryId)
+    protected function repository(): EntityRepository
     {
-        return $this->findBy(['category' => $categoryId]);
+        return $this->createRepository('CoreBundle:ImageEntity');
     }
+
 
 }

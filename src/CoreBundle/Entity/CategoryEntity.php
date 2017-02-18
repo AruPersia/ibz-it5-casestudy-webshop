@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="category")
  */
-class CategoryEntity
+class CategoryEntity implements Entity
 {
+
+    const DELIMITER = '/';
 
     /**
      * @ORM\Id
@@ -19,9 +21,6 @@ class CategoryEntity
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
     private $name;
 
     /**
@@ -30,91 +29,46 @@ class CategoryEntity
     private $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="children", fetch="LAZY")
-     * @ORM\JoinColumn(name="parentCategoryId", referencedColumnName="id", nullable=TRUE)
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="children", fetch="LAZY", cascade={"persist"})
+     * @ORM\JoinColumn(name="parentCategoryId", referencedColumnName="id")
      */
-    private $parentCategory;
+    private $parent;
 
     /**
-     * @var CategoryEntity[]
-     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\CategoryEntity", mappedBy="parentCategory", cascade={"remove", "persist"}, fetch="LAZY")
+     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\CategoryEntity", mappedBy="parent", fetch="LAZY")
      */
     private $children;
 
     /**
-     * @var ProductEntity[]
-     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\ProductEntity", mappedBy="category", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\ProductEntity", mappedBy="category", fetch="EAGER")
      */
     private $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
-    public function getPath()
+    public static function instance(): CategoryEntity
     {
-        return $this->path;
+        return new CategoryEntity();
     }
 
-    public function setPath($path)
+    public static function pathToName($path)
     {
-        $this->path = strtolower($path);
+        return self::extractName(self::removeSlashes($path));
     }
 
-    public function getParentCategory()
+    private static function removeSlashes($path): String
     {
-        return $this->parentCategory;
+        return ltrim(rtrim($path, self::DELIMITER), self::DELIMITER);
     }
 
-    /**
-     * @return CategoryEntity
-     * @param $parentCategory
-     */
-    public function setParentCategory($parentCategory)
+    private static function extractName($path): String
     {
-        $this->parentCategory = $parentCategory;
-    }
-
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    public function setChildren($children)
-    {
-        $this->children = $children;
-    }
-
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-    public function setProducts($products)
-    {
-        $this->products = $products;
-    }
-
-    public function addProduct(ProductEntity $productEntity)
-    {
-        $this->products->add($productEntity);
-        $productEntity->setCategory($this);
-    }
-
-    function __toString()
-    {
-        return sprintf('%s [%d]', $this->getName(), $this->getId());
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
+        $strings = explode(self::DELIMITER, $path);
+        return end($strings);
     }
 
     public function getId()
@@ -125,7 +79,79 @@ class CategoryEntity
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath($path)
+    {
+        $this->path = self::removeSlashes($path);
+        $this->name = self::pathToName($path);
+        return $this;
+    }
+
+    /**
+     * @return CategoryEntity|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @return CategoryEntity
+     * @param $parent
+     */
+    public function setParent(CategoryEntity $parent = null)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    public function hasParent()
+    {
+        return $this->parent != null;
+    }
+
+    /**
+     * @return ArrayCollection|CategoryEntity[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function addChild(CategoryEntity $categoryEntity)
+    {
+        $this->children->add($categoryEntity);
+        $categoryEntity->setParent($this);
+        return $this;
+    }
+
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function addProduct(ProductEntity $productEntity)
+    {
+        $this->products->add($productEntity);
+        $productEntity->setCategory($this);
+        return $this;
+    }
+
+    function __toString()
+    {
+        return sprintf('%s [%d]', $this->getName(), $this->getId());
+    }
 
 }

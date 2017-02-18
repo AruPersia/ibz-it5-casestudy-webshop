@@ -5,8 +5,8 @@ namespace CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Entity
  * @ORM\Table(name="customer")
- * @ORM\Entity(repositoryClass="CoreBundle\Repository\SecurityRepository")
  */
 class CustomerEntity extends SecurityEntity
 {

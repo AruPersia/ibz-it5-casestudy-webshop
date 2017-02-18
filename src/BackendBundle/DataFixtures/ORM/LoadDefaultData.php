@@ -6,6 +6,7 @@ use BackendBundle\Entity\AdministratorEntity;
 use CoreBundle\Entity\CategoryEntity;
 use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\ProductEntity;
+use CoreBundle\Entity\StockEntity;
 use CoreBundle\Util\PasswordUtil;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -34,32 +35,33 @@ class LoadDefaultData implements FixtureInterface
     ];
 
     private $products = [
-        ['Lenovo ThinkCentre S510 SFF', 599.00, 1],
-        ['HP ProDesk 400 G3 MT', 749.00, 1],
-        ['Apple iMac Retina', 2099.00, 1],
-        ['MSI Aegis 084', 1599.00, 1],
-        ['Lenovo IdeaCentre 300-20ISH', 499.00, 1],
-        ['Dell OptiPlex 7040 MT', 999.00, 1],
+        ['Lenovo ThinkCentre S510 SFF', 'Description...', 599.00, 1],
+        ['HP ProDesk 400 G3 MT', 'Description...', 749.00, 1],
+        ['Apple iMac Retina', 'Description...', 2099.00, 1],
+        ['MSI Aegis 084', 'Description...', 1599.00, 1],
+        ['Lenovo IdeaCentre 300-20ISH', 'Description...', 499.00, 1],
+        ['Dell OptiPlex 7040 MT', 'Description...', 999.00, 1],
 
-        ['Logitech MX Anywhere 2', 69.00, 4],
-        ['Logitech MX Master', 85.00, 4],
-        ['Logitech Wireless Mouse M705', 85.00, 4],
-        ['Apple Magic Mouse 2', 79.00, 4],
+        ['Logitech MX Anywhere 2', 'Description...', 69.00, 4],
+        ['Logitech MX Master', 'Description...', 85.00, 4],
+        ['Logitech Wireless Mouse M705', 'Description...', 85.00, 4],
+        ['Apple Magic Mouse 2', 'Description...', 79.00, 4],
 
-        ['Dell U2715H', 499.00, 6],
-        ['Samsung S24E650PL', 189.00, 6],
-        ['Samsung U28E590D', 399.00, 6],
-        ['ASUS PB287Q', 450.00, 6],
-        ['ASUS ROG Swift PG348Q', 12806.00, 6],
+        ['Dell U2715H', 'Description...', 499.00, 6],
+        ['Samsung S24E650PL', 'Description...', 189.00, 6],
+        ['Samsung U28E590D', 'Description...', 399.00, 6],
+        ['ASUS PB287Q', 'Description...', 450.00, 6],
+        ['ASUS ROG Swift PG348Q', 'Description...', 12806.00, 6],
     ];
 
     public function load(ObjectManager $manager)
     {
-        $this->loadAdministrators($manager);
-        $this->loadCategories($manager);
-        $this->loadProduct($manager);
-        $this->loadCustomers($manager);
-        $manager->flush();
+//        $this->loadAdministrators($manager);
+//        $this->loadCategories($manager);
+//        $this->loadProduct($manager);
+//        $this->loadCustomers($manager);
+//        $this->loadStocks($manager);
+//        $manager->flush();
     }
 
     private function loadAdministrators(ObjectManager $manager)
@@ -93,7 +95,7 @@ class LoadDefaultData implements FixtureInterface
             $categoryEntity->setId($category[0]);
             $categoryEntity->setName($category[1]);
             $categoryEntity->setPath($category[2]);
-            $categoryEntity->setParentCategory($this->categoryEntities[$category[3]]);
+            $categoryEntity->setParent($this->categoryEntities[$category[3]]);
 
             $this->categoryEntities[$category[0]] = $categoryEntity;
             $manager->persist($categoryEntity);
@@ -105,8 +107,9 @@ class LoadDefaultData implements FixtureInterface
         foreach ($this->products as $product) {
             $productEntity = new ProductEntity();
             $productEntity->setName($product[0]);
-            $productEntity->setPrice($product[1]);
-            $productEntity->setCategory($this->categoryEntities[$product[2]]);
+            $productEntity->setDescription($product[1]);
+            $productEntity->setPrice($product[2]);
+            $productEntity->setCategory($this->categoryEntities[$product[3]]);
             $manager->persist($productEntity);
         }
     }
@@ -130,6 +133,30 @@ class LoadDefaultData implements FixtureInterface
         return [
             [1, 'Brad', 'Pitt', 'brad.pitt@localhost.ch', 'CUSTOMER', PasswordUtil::encrypt('customer')],
             [2, 'Angelina', 'Jolie', 'angelia.jolie@localhost.ch', 'CUSTOMER', PasswordUtil::encrypt('customer')]
+        ];
+    }
+
+    private function loadStocks(ObjectManager $manager)
+    {
+        foreach ($this->stocks() as $stock) {
+            $stockEntity = new StockEntity();
+            $stockEntity->setProductId($stock[0]);
+            $stockEntity->setInventoryDate($stock[1]);
+            $stockEntity->setQuantity($stock[2]);
+            $manager->persist($stockEntity);
+        }
+    }
+
+    private function stocks()
+    {
+        $d = new \DateTime();
+
+        return [
+            [1, new \DateTime(), 5],
+//            [2, $d->format('Y-m-d H:i:s'), 10],
+//            [3, $d->format('Y-m-d H:i:s'), 15],
+//            [4, $d->format('Y-m-d H:i:s'), 20],
+//            [5, $d->format('Y-m-d H:i:s'), 25]
         ];
     }
 

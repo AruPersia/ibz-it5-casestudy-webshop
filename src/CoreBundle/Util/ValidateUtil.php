@@ -5,16 +5,25 @@ namespace CoreBundle\Util;
 class ValidateUtil
 {
 
-    public static function notNull($obj, $message = 'Validated object is null!')
+    public static function notNulls(...$objects)
     {
-        if (is_null($obj)) {
-            throw new \InvalidArgumentException($message);
+        foreach ($objects as $object) {
+            self::notNull($object);
         }
     }
 
-    public static function notEmpty($obj, $message = 'Validated object is empty!')
+    public static function notNull($object, $message = 'Validated object is null!')
     {
-        if (empty($obj)) {
+        if (is_null($object)) {
+            throw new \InvalidArgumentException($message);
+        }
+
+        return $object;
+    }
+
+    public static function notEmpty($object, $message = 'Validated object is empty!')
+    {
+        if (empty($object)) {
             throw new \InvalidArgumentException($message);
         }
     }

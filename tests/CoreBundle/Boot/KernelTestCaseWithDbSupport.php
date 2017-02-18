@@ -1,9 +1,13 @@
 <?php
 namespace Tests\CoreBundle\Boot;
 
+use BackendBundle\DataFixtures\ORM\LoadDefaultData;
+use CoreBundle\Service\Db\CategoryService;
+use CoreBundle\Service\Db\ProductService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class KernelTestCaseWithDbSupport extends KernelTestCase
 {
@@ -14,21 +18,51 @@ class KernelTestCaseWithDbSupport extends KernelTestCase
     protected $em;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * @var SchemaTool
      */
     private $schemaTool;
 
     private $metadata;
 
+    /**
+     * @return \CoreBundle\Service\Db\CategoryService
+     */
+    protected function categoryService(): CategoryService
+    {
+        return $this->container->get('service.category');
+    }
+
+    protected function productService(): ProductService
+    {
+        return $this->container->get('service.product');
+    }
+
     protected function setUp()
     {
         parent::setUp();
         parent::bootKernel();
+        $this->container = static::$kernel->getContainer();
         $this->em = static::$kernel->getContainer()->get('doctrine')->getEntityManager();
         $this->schemaTool = new SchemaTool($this->em);
         $this->metadata = $this->em->getMetadataFactory()->getAllMetadata();
         $this->dropTables();
         $this->createTables();
+
+        $loadDefaultData = new LoadDefaultData();
+        $loadDefaultData->load($this->em);
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->dropTables();
+        $this->em->close();
+        unset($this->em);
     }
 
     private function dropTables()
@@ -39,14 +73,6 @@ class KernelTestCaseWithDbSupport extends KernelTestCase
     private function createTables()
     {
         $this->schemaTool->createSchema($this->metadata);
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-        $this->dropTables();
-        $this->em->close();
-        unset($this->em);
     }
 
 }
