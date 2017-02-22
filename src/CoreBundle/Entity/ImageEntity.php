@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="image")
  */
-class ImageEntity
+class ImageEntity implements EntityBuilder
 {
 
     /**
@@ -23,11 +23,9 @@ class ImageEntity
      */
     private $binary;
 
-    public static function create($binary): ImageEntity
+    public static function instance(): ImageEntity
     {
-        $mageEntity = new ImageEntity();
-        $mageEntity->setBinary($binary);
-        return $mageEntity;
+        return new ImageEntity();
     }
 
     public function getId()

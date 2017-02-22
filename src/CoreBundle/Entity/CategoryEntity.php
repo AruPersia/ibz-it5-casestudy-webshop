@@ -9,10 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="category")
  */
-class CategoryEntity implements Entity
+class CategoryEntity implements EntityBuilder
 {
-
-    const DELIMITER = '/';
 
     /**
      * @ORM\Id
@@ -20,8 +18,6 @@ class CategoryEntity implements Entity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -55,36 +51,15 @@ class CategoryEntity implements Entity
         return new CategoryEntity();
     }
 
-    public static function pathToName($path)
-    {
-        return self::extractName(self::removeSlashes($path));
-    }
-
-    private static function removeSlashes($path): String
-    {
-        return ltrim(rtrim($path, self::DELIMITER), self::DELIMITER);
-    }
-
-    private static function extractName($path): String
-    {
-        $strings = explode(self::DELIMITER, $path);
-        return end($strings);
-    }
-
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId($id): CategoryEntity
     {
         $this->id = $id;
         return $this;
-    }
-
-    public function getName()
-    {
-        return $this->name;
     }
 
     public function getPath()
@@ -92,10 +67,9 @@ class CategoryEntity implements Entity
         return $this->path;
     }
 
-    public function setPath($path)
+    public function setPath($path): CategoryEntity
     {
-        $this->path = self::removeSlashes($path);
-        $this->name = self::pathToName($path);
+        $this->path = $path;
         return $this;
     }
 
@@ -149,9 +123,18 @@ class CategoryEntity implements Entity
         return $this;
     }
 
+    public function getRoot()
+    {
+        $root = $this;
+        while ($root->hasParent()) {
+            $root = $root->getParent();
+        }
+        return $root;
+    }
+
     function __toString()
     {
-        return sprintf('%s [%d]', $this->getName(), $this->getId());
+        return sprintf('%s [%d]', $this->getId(), $this->getPath());
     }
 
 }

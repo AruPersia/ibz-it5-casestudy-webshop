@@ -3,14 +3,14 @@
 namespace BackendBundle\Service\Db;
 
 use BackendBundle\Form\CategoryData;
-use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Entity\CategoryEntityBuilder;
 
 class CategoryService extends \CoreBundle\Service\Db\CategoryService
 {
 
     /**
      * @param CategoryData $categoryData
-     * @return CategoryEntity|null
+     * @return CategoryEntityBuilder|null
      */
     public function createCategoryByPath(CategoryData $categoryData)
     {
@@ -21,7 +21,7 @@ class CategoryService extends \CoreBundle\Service\Db\CategoryService
 
     /**
      * @param String $path
-     * @return CategoryEntity
+     * @return CategoryEntityBuilder
      */
     public function assembleCategoryByPath(String $path)
     {
@@ -38,12 +38,12 @@ class CategoryService extends \CoreBundle\Service\Db\CategoryService
     /**
      * @param String $categoryName
      * @param String $path
-     * @param CategoryEntity|null $parentCategoryEntity
-     * @return CategoryEntity
+     * @param CategoryEntityBuilder|null $parentCategoryEntity
+     * @return CategoryEntityBuilder
      */
-    public function createCategory(String $categoryName, String $path, CategoryEntity $parentCategoryEntity = null)
+    public function createCategory(String $categoryName, String $path, CategoryEntityBuilder $parentCategoryEntity = null)
     {
-        $categoryEntity = new CategoryEntity();
+        $categoryEntity = new CategoryEntityBuilder();
         $categoryEntity->setName($categoryName);
         $categoryEntity->setPath(rtrim($path, '/'));
         $categoryEntity->setParent($parentCategoryEntity);
@@ -57,7 +57,7 @@ class CategoryService extends \CoreBundle\Service\Db\CategoryService
     }
 
     /**
-     * @return CategoryEntity[]
+     * @return CategoryEntityBuilder[]
      */
     public function findAll()
     {

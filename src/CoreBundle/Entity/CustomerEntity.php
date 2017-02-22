@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,15 +13,25 @@ class CustomerEntity extends SecurityEntity
 {
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(name="firstName", type="string", length=50)
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(name="lastName", type="string", length=50)
      */
     private $lastName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\OrderEntity", mappedBy="customer", fetch="EAGER")
+     */
+    private $orders;
+
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
 
     public function getFirstName()
     {
@@ -40,6 +51,11 @@ class CustomerEntity extends SecurityEntity
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+    }
+
+    public function getOrders()
+    {
+        return $this->orders;
     }
 
     public function __toString()

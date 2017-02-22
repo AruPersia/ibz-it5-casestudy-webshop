@@ -26,6 +26,8 @@ class ValidateUtil
         if (empty($object)) {
             throw new \InvalidArgumentException($message);
         }
+
+        return $object;
     }
 
 }

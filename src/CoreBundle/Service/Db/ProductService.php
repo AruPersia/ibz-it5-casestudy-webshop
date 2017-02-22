@@ -2,6 +2,8 @@
 
 namespace CoreBundle\Service\Db;
 
+use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Model\Category;
 use CoreBundle\Model\Image;
 use CoreBundle\Model\Product;
 use CoreBundle\Repository\CategoryRepository;
@@ -26,7 +28,7 @@ class ProductService extends EntityService
 
     public function create(Product $product): Product
     {
-        $categoryEntity = $this->categoryRepository->create('PC/Components');
+        $categoryEntity = $this->categoryRepository->create($product->getCategory()->getPath());
         $imageEntity = $this->imageRepository->create($product->getImage()->getBinary());
         $imageEntities = array();
 
@@ -90,6 +92,18 @@ class ProductService extends EntityService
     {
         $categoryEntity = $this->categoryRepository->findByPath($path);
         return ProductMapper::mapToProducts($this->productRepository->findByCategory($categoryEntity));
+    }
+
+    private function createCategory(Category $category, CategoryEntity $parent = null): CategoryEntity
+    {
+        $categoryEntity = $this->categoryRepository->create($category->getPath());
+        $categoryEntity->setParent($parent);
+
+        foreach ($category->getChildren() as $child) {
+            $this->createCategory($child, $categoryEntity);
+        }
+
+        return $categoryEntity;
     }
 
 }

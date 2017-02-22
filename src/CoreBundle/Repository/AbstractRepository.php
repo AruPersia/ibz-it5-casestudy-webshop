@@ -2,7 +2,9 @@
 
 namespace CoreBundle\Repository;
 
+use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\ImageEntity;
+use CoreBundle\Entity\ProductEntity;
 use CoreBundle\Util\ValidateUtil;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -15,6 +17,33 @@ abstract class AbstractRepository
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param $id
+     * @return ImageEntity
+     */
+    public function imageEntityRefById($id): ImageEntity
+    {
+        return $this->entityManager->getReference('CoreBundle:ImageEntity', $id);
+    }
+
+    /**
+     * @param $id
+     * @return CustomerEntity
+     */
+    public function customerEntityRefById($id): CustomerEntity
+    {
+        return $this->entityManager->getReference('CoreBundle:CustomerEntity', $id);
+    }
+
+    /**
+     * @param $id
+     * @return ProductEntity
+     */
+    public function productEntityRefById($id): ProductEntity
+    {
+        return $this->entityManager->getReference('CoreBundle:ProductEntity', $id);
     }
 
     /**
@@ -42,15 +71,6 @@ abstract class AbstractRepository
     protected function merge($entity)
     {
         return $this->entityManager->merge(ValidateUtil::notNull($entity));
-    }
-
-    /**
-     * @param $id
-     * @return ImageEntity
-     */
-    protected function imageEntityRefById($id): ImageEntity
-    {
-        return $this->entityManager->getReference('CoreBundle:ImageEntity', $id);
     }
 
     protected function createRepository($name): EntityRepository

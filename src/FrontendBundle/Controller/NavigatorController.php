@@ -2,7 +2,7 @@
 
 namespace FrontendBundle\Controller;
 
-use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Entity\CategoryEntityBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,7 +40,7 @@ class NavigatorController extends ServiceController
     }
 
     /**
-     * @return CategoryEntity[]
+     * @return CategoryEntityBuilder[]
      */
     private function getRootCategories()
     {

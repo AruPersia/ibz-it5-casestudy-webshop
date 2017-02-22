@@ -3,19 +3,24 @@
 namespace CoreBundle\Repository;
 
 use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Model\Path;
 use Doctrine\ORM\EntityRepository;
 
 class CategoryRepository extends AbstractRepository
 {
 
-    public function create($path): CategoryEntity
+    public function create(Path $path): CategoryEntity
     {
-        $entity = $this->findByPath($path);
-        if ($entity == null) {
-            $entity = CategoryEntity::instance()->setPath($path);
+        $categoryEntity = $this->findByPath($path->getPath());
+
+        if ($categoryEntity == null) {
+            $categoryEntity = CategoryEntity::instance()->setPath($path->getPath());
+            if ($path->getParent() != null) {
+                $categoryEntity->setParent($this->create($path->getParent()));
+            }
         }
 
-        return $this->persist($entity);
+        return $this->persist($categoryEntity);
     }
 
     /**

@@ -13,6 +13,12 @@ services:
     repository.product:
         class: CoreBundle\Repository\ProductRepository
         arguments: ["@doctrine.orm.entity_manager"]
+    repository.customer:
+        class: CoreBundle\Repository\CustomerRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.order:
+        class: CoreBundle\Repository\OrderRepository
+        arguments: ["@doctrine.orm.entity_manager"]
 
     # Services
     service.category:
@@ -21,3 +27,6 @@ services:
     service.product:
         class: CoreBundle\Service\Db\ProductService
         arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]
+    service.order:
+        class: CoreBundle\Service\Db\OrderService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.order"]

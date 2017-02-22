@@ -2,9 +2,11 @@
 
 namespace Tests\CoreBundle\Service\Db;
 
+use CoreBundle\Model\Category;
 use CoreBundle\Model\CategoryBuilder;
 use CoreBundle\Model\Image;
 use CoreBundle\Model\ImageBuilder;
+use CoreBundle\Model\PathBuilder;
 use CoreBundle\Model\Product;
 use CoreBundle\Model\ProductBuilder;
 use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
@@ -45,8 +47,8 @@ class ProductServiceTest extends KernelTestCaseWithDbSupport
         }
 
         // when
-        $pcProducts = $this->productService()->findByCategoryPath('PC');
-        $componentProducts = $this->productService()->findByCategoryPath('PC/Components');
+        $pcProducts = $this->productService()->findByCategoryPath('/');
+        $componentProducts = $this->productService()->findByCategoryPath('/Mobile/Samsung');
 
         // then
         $this->assertCount(0, $pcProducts);
@@ -103,11 +105,12 @@ class ProductServiceTest extends KernelTestCaseWithDbSupport
     {
         $name = 'Samsung Galaxy S7 - ' . uniqid();
         $description = 'Some description - ' . uniqid();
+        $category = new Category(null, PathBuilder::createByPath('Mobile/Samsung'));
         return $product = ProductBuilder::instance()
             ->setName($name)
             ->setDescription($description)
             ->setPrice(12)
-            ->setCategory(CategoryBuilder::instance()->setPath('PC/Components')->build())
+            ->setCategory($category)
             ->setImage(ImageBuilder::instance()->setBinary($this->getSomePngBinary())->build())
             ->setImages($this->createDefaultImages(5))
             ->build();

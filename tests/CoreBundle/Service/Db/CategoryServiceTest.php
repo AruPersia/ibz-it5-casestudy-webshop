@@ -2,8 +2,8 @@
 
 namespace Tests\CoreBundle\Service\Db;
 
-use CoreBundle\Model\Category;
-use CoreBundle\Model\CategoryBuilder;
+use CoreBundle\Model\Path;
+use CoreBundle\Model\PathBuilder;
 use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
 
 class CategoryServiceTest extends KernelTestCaseWithDbSupport
@@ -12,31 +12,68 @@ class CategoryServiceTest extends KernelTestCaseWithDbSupport
     public function testCreateCategoryShouldWorkProperly()
     {
         // given
-        $category = $this->createDefaultCategory();
+        $path = $this->createDefaultPath()->build();
 
         // when
-        $createdCategory = $this->categoryService()->create($category);
+        $category = $this->categoryService()->create($path);
 
         // then
-        $this->assertNotNull($createdCategory);
+        $parent = $this->assertPath('/PC/Components/Peripherals/Hard disk', $category->getPath());
+        $parent = $this->assertPath('/PC/Components/Peripherals', $parent);
+        $parent = $this->assertPath('/PC/Components', $parent);
+        $parent = $this->assertPath('/PC', $parent);
+        $this->assertPath('/', $parent);
     }
 
-    private function createDefaultCategory(): Category
+    public function testNonDuplicatedPathShouldBeCreated()
     {
-        return CategoryBuilder::instance()
-            ->setPath('A')
-            ->addChild(CategoryBuilder::instance()->setPath('A1'))
-            ->addChild(CategoryBuilder::instance()->setPath('A2'))
-            ->addChild(CategoryBuilder::instance()->setPath('A3'))
-            ->createNode('B')
-            ->addChild(CategoryBuilder::instance()->setPath('B1'))
-            ->addChild(CategoryBuilder::instance()->setPath('B2'))
-            ->addChild(CategoryBuilder::instance()->setPath('B3'))
-            ->createNode('C')
-            ->addChild(CategoryBuilder::instance()->setPath('C1'))
-            ->addChild(CategoryBuilder::instance()->setPath('C2'))
-            ->addChild(CategoryBuilder::instance()->setPath('C3'))
-            ->build();
+        // given
+        $path = $this->createDefaultPath()->build();
+        $pathSsd = $this->createDefaultPath()->createChild('SSD')->build();
+        $pathScsi = $this->createDefaultPath()->createChild('SCSI')->build();
+
+        // when
+        $category = $this->categoryService()->create($path);
+        $categorySsd = $this->categoryService()->create($pathSsd);
+        $categoryScsi = $this->categoryService()->create($pathScsi);
+
+        // then
+        $this->assertEquals(5, $category->getId());
+        $parent = $this->assertPath('/PC/Components/Peripherals/Hard disk', $category->getPath());
+        $parent = $this->assertPath('/PC/Components/Peripherals', $parent);
+        $parent = $this->assertPath('/PC/Components', $parent);
+        $parent = $this->assertPath('/PC', $parent);
+        $this->assertPath('/', $parent);
+
+        $this->assertEquals(6, $categorySsd->getId());
+        $parent = $this->assertPath('/PC/Components/Peripherals/Hard disk/SSD', $categorySsd->getPath());
+        $parent = $this->assertPath('/PC/Components/Peripherals/Hard disk', $parent);
+        $parent = $this->assertPath('/PC/Components/Peripherals', $parent);
+        $parent = $this->assertPath('/PC/Components', $parent);
+        $parent = $this->assertPath('/PC', $parent);
+        $this->assertPath('/', $parent);
+
+        $this->assertEquals(7, $categoryScsi->getId());
+        $parent = $this->assertPath('/PC/Components/Peripherals/Hard disk/SCSI', $categoryScsi->getPath());
+        $parent = $this->assertPath('/PC/Components/Peripherals/Hard disk', $parent);
+        $parent = $this->assertPath('/PC/Components/Peripherals', $parent);
+        $parent = $this->assertPath('/PC/Components', $parent);
+        $parent = $this->assertPath('/PC', $parent);
+        $this->assertPath('/', $parent);
+    }
+
+    private function createDefaultPath(): PathBuilder
+    {
+        return PathBuilder::create('PC')
+            ->createChild('Components')
+            ->createChild('Peripherals')
+            ->createChild('Hard disk');
+    }
+
+    private function assertPath(String $expectedPath, Path $path)
+    {
+        $this->assertEquals($expectedPath, $path->getPath());
+        return $path->getParent();
     }
 
 }

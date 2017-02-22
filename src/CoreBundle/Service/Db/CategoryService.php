@@ -2,8 +2,8 @@
 
 namespace CoreBundle\Service\Db;
 
-use CoreBundle\Entity\CategoryEntity;
 use CoreBundle\Model\Category;
+use CoreBundle\Model\Path;
 use CoreBundle\Repository\CategoryRepository;
 use CoreBundle\Util\ValidateUtil;
 use Doctrine\ORM\EntityManager;
@@ -20,21 +20,10 @@ class CategoryService extends EntityService
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function create(Category $category): Category
+    public function create(Path $path): Category
     {
-        $entity = $this->doCreate($category);
+        $categoryEntity = $this->categoryRepository->create($path);
         $this->flush();
-        return CategoryMapper::mapToCategory($entity);
+        return CategoryMapper::mapToCategory($categoryEntity);
     }
-
-    private function doCreate(Category $category): CategoryEntity
-    {
-        $entity = $this->categoryRepository->create($category->getPath());
-        foreach ($category->getChildren() as $child) {
-            $entity->addChild($this->doCreate($child));
-        }
-
-        return $entity;
-    }
-
 }

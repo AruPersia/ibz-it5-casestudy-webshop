@@ -3,6 +3,7 @@ namespace Tests\CoreBundle\Boot;
 
 use BackendBundle\DataFixtures\ORM\LoadDefaultData;
 use CoreBundle\Service\Db\CategoryService;
+use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -30,16 +31,27 @@ class KernelTestCaseWithDbSupport extends KernelTestCase
     private $metadata;
 
     /**
-     * @return \CoreBundle\Service\Db\CategoryService
+     * @return CategoryService
      */
     protected function categoryService(): CategoryService
     {
         return $this->container->get('service.category');
     }
 
+    /**
+     * @return ProductService
+     */
     protected function productService(): ProductService
     {
         return $this->container->get('service.product');
+    }
+
+    /**
+     * @return OrderService
+     */
+    protected function orderService(): OrderService
+    {
+        return $this->container->get('service.order');
     }
 
     protected function setUp()

@@ -3,35 +3,20 @@
 namespace CoreBundle\Service\Db;
 
 use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Entity\CategoryEntityBuilder;
 use CoreBundle\Model\Category;
-use CoreBundle\Model\CategoryBuilder;
+use CoreBundle\Model\PathBuilder;
 
 class CategoryMapper
 {
 
     /**
-     * @param CategoryEntity|null $categoryEntity
+     * @param CategoryEntity $categoryEntity
      * @return Category
      */
-    public static function mapToCategory(CategoryEntity $categoryEntity = null)
+    public static function mapToCategory(CategoryEntity $categoryEntity): Category
     {
-        if ($categoryEntity == null) {
-            return null;
-        }
-
-        $builder = CategoryBuilder::instance()
-            ->setId($categoryEntity->getId())
-            ->setPath($categoryEntity->getPath());
-
-        foreach ($categoryEntity->getChildren() as $childEntity) {
-            $childBuilder = CategoryBuilder::instance()
-                ->setId($childEntity->getId())
-                ->setPath($childEntity->getPath());
-
-            $builder->addChild($childBuilder);
-        }
-
-        return $builder->build();
+        return new Category($categoryEntity->getId(), PathBuilder::createByPath($categoryEntity->getPath()));
     }
 
 }

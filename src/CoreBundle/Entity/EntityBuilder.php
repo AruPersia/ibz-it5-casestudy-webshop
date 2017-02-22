@@ -3,7 +3,7 @@
 namespace CoreBundle\Entity;
 
 
-interface Entity
+interface EntityBuilder
 {
     public static function instance();
 }

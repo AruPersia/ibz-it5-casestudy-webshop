@@ -3,7 +3,7 @@
 namespace BackendBundle\DataFixtures\ORM;
 
 use BackendBundle\Entity\AdministratorEntity;
-use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Entity\CategoryEntityBuilder;
 use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\ProductEntity;
 use CoreBundle\Entity\StockEntity;
@@ -91,7 +91,7 @@ class LoadDefaultData implements FixtureInterface
     {
         $this->categoryEntities[0] = null;
         foreach ($this->categories as $category) {
-            $categoryEntity = new CategoryEntity();
+            $categoryEntity = new CategoryEntityBuilder();
             $categoryEntity->setId($category[0]);
             $categoryEntity->setName($category[1]);
             $categoryEntity->setPath($category[2]);
