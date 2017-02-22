@@ -7,19 +7,18 @@ use Tests\CoreBundle\Boot\WithDefaultData;
 class OrderServiceTest extends WithDefaultData
 {
 
-    public function testCreateCategoryShouldWorkProperly()
+    public function testCreateOrderShouldWorkProperly()
     {
         // given
         $customerId = 1;
-        $productIds = [1, 2];
+        $productIds = [1, 2, 3, 4, 5];
 
         // when
-        $this->orderService()->create($customerId, $productIds);
+        $order = $this->orderService()->create($customerId, $productIds);
 
         // then
-        $result = $this->orderService()->findByCustomerId(1);
-        $this->assertCount(1, $result);
-        $this->assertCount(2, $result[0]->getOrderLines());
+        $this->assertNotNull($order);
+        $this->assertCount(5, $order->getOrderLines());
     }
 
 }
