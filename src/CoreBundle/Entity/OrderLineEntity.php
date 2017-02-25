@@ -72,7 +72,7 @@ class OrderLineEntity implements EntityBuilder
         return $this->product;
     }
 
-    public function setProduct($product): OrderLineEntity
+    public function setProduct(ProductEntity $product): OrderLineEntity
     {
         $this->product = $product;
         return $this;

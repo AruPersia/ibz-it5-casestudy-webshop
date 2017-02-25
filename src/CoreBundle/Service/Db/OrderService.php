@@ -2,7 +2,9 @@
 
 namespace CoreBundle\Service\Db;
 
+use CoreBundle\Entity\OrderEntity;
 use CoreBundle\Model\Order;
+use CoreBundle\Model\OrderLine;
 use CoreBundle\Repository\OrderRepository;
 use Doctrine\ORM\EntityManager;
 
@@ -19,20 +21,25 @@ class OrderService extends EntityService
 
     /**
      * @param $customerId
-     * @param $productIds
+     * @param OrderLine[] $orderLines
      * @return Order
      */
-    public function create($customerId, $productIds): Order
+    public function create($customerId, $orderLines): Order
     {
-        // TODO Load customer dynamic
-        $customerEntity = $this->orderRepository->customerEntityRefById($customerId);
-        $productEntities = array();
-        foreach ($productIds as $id) {
-            $productEntities[] = $this->orderRepository->productEntityRefById($id);
-        }
-        $orderEntity = $this->orderRepository->create($customerEntity, $productEntities);
 
+        $orderEntity = OrderEntity::instance()
+            ->setCustomer($this->orderRepository->customerEntityRefById($customerId))
+            ->setOrderDate(new \DateTime())
+            ->setShipmentDate(new \DateTime());
+
+        foreach ($orderLines as $orderLine) {
+            $productEntity = $this->orderRepository->productEntityRefById($orderLine->getProduct()->getId());
+            $orderEntity->addLine($productEntity, $orderLine->getQuantity());
+        }
+
+        $orderEntity = $this->orderRepository->create($orderEntity);
         $this->flush();
+
         return OrderMapper::mapToOrder($orderEntity);
     }
 

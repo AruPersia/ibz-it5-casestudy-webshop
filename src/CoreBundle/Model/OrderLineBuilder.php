@@ -27,7 +27,7 @@ class OrderLineBuilder
         return $this;
     }
 
-    public function setProduct($product): OrderLineBuilder
+    public function setProduct(Product $product): OrderLineBuilder
     {
         $this->product = $product;
         return $this;

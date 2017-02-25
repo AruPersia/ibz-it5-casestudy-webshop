@@ -50,6 +50,17 @@ class OrderEntity implements EntityBuilder
         return new OrderEntity();
     }
 
+    public function addLine(ProductEntity $productEntity, $quantity): OrderEntity
+    {
+        $this->orderLines->add(OrderLineEntity::instance()
+            ->setOrder($this)
+            ->setProduct($productEntity)
+            ->setPrice($productEntity->getPrice())
+            ->setQuantity($quantity));
+
+        return $this;
+    }
+
     public function getId()
     {
         return $this->id;

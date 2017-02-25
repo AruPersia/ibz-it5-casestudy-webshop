@@ -11,37 +11,17 @@ namespace CoreBundle\Repository;
 
 use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\OrderEntity;
-use CoreBundle\Entity\OrderLineEntity;
-use CoreBundle\Entity\ProductEntity;
 use Doctrine\ORM\EntityRepository;
 
 class OrderRepository extends AbstractRepository
 {
 
     /**
-     * @param CustomerEntity $customer
-     * @param ProductEntity[] $products
+     * @param OrderEntity $orderEntity
      * @return OrderEntity
      */
-    public function create(CustomerEntity $customer, $products): OrderEntity
+    public function create(OrderEntity $orderEntity): OrderEntity
     {
-        $orderEntity = OrderEntity::instance()
-            ->setCustomer($customer)
-            ->setOrderDate(new \DateTime())
-            ->setShipmentDate(new \DateTime());
-
-        $orderLines = $orderEntity->getOrderLines();
-
-        foreach ($products as $product) {
-            $line = OrderLineEntity::instance()
-                ->setOrder($orderEntity)
-                ->setProduct($product)
-                ->setQuantity(111)
-                ->setPrice($product->getPrice());
-
-            $orderLines->add($line);
-        }
-
         return $this->persist($orderEntity);
     }
 
