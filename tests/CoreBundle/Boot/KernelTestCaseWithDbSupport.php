@@ -5,6 +5,7 @@ use BackendBundle\DataFixtures\ORM\LoadDefaultData;
 use CoreBundle\Service\Db\CategoryService;
 use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
+use CoreBundle\Service\Db\StockService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -52,6 +53,14 @@ class KernelTestCaseWithDbSupport extends KernelTestCase
     protected function orderService(): OrderService
     {
         return $this->container->get('service.order');
+    }
+
+    /**
+     * @return StockService
+     */
+    protected function stockService(): StockService
+    {
+        return $this->container->get('service.stock');
     }
 
     protected function setUp()

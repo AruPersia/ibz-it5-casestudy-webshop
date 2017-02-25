@@ -140,7 +140,7 @@ class LoadDefaultData implements FixtureInterface
     {
         foreach ($this->stocks() as $stock) {
             $stockEntity = new StockEntity();
-            $stockEntity->setProductId($stock[0]);
+            $stockEntity->setProduct($stock[0]);
             $stockEntity->setInventoryDate($stock[1]);
             $stockEntity->setQuantity($stock[2]);
             $manager->persist($stockEntity);

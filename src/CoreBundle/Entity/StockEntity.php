@@ -6,21 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="stock",
- *     indexes={
- *      @ORM\Index(name="productId_inventoryDate_idx", columns={"product_id", "inventory_date"})
- *     })
+ * @ORM\Table(name="stock")
  */
 class StockEntity
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="CoreBundle\Entity\ProductEntity")
+     * @ORM\JoinColumn(name="productId", referencedColumnName="id")
      */
-    private $productId;
+    private $product;
 
     /**
-     * @ORM\Column(type="datetime", nullable=FALSE)
+     * @ORM\Column(name="inventoryDate", type="datetime", nullable=FALSE)
      */
     private $inventoryDate;
 
@@ -29,14 +27,26 @@ class StockEntity
      */
     private $quantity;
 
-    public function getProductId()
+    public static function instance(): StockEntity
     {
-        return $this->productId;
+        return new StockEntity();
     }
 
-    public function setProductId($productId)
+    public function changeQuantity($quantity): StockEntity
     {
-        $this->productId = $productId;
+        $this->quantity = $this->quantity + $quantity;
+        return $this;
+    }
+
+    public function getProduct(): ProductEntity
+    {
+        return $this->product;
+    }
+
+    public function setProduct(ProductEntity $product): StockEntity
+    {
+        $this->product = $product;
+        return $this;
     }
 
     public function getInventoryDate()
@@ -44,9 +54,10 @@ class StockEntity
         return $this->inventoryDate;
     }
 
-    public function setInventoryDate($inventoryDate)
+    public function setInventoryDate($inventoryDate): StockEntity
     {
         $this->inventoryDate = $inventoryDate;
+        return $this;
     }
 
     public function getQuantity()
@@ -54,9 +65,10 @@ class StockEntity
         return $this->quantity;
     }
 
-    public function setQuantity($quantity)
+    public function setQuantity($quantity): StockEntity
     {
         $this->quantity = $quantity;
+        return $this;
     }
 
 }
