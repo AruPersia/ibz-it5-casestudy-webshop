@@ -4,7 +4,7 @@ namespace FrontendBundle\Form;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class RegistrationFormData
+class RegistrationData
 {
 
     /**
@@ -30,7 +30,7 @@ class RegistrationFormData
 
     public static function builder()
     {
-        return new RegistrationFormData();
+        return new RegistrationData();
     }
 
     public function getFirstName()

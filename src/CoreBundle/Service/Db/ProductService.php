@@ -88,10 +88,9 @@ class ProductService extends EntityService
      * @param $path
      * @return Product[]
      */
-    public function findByCategoryPath($path)
+    public function findByPath($path)
     {
-        $categoryEntity = $this->categoryRepository->findByPath($path);
-        return ProductMapper::mapToProducts($this->productRepository->findByCategory($categoryEntity));
+        return ProductMapper::mapToProducts($this->productRepository->findByPath($path));
     }
 
     private function createCategory(Category $category, CategoryEntity $parent = null): CategoryEntity

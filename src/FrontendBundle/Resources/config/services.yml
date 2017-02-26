@@ -1,11 +1,19 @@
 services:
-    frontend.service.db.registration:
-        class:  FrontendBundle\Service\Db\RegistrationService
+    repository.customer:
+        class: CoreBundle\Repository\CustomerRepository
         arguments: ["@doctrine.orm.entity_manager"]
 
-    frontend.service.db.frontend.category:
+    frontend.service.db.registration:
+        class:  FrontendBundle\Service\Db\RegistrationService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.customer"]
+
+    frontend.service.category:
         class:  FrontendBundle\Service\Db\CategoryService
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@repository.category"]
+
+    frontend.service.product:
+        class: FrontendBundle\Service\Db\ProductService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]
 
     frontend.service.shopping.cart:
         class: FrontendBundle\Service\ShoppingCart\DbShoppingCartService

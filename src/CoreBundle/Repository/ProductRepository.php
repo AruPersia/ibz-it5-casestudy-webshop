@@ -76,12 +76,18 @@ class ProductRepository extends AbstractRepository
     }
 
     /**
-     * @param CategoryEntity $categoryEntity
+     * @param String $path
      * @return ProductEntity[]
      */
-    public function findByCategory(CategoryEntity $categoryEntity)
+    public function findByPath(String $path)
     {
-        return $this->repository()->findBy(['category' => $categoryEntity]);
+        return $this->repository()
+            ->createQueryBuilder('p')
+            ->join('p.category', 'c')
+            ->where('c.path like :aaa')
+            ->setParameter('aaa', $path . '%')
+            ->getQuery()
+            ->getResult();
     }
 
     protected function repository(): EntityRepository

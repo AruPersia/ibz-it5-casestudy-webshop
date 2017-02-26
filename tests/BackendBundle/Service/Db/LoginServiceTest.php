@@ -5,9 +5,9 @@ namespace Tests\BackendBundle\Service\Db;
 use BackendBundle\Entity\AdministratorEntity;
 use BackendBundle\Form\LoginData;
 use CoreBundle\Util\PasswordUtil;
-use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
+use Tests\CoreBundle\Boot\TestWithDb;
 
-class LoginServiceTest extends KernelTestCaseWithDbSupport
+class LoginServiceTest extends TestWithDb
 {
 
     public function testLoginShouldNotBeSuccessful()

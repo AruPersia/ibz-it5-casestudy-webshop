@@ -4,9 +4,9 @@ namespace Tests\CoreBundle\Service\Db;
 
 use CoreBundle\Model\Path;
 use CoreBundle\Model\PathBuilder;
-use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
+use Tests\CoreBundle\Boot\TestWithDb;
 
-class CategoryServiceTest extends KernelTestCaseWithDbSupport
+class CategoryServiceTest extends TestWithDb
 {
 
     public function testCreateCategoryShouldWorkProperly()

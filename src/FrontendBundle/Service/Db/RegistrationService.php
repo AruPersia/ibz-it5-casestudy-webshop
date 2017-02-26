@@ -1,66 +1,34 @@
 <?php
 namespace FrontendBundle\Service\Db;
 
-use CoreBundle\Entity\CustomerEntity;
-use CoreBundle\Service\Db\EntityManagerService;
-use CoreBundle\Util\PasswordUtil;
-use FrontendBundle\Form\RegistrationFormData;
+use CoreBundle\Model\Customer;
+use CoreBundle\Repository\CustomerRepository;
+use CoreBundle\Service\Db\CustomerMapper;
+use CoreBundle\Service\Db\EntityService;
+use Doctrine\ORM\EntityManager;
+use FrontendBundle\Form\RegistrationData;
 
-class RegistrationService extends EntityManagerService
+class RegistrationService extends EntityService
 {
 
-    /**
-     * @param RegistrationFormData $registrationFormData
-     * @return CustomerEntity
-     */
-    public function register(RegistrationFormData $registrationFormData)
-    {
-        $customerEntity = new CustomerEntity();
-        $customerEntity->setFirstName($registrationFormData->getFirstName());
-        $customerEntity->setLastName($registrationFormData->getLastName());
-        $customerEntity->setEmail($registrationFormData->getEmail());
-        $customerEntity->setPassword(PasswordUtil::encrypt($registrationFormData->getPassword()));
-        $customerEntity->setRoles('CUSTOMER');
-        $this->save($customerEntity);
+    private $customerRepository;
 
-        return $customerEntity;
+    public function __construct(EntityManager $entityManager, CustomerRepository $customerRepository)
+    {
+        parent::__construct($entityManager);
+        $this->customerRepository = $customerRepository;
     }
 
-    public function save(CustomerEntity $customerEntity)
+    public function create(RegistrationData $formData): Customer
     {
-        $this->em->persist($customerEntity);
-        $this->em->flush();
-    }
+        $customerEntity = $this->customerRepository->create(
+            $formData->getFirstName(),
+            $formData->getLastName(),
+            $formData->getEmail(),
+            $formData->getPassword());
 
-    public function update(CustomerEntity $customerEntity)
-    {
-        $this->em->merge($customerEntity);
-        $this->em->flush();
-    }
-
-    /**
-     * @param String $email
-     * @param String $password
-     * @return null|CustomerEntity
-     */
-    public function findByEmailAndPassword(String $email, String $password)
-    {
-        return $this->getRepository()->findOneBy([
-            'email' => $email,
-            'password' => PasswordUtil::encrypt($password)
-        ]);
-    }
-
-    private function getRepository()
-    {
-        return $this->em->getRepository('CoreBundle:CustomerEntity');
-    }
-
-    public function delete(Int $customerId)
-    {
-        $customerRef = $this->em->getReference('AppBundle:CustomerEntity', $customerId);
-        $this->em->remove($customerRef);
-        $this->em->flush();
+        $this->flush();
+        return CustomerMapper::mapToCustomer($customerEntity);
     }
 
 }

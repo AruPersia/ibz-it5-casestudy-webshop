@@ -17,6 +17,7 @@ class ProductBuilder implements Builder
     private function __construct()
     {
         // private constructor
+        $this->images = array();
     }
 
     public static function instance(): ProductBuilder

@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManager;
 class CategoryService extends EntityService
 {
 
-    private $categoryRepository;
+    protected $categoryRepository;
 
     public function __construct(EntityManager $entityManager, CategoryRepository $categoryRepository)
     {
@@ -26,4 +26,10 @@ class CategoryService extends EntityService
         $this->flush();
         return CategoryMapper::mapToCategory($categoryEntity);
     }
+
+    public function findByPath($path): Category
+    {
+        return CategoryMapper::mapToCategory($this->categoryRepository->findByPath($path));
+    }
+
 }

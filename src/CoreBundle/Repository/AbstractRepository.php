@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Repository;
 
+use CoreBundle\Entity\CategoryEntity;
 use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Entity\ImageEntity;
 use CoreBundle\Entity\ProductEntity;
@@ -17,6 +18,15 @@ abstract class AbstractRepository
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param $id
+     * @return CategoryEntity
+     */
+    public function categoryEntityRefById($id): CategoryEntity
+    {
+        return $this->entityManager->getReference('CoreBundle:CategoryEntity', $id);
     }
 
     /**

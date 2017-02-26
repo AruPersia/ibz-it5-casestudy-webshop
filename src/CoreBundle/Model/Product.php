@@ -73,4 +73,10 @@ class Product
         return $this->images;
     }
 
+    function __toString()
+    {
+        return sprintf('{%s {%d, %s, %s, %d}}', __CLASS__, $this->id, $this->name, $this->description, $this->price);
+    }
+
+
 }

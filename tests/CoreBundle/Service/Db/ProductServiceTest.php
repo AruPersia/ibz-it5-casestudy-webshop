@@ -3,15 +3,14 @@
 namespace Tests\CoreBundle\Service\Db;
 
 use CoreBundle\Model\Category;
-use CoreBundle\Model\CategoryBuilder;
 use CoreBundle\Model\Image;
 use CoreBundle\Model\ImageBuilder;
 use CoreBundle\Model\PathBuilder;
 use CoreBundle\Model\Product;
 use CoreBundle\Model\ProductBuilder;
-use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
+use Tests\CoreBundle\Boot\TestWithDb;
 
-class ProductServiceTest extends KernelTestCaseWithDbSupport
+class ProductServiceTest extends TestWithDb
 {
 
     public function testCreateProductShouldWorkProperly()
@@ -24,6 +23,7 @@ class ProductServiceTest extends KernelTestCaseWithDbSupport
 
         // then
         $this->assertEquals(1, $createdProduct->getId());
+        $this->assertEquals($this->getSomePngBinary(), $createdProduct->getImage()->getBinary());
         $this->assertProductWithoutId($product, $createdProduct);
     }
 
@@ -43,16 +43,21 @@ class ProductServiceTest extends KernelTestCaseWithDbSupport
     {
         // given
         for ($i = 0; $i < 10; $i++) {
-            $this->productService()->create($this->createDefaultProduct());
+            $this->productService()->create($this->createDefaultProduct('/Mobile/Samsung'));
+            $this->productService()->create($this->createDefaultProduct('/Mobile/Apple'));
         }
 
         // when
-        $pcProducts = $this->productService()->findByCategoryPath('/');
-        $componentProducts = $this->productService()->findByCategoryPath('/Mobile/Samsung');
+        $allProducts = $this->productService()->findByPath('/');
+        $mobiles = $this->productService()->findByPath('/Mobile');
+        $samsungMobiles = $this->productService()->findByPath('/Mobile/Samsung');
+        $appleMobiles = $this->productService()->findByPath('/Mobile/Samsung');
 
         // then
-        $this->assertCount(0, $pcProducts);
-        $this->assertCount(10, $componentProducts);
+        $this->assertCount(20, $allProducts);
+        $this->assertCount(20, $mobiles);
+        $this->assertCount(10, $samsungMobiles);
+        $this->assertCount(10, $appleMobiles);
     }
 
     public function testAddImageShouldWorkProperly()
@@ -101,11 +106,11 @@ class ProductServiceTest extends KernelTestCaseWithDbSupport
         $this->assertEquals($expected->getImage()->getBinary(), $actual->getImage()->getBinary());
     }
 
-    private function createDefaultProduct(): Product
+    private function createDefaultProduct($path = 'Mobile/Samsung'): Product
     {
         $name = 'Samsung Galaxy S7 - ' . uniqid();
         $description = 'Some description - ' . uniqid();
-        $category = new Category(null, PathBuilder::createByPath('Mobile/Samsung'));
+        $category = new Category(null, PathBuilder::createByPath($path));
         return $product = ProductBuilder::instance()
             ->setName($name)
             ->setDescription($description)
@@ -131,7 +136,7 @@ class ProductServiceTest extends KernelTestCaseWithDbSupport
 
     private function getSomePngBinary()
     {
-        return file_get_contents('./web/bundles/framework/images/logo_symfony.png');
+        return file_get_contents('./web/images/no-product.jpg');
     }
 
 }

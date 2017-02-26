@@ -2,26 +2,27 @@
 
 namespace FrontendBundle\Controller;
 
-use CoreBundle\Controller\CoreController;
+use FrontendBundle\Service\Db\CategoryService;
+use FrontendBundle\Service\Db\ProductService;
+use FrontendBundle\Service\Db\RegistrationService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 
-class ServiceController extends CoreController
+abstract class ServiceController extends FormController
 {
 
-    /**
-     * @return \FrontendBundle\Service\Db\RegistrationService
-     */
-    protected function getRegistrationService()
+    protected function productService(): ProductService
     {
-        return $this->get('frontend.service.db.registration');
+        return $this->get('frontend.service.product');
     }
 
-    /**
-     * @return \FrontendBundle\Service\Db\CategoryService
-     */
-    protected function getCategoryService()
+    protected function categoryService(): CategoryService
     {
-        return $this->get('frontend.service.db.frontend.category');
+        return $this->get('frontend.service.category');
+    }
+
+    protected function registrationService(): RegistrationService
+    {
+        return $this->get('frontend.service.db.registration');
     }
 
     /**

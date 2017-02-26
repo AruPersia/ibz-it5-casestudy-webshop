@@ -3,11 +3,11 @@
 namespace Tests\FrontendBundle\Service\Db;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use FrontendBundle\Form\RegistrationFormData;
+use FrontendBundle\Form\RegistrationData;
 use FrontendBundle\Service\Db\RegistrationService;
-use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
+use Tests\CoreBundle\Boot\TestWithDb;
 
-class RegistrationServiceTest extends KernelTestCaseWithDbSupport
+class RegistrationServiceTest extends TestWithDb
 {
 
     public function testSaveNewCustomerShouldBeSuccessful()
@@ -26,7 +26,7 @@ class RegistrationServiceTest extends KernelTestCaseWithDbSupport
 
     private function createDefaultRegistrationData()
     {
-        return RegistrationFormData::builder()
+        return RegistrationData::builder()
             ->setFirstName('Brad')
             ->setLastName('Pitt')
             ->setEmail('brad.pitt@eample.gmail.com')

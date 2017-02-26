@@ -1,9 +1,10 @@
-{% extends '@Frontend/base.html.twig' %}
+{% extends '@Frontend/category.html.twig' %}
 
 {% block title %}Join us{% endblock %}
 
-{% block body %}
+{% block content %}
 
-    {{ form(registrationForm, {'title': 'Create an account', 'action': path('frontendRegistrationSubmitForm')}) }}
+    <h4 class="card-title">Registration</h4>
+    {{ form(registrationForm, {'action': path('registration_submit')}) }}
 
 {% endblock %}

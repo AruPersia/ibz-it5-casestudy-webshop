@@ -19,4 +19,17 @@ class CategoryMapper
         return new Category($categoryEntity->getId(), PathBuilder::createByPath($categoryEntity->getPath()));
     }
 
+    /**
+     * @param $categoryEntities
+     * @return Category[]
+     */
+    public static function mapToCategories($categoryEntities)
+    {
+        $categories = array();
+        foreach ($categoryEntities as $categoryEntity) {
+            $categories[] = self::mapToCategory($categoryEntity);
+        }
+        return $categories;
+    }
+
 }

@@ -18,6 +18,9 @@ class PathBuilder
     {
         $path = ltrim($path, Path::DELIMITER);
         $path = rtrim($path, Path::DELIMITER);
+        if (empty($path)) {
+            return (new PathBuilder())->setPath(Path::DELIMITER)->build();
+        }
         $names = explode(Path::DELIMITER, $path);
         $firstElementName = array_shift($names);
         $builder = PathBuilder::create($firstElementName);

@@ -1,7 +1,6 @@
 <?php
 namespace Tests\CoreBundle\Boot;
 
-use BackendBundle\DataFixtures\ORM\LoadDefaultData;
 use CoreBundle\Service\Db\CategoryService;
 use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
@@ -11,7 +10,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class KernelTestCaseWithDbSupport extends KernelTestCase
+class TestWithDb extends KernelTestCase
 {
 
     /**
@@ -73,9 +72,6 @@ class KernelTestCaseWithDbSupport extends KernelTestCase
         $this->metadata = $this->em->getMetadataFactory()->getAllMetadata();
         $this->dropTables();
         $this->createTables();
-
-        $loadDefaultData = new LoadDefaultData();
-        $loadDefaultData->load($this->em);
     }
 
     protected function tearDown()

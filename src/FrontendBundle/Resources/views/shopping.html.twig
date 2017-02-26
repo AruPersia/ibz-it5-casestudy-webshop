@@ -1,0 +1,36 @@
+{% extends '@Frontend/base.html.twig' %}
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">{% embed '@Frontend/header.html.twig' %}{% endembed %}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-block">
+                        {% block menuLeft %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-block">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-block">
+                        {% block menuRight %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">{% block footer %}{% endblock %}</div>
+        </div>
+    </div>
+
+{% endblock %}

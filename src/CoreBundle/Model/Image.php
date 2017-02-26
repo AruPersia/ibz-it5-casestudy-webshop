@@ -26,4 +26,9 @@ class Image
         return $this->binary;
     }
 
+    public function toBase64()
+    {
+        return base64_encode(stream_get_contents($this->binary));
+    }
+
 }

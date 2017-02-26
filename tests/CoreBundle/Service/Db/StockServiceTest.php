@@ -2,9 +2,9 @@
 
 namespace Tests\CoreBundle\Service\Db;
 
-use Tests\CoreBundle\Boot\WithDefaultData;
+use Tests\CoreBundle\Boot\TestWithDbDefaultData;
 
-class StockServiceTest extends WithDefaultData
+class StockServiceTest extends TestWithDbDefaultData
 {
 
     public function testAddProductToStockShouldWorkProperly()

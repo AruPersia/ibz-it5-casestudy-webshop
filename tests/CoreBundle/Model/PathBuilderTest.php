@@ -20,6 +20,16 @@ class PathBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertPath('/', $parent);
     }
 
+    public function testCreateEmptyPathShouldGiveRootElement()
+    {
+        // when
+        $path = PathBuilder::createByPath('');
+
+        // then
+        $this->assertNull($path->getParent());
+        $this->assertEquals(Path::DELIMITER, $path->getPath());
+    }
+
     private function assertPath(String $expectedPath, Path $path)
     {
         $this->assertEquals($expectedPath, $path->getPath());

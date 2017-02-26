@@ -4,9 +4,9 @@ namespace Tests\CoreBundle\Service\Db;
 
 use CoreBundle\Model\OrderLine;
 use CoreBundle\Model\OrderLineBuilder;
-use Tests\CoreBundle\Boot\WithDefaultData;
+use Tests\CoreBundle\Boot\TestWithDbDefaultData;
 
-class OrderServiceTest extends WithDefaultData
+class OrderServiceTest extends TestWithDbDefaultData
 {
 
     public function testCreateOrderShouldWorkProperly()
