@@ -3,32 +3,23 @@
 namespace FrontendBundle\Service\ShoppingCart;
 
 use CoreBundle\Entity\ProductEntity;
-use Symfony\Component\Intl\Exception\MethodNotImplementedException;
 
 class DbItem implements Item
 {
 
     private $productEntity;
     private $quantity = 1;
+    private $image;
 
     public function __construct(ProductEntity $productEntity)
     {
         $this->productEntity = $productEntity;
+        $this->image = base64_encode(stream_get_contents($this->productEntity->getImage()->getBinary()));
     }
 
     public function getImage()
     {
-        throw new MethodNotImplementedException(__METHOD__);
-    }
-
-    public function getJsonData()
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'quantity' => $this->getQuantity(),
-            'sum' => $this->getSum()
-        ];
+        return $this->image;
     }
 
     public function getId()
@@ -61,5 +52,15 @@ class DbItem implements Item
         return $this->productEntity->getPrice();
     }
 
+    public function getJsonData()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'quantity' => $this->getQuantity(),
+            'sum' => $this->getSum(),
+            'image' => 'data:image/png;base64,'.$this->getImage()
+        ];
+    }
 
 }

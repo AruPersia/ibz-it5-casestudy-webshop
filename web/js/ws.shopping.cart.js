@@ -11,9 +11,20 @@ var shoppingCartModule = angular.module('shoppingCartModule', [])
     });
 
 shoppingCartModule.controller('ShoppingCartController', function ($scope, $http) {
+    var total = 0;
     shoppingCart = this;
-
     shoppingCart.items = {};
+
+    shoppingCart.total = function () {
+        return total;
+    }
+
+    shoppingCart.updateTotalPrice = function () {
+        total = 0;
+        angular.forEach(shoppingCart.items, function (value, key) {
+            total = total + value.sum;
+        });
+    }
 
     $http.get(getItemsPath)
         .then(function (response) {
@@ -22,10 +33,12 @@ shoppingCartModule.controller('ShoppingCartController', function ($scope, $http)
                 items[value.id] = value;
             });
             shoppingCart.items = items;
+            shoppingCart.updateTotalPrice();
         });
 
     shoppingCart.increment = function (item) {
         shoppingCart.quantity(item, parseInt(item.quantity) + 1);
+        shoppingCart.updateTotalPrice();
     };
 
     shoppingCart.decrement = function (item) {
@@ -42,6 +55,7 @@ shoppingCartModule.controller('ShoppingCartController', function ($scope, $http)
         $http.get(path)
             .then(function (response) {
                 shoppingCart.items[item.id] = response.data;
+                shoppingCart.updateTotalPrice();
             });
     };
 
@@ -50,6 +64,7 @@ shoppingCartModule.controller('ShoppingCartController', function ($scope, $http)
         $http.get(path)
             .then(function (response) {
                 delete shoppingCart.items[response.data.id];
+                shoppingCart.updateTotalPrice();
             });
     };
 
@@ -58,6 +73,7 @@ shoppingCartModule.controller('ShoppingCartController', function ($scope, $http)
         $http.get(path)
             .then(function (response) {
                 shoppingCart.items[productId] = response.data;
+                shoppingCart.updateTotalPrice();
             });
     };
 

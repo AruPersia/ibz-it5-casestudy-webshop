@@ -14,8 +14,14 @@
                         <p><img src="data:image/png;base64,{{ product.image.toBase64 }}"></p>
                         <h5 class="card-title">{{ product.name }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">[manufacturer]</h6>
-                        <p class="card-text">{{ product.description }}</p>
-                        <p>{{ product.price }}</p>
+                        <p class="card-text">
+                            {{ product.description|length > 50 ? product.description[:50] ~ '...' : product.description }}
+                        </p>
+
+                        <button class="btn btn-primary" onclick="shoppingCart.add({{ product.id }})">
+                            <i class="fa fa fa-cart-arrow-down"></i>&nbsp;&nbsp;
+                            <b>{{ product.price }}.-</b>
+                        </button>
                     </div>
                 </div>
             </div>
