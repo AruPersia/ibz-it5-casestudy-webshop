@@ -1,0 +1,34 @@
+{% extends '@Frontend/category.html.twig' %}
+{% block content %}
+
+    <div>
+        <ul class="pagination text-center">
+            {% for step in currentStep.allSteps %}
+                <li class="page-item {{ step.name == currentStep.name ? 'active' : '' }}">
+                    <a class="page-link" href="#">{{ step.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% block checkoutContent %}{% endblock %}
+
+    <div class="row">
+        <div class="col-md-6">
+            {% block previousButton %}
+                {% if currentStep.hasPrevious %}
+                    <a class="btn btn-primary" href="{{ path('checkout_previous') }}"><i class="fa fa-arrow-left"></i>
+                        Back</a>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div class="col-md-6 text-right">
+            {% block nextButton %}
+                {% if currentStep.hastNext %}
+                    <a class="btn btn-primary" href="{{ path('checkout_next') }}">Next <i class="fa fa-arrow-right"></i></a>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}

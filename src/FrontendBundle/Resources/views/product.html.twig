@@ -31,5 +31,13 @@
 {% endblock %}
 
 {% block menuRight %}
-    {% embed '@Frontend/shopping.cart.html.twig' %}{% endembed %}
+    <h4>Shopping cart</h4>
+    <div class="ws-shopping-cart-items">
+        {% embed '@Frontend/shopping.cart.html.twig' %}{% endembed %}
+        <div class="row">
+            <div class="col-md-12 text-md-right">
+                <a class="btn btn-primary" href="{{ path('checkout') }}">Go to checkout </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

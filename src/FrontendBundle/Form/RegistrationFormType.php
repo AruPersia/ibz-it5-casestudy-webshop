@@ -2,6 +2,7 @@
 
 namespace FrontendBundle\Form;
 
+use CoreBundle\Form\AddressFormType;
 use CoreBundle\Form\Transformer\PasswordTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -26,7 +27,8 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'first_options' => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password')])
-            ->add('save', SubmitType::class, ['label' => 'Join']);
+            ->add('save', SubmitType::class, ['label' => 'Join'])
+            ->add('address', AddressFormType::class);
 
         $builder->get('password')->addModelTransformer(new PasswordTransformer());
     }

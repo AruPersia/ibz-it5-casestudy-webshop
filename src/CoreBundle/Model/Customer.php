@@ -9,13 +9,15 @@ class Customer
     private $firstName;
     private $lastName;
     private $email;
+    private $address;
 
-    public function __construct($id, $firstName, $lastName, $email)
+    public function __construct($id, $firstName, $lastName, $email, Address $address)
     {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
+        $this->address = $address;
     }
 
     public function getId()
@@ -36,6 +38,11 @@ class Customer
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function getAddress(): Address
+    {
+        return $this->address;
     }
 
 }

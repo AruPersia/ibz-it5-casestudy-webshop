@@ -25,7 +25,7 @@
     Bootstrap default form
 #####################################}
 {% block form %}
-    <form action="{{ action|default('#') }}" method="{{ method|default('POST') }}">
+    <form name="{{ name }}" action="{{ action|default('#') }}" method="{{ method|default('POST') }}">
         {% if title is defined %}
             <div class="form-group">
                 <h5>{{ title }}</h5>

@@ -23,6 +23,12 @@ class CustomerEntity extends SecurityEntity
     private $lastName;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\AddressEntity", cascade={"persist"})
+     * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
+     */
+    private $address;
+
+    /**
      * @ORM\OneToMany(targetEntity="CoreBundle\Entity\OrderEntity", mappedBy="customer", fetch="EAGER")
      */
     private $orders;
@@ -51,6 +57,16 @@ class CustomerEntity extends SecurityEntity
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+    }
+
+    public function getAddress(): AddressEntity
+    {
+        return $this->address;
+    }
+
+    public function setAddress(AddressEntity $address)
+    {
+        $this->address = $address;
     }
 
     public function getOrders()

@@ -25,7 +25,7 @@ class OrderLineEntity implements EntityBuilder
     private $order;
 
     /**
-     * @ORM\OneToOne(targetEntity="CoreBundle\Entity\ProductEntity")
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\ProductEntity")
      * @ORM\JoinColumn(name="productId", referencedColumnName="id")
      */
     private $product;

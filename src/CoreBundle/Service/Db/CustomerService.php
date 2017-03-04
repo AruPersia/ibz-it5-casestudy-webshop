@@ -3,22 +3,43 @@
 namespace CoreBundle\Service\Db;
 
 use CoreBundle\Model\Customer;
+use CoreBundle\Repository\AddressRepository;
 use CoreBundle\Repository\CustomerRepository;
+use CoreBundle\Util\PasswordUtil;
 use Doctrine\ORM\EntityManager;
 
 class CustomerService extends EntityService
 {
-    private $customerRepository;
 
-    public function __construct(EntityManager $entityManager, CustomerRepository $customerRepository)
+    private $customerRepository;
+    private $addressRepository;
+
+    public function __construct(EntityManager $entityManager, CustomerRepository $customerRepository, AddressRepository $addressRepository)
     {
         parent::__construct($entityManager);
         $this->customerRepository = $customerRepository;
+        $this->addressRepository = $addressRepository;
     }
 
     public function create(Customer $customer, $password): Customer
     {
-        $this->customerRepository->create($customer->getFirstName(), $customer->getLastName(), $customer->getEmail(), $password);
+        $address = $customer->getAddress();
+        $addressEntity = $this->addressRepository->create($address->getStreet(), $address->getHouseNumber(), $address->getPostCode(), $address->getCity());
+        $customerEntity = $this->customerRepository->create($customer->getFirstName(), $customer->getLastName(), $customer->getEmail(), $password, $addressEntity);
+        return CustomerMapper::mapToCustomer($customerEntity);
+    }
+
+    public function findOrCreate(Customer $customer): Customer
+    {
+        $customerEntity = $this->customerRepository->findCustomer($customer->getFirstName(), $customer->getLastName(), $customer->getEmail());
+
+        if ($customerEntity == null) {
+            $customer = $this->create($customer, PasswordUtil::encrypt(uniqid()));
+            $this->flush();
+            return $customer;
+        }
+
+        return CustomerMapper::mapToCustomer($customerEntity);
     }
 
 }

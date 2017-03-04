@@ -9,6 +9,7 @@ class CustomerBuilder
     private $firstName;
     private $lastName;
     private $email;
+    private $address;
 
     private function __construct()
     {
@@ -44,9 +45,15 @@ class CustomerBuilder
         return $this;
     }
 
+    public function setAddress($address): CustomerBuilder
+    {
+        $this->address = $address;
+        return $this;
+    }
+
     public function build(): Customer
     {
-        return new Customer($this->id, $this->firstName, $this->lastName, $this->email);
+        return new Customer($this->id, $this->firstName, $this->lastName, $this->email, $this->address);
     }
 
 }

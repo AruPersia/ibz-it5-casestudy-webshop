@@ -1,8 +1,4 @@
 services:
-    core.service.security:
-        class:  CoreBundle\Service\Security\SecurityService
-        arguments: ["@request_stack", "@security.token_storage", "@event_dispatcher"]
-
     # Repositories
     repository.category:
         class: CoreBundle\Repository\CategoryRepository

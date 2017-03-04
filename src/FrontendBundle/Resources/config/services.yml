@@ -3,9 +3,21 @@ services:
         class: CoreBundle\Repository\CustomerRepository
         arguments: ["@doctrine.orm.entity_manager"]
 
+    repository.address:
+        class: CoreBundle\Repository\AddressRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+
     frontend.service.db.registration:
         class:  FrontendBundle\Service\Db\RegistrationService
-        arguments: ["@doctrine.orm.entity_manager", "@repository.customer"]
+        arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]
+
+    frontend.service.db.customer:
+        class:  CoreBundle\Service\Db\CustomerService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]
+
+    frontend.service.db.security:
+        class:  CoreBundle\Service\Security\SecurityService
+        arguments: ["@request_stack", "@security.token_storage", "@event_dispatcher", "@repository.customer"]
 
     frontend.service.category:
         class:  FrontendBundle\Service\Db\CategoryService

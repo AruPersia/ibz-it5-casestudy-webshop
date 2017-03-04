@@ -23,6 +23,7 @@ class CustomerMapper
             ->setFirstName($customerEntity->getFirstName())
             ->setLastName($customerEntity->getLastName())
             ->setEmail($customerEntity->getEmail())
+            ->setAddress(AddressMapper::mapToAddress($customerEntity->getAddress()))
             ->build();
     }
 

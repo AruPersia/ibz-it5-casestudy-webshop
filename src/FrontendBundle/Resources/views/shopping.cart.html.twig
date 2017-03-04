@@ -1,47 +1,38 @@
-<h4>Cart</h4>
-<div class="ws-shopping-cart-items">
-    <div ng-controller="ShoppingCartController as shoppingCart">
-        <div class="row ws-shopping-cart-item" ng-repeat="item in shoppingCart.items">
-            <div class="col-md-3">
-                <img src="{ item.image }" width="80px;">
-            </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-12">{item.name}</div>
-                </div>
-                <div class="row font-weight-bold">
-                    <div class="col-md-9">
-                        <button ng-click="shoppingCart.remove(item)" class="btn btn-sm btn-outline-danger">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                        <button ng-click="shoppingCart.decrement(item)" class="btn btn-sm btn-outline-info">
-                            <i class="fa fa-arrow-down"></i>
-                        </button>
-                        <input title="item_quantity" type="text" ng-model="item.quantity"
-                               ng-blur="shoppingCart.quantityChanged(item)">
-                        <button ng-click="shoppingCart.increment(item)" class="btn btn-sm btn-outline-info">
-                            <i class="fa fa-arrow-up"></i>
-                        </button>
-                    </div>
-                    <div class="col-md-3 text-right ws-shopping-cart-item-sum">{item.sum}.-</div>
-                </div>
-            </div>
+<div ng-controller="ShoppingCartController as shoppingCart">
+    <div class="row ws-shopping-cart-item" ng-repeat="item in shoppingCart.items">
+        <div class="col-md-3">
+            <img src="{ item.image }" width="80px;">
         </div>
-
-        <br/>
-
-        <div class="row font-weight-bold">
-            <div class="col-md-12 text-md-right">
-                Total: { shoppingCart.total() }.-
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">{item.name}</div>
             </div>
-        </div>
-
-        <br/>
-
-        <div class="row">
-            <div class="col-md-12 text-md-right">
-                <a class="btn btn-primary" href="#">Go to checkout </a>
+            <div class="row font-weight-bold">
+                <div class="col-md-9">
+                    <button ng-click="shoppingCart.remove(item)" class="btn btn-sm btn-outline-danger">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button ng-click="shoppingCart.decrement(item)" class="btn btn-sm btn-outline-info">
+                        <i class="fa fa-arrow-down"></i>
+                    </button>
+                    <input title="item_quantity" type="text" ng-model="item.quantity"
+                           ng-blur="shoppingCart.quantityChanged(item)">
+                    <button ng-click="shoppingCart.increment(item)" class="btn btn-sm btn-outline-info">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
+                </div>
+                <div class="col-md-3 text-right ws-shopping-cart-item-sum">{item.sum}.-</div>
             </div>
         </div>
     </div>
+
+    <br/>
+
+    <div class="row font-weight-bold">
+        <div class="col-md-12 text-md-right">
+            Total: { shoppingCart.total() }.-
+        </div>
+    </div>
+
+    <br/>
 </div>

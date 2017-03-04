@@ -1,0 +1,9 @@
+{% extends '@Frontend/checkout.html.twig' %}
+{% block checkoutContent %}
+    {{ form(addressForm, {'name': 'addressForm', 'action': path('checkout_address_verify')}) }}
+{% endblock %}
+
+{% block nextButton %}
+    <button class="btn btn-primary" onclick="document.getElementsByName('addressForm')[0].submit()">
+        Next <i class="fa fa-arrow-right"></i></button>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace FrontendBundle\DataFixtures\ORM;
 
 use CoreBundle\Entity\CategoryEntityBuilder;
+use CoreBundle\Repository\AddressRepository;
 use CoreBundle\Repository\CustomerRepository;
 use CoreBundle\Util\PasswordUtil;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -20,6 +21,7 @@ class FrontendDefaultData implements FixtureInterface
     private $entityManger;
 
     private $customerRepository;
+    private $addressRepository;
 
     /**
      * @var RegistrationService
@@ -38,11 +40,12 @@ class FrontendDefaultData implements FixtureInterface
     private function initRepositories()
     {
         $this->customerRepository = new CustomerRepository($this->entityManger);
+        $this->addressRepository = new AddressRepository($this->entityManger);
     }
 
     private function initServices()
     {
-        $this->registrationService = new RegistrationService($this->entityManger, $this->customerRepository);
+        $this->registrationService = new RegistrationService($this->entityManger, $this->customerRepository, $this->addressRepository);
     }
 
     private function loadDefaultCustomer()

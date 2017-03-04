@@ -1,0 +1,9 @@
+{% extends '@Frontend/checkout.html.twig' %}
+{% block checkoutContent %}
+    {{ form(personalForm, {'name': 'personalForm', 'action': path('checkout_personal_verify')}) }}
+{% endblock %}
+
+{% block nextButton %}
+    <button class="btn btn-primary" onclick="document.getElementsByName('personalForm')[0].submit()">
+        Next <i class="fa fa-arrow-right"></i></button>
+{% endblock %}

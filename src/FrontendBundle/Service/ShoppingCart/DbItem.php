@@ -42,14 +42,14 @@ class DbItem implements Item
         $this->quantity = $quantity;
     }
 
-    public function getSum()
-    {
-        return $this->getPrice() * $this->getQuantity();
-    }
-
     public function getPrice()
     {
         return $this->productEntity->getPrice();
+    }
+
+    public function getSum()
+    {
+        return $this->getPrice() * $this->getQuantity();
     }
 
     public function getJsonData()
@@ -59,7 +59,7 @@ class DbItem implements Item
             'name' => $this->getName(),
             'quantity' => $this->getQuantity(),
             'sum' => $this->getSum(),
-            'image' => 'data:image/png;base64,'.$this->getImage()
+            'image' => 'data:image/png;base64,' . $this->getImage()
         ];
     }
 
