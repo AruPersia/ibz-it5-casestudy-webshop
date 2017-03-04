@@ -27,10 +27,9 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'first_options' => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password')])
+            ->add('addressData', AddressFormType::class)
             ->add('save', SubmitType::class, ['label' => 'Join'])
-            ->add('address', AddressFormType::class);
-
-        $builder->get('password')->addModelTransformer(new PasswordTransformer());
+            ->get('password')->addModelTransformer(new PasswordTransformer());
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -39,6 +38,5 @@ class RegistrationFormType extends AbstractType
             'data_class' => RegistrationData::class
         ]);
     }
-
 
 }

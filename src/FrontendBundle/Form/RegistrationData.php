@@ -2,6 +2,7 @@
 
 namespace FrontendBundle\Form;
 
+use CoreBundle\Form\AddressData;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationData
@@ -27,6 +28,11 @@ class RegistrationData
      * @Assert\NotBlank()
      */
     private $password;
+
+    /**
+     * @Assert\Valid()
+     */
+    private $addressData;
 
     public static function builder()
     {
@@ -75,6 +81,19 @@ class RegistrationData
     {
         $this->password = $password;
         return $this;
+    }
+
+    /**
+     * @return AddressData|null
+     */
+    public function getAddressData()
+    {
+        return $this->addressData;
+    }
+
+    public function setAddressData(AddressData $addressData = null)
+    {
+        $this->addressData = $addressData;
     }
 
 }

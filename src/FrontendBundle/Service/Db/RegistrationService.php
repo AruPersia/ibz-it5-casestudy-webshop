@@ -1,7 +1,6 @@
 <?php
 namespace FrontendBundle\Service\Db;
 
-use CoreBundle\Entity\AddressEntity;
 use CoreBundle\Model\Customer;
 use CoreBundle\Repository\AddressRepository;
 use CoreBundle\Repository\CustomerRepository;
@@ -25,12 +24,8 @@ class RegistrationService extends EntityService
 
     public function create(RegistrationData $formData): Customer
     {
-        // TODO AFS: Address should expose
-        $addressEntity = AddressEntity::instance()
-            ->setStreet('Talackerstrasse')
-            ->setHouseNumber('45H')
-            ->setPostcode('3604')
-            ->setCity('Thun');
+        $address = $formData->getAddressData();
+        $addressEntity = $this->addressRepository->create($address->getStreet(), $address->getHouseNumber(), $address->getPostCode(), $address->getCity());
 
         $customerEntity = $this->customerRepository->create(
             $formData->getFirstName(),
