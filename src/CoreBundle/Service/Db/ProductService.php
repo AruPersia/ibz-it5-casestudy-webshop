@@ -14,9 +14,9 @@ use Doctrine\ORM\EntityManager;
 class ProductService extends EntityService
 {
 
-    private $productRepository;
-    private $categoryRepository;
-    private $imageRepository;
+    protected $productRepository;
+    protected $categoryRepository;
+    protected $imageRepository;
 
     public function __construct(EntityManager $entityManager, ProductRepository $productRepository, CategoryRepository $categoryRepository, ImageRepository $imageRepository)
     {
@@ -26,28 +26,7 @@ class ProductService extends EntityService
         $this->imageRepository = $imageRepository;
     }
 
-    public function create(Product $product): Product
-    {
-        $categoryEntity = $this->categoryRepository->create($product->getCategory()->getPath());
-        $imageEntity = $this->imageRepository->create($product->getImage()->getBinary());
-        $imageEntities = array();
 
-        foreach ($product->getImages() as $image) {
-            $imageEntities[] = $this->imageRepository->create($image->getBinary());
-        }
-
-        $entity = $this->productRepository->create(
-            $product->getName(),
-            $product->getDescription(),
-            $product->getPrice(),
-            $categoryEntity,
-            $imageEntity,
-            $imageEntities
-        );
-
-        $this->flush();
-        return ProductMapper::mapToProduct($entity);
-    }
 
     /**
      * @param $id

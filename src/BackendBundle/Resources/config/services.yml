@@ -1,7 +1,7 @@
 services:
-    backend.service.category:
-        class:  BackendBundle\Service\Db\CategoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-    backend.service.product:
-        class:  BackendBundle\Service\Db\ProductService
-        arguments: ["@doctrine.orm.entity_manager", "@backend.service.category"]
+    service.product:
+            class:  BackendBundle\Service\Db\ProductService
+            arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]
+    backend.service.order:
+            class:  BackendBundle\Service\Db\OrderService
+            arguments: ["@doctrine.orm.entity_manager", "@repository.order"]

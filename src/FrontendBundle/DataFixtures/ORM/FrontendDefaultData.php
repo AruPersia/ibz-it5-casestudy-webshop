@@ -66,14 +66,14 @@ class FrontendDefaultData extends AbstractFixtureInterface implements OrderedFix
 
             $orderLines = array();
             for ($i = 1; $i <= (3 * $customer->getId()); $i++) {
-                $product = $this->productService()->findById($customer->getId());
+                $product = $this->backendProductService()->findById($customer->getId());
                 $orderLines[] = OrderLineBuilder::instance()
                     ->setProduct($product)
                     ->setQuantity($i)
                     ->build();
             }
 
-            $this->orderService()->create($customer->getId(), $customer->getAddress(), $orderLines);
+            $this->frontendOrderService()->create($customer->getId(), $customer->getAddress(), $orderLines);
         }
     }
 

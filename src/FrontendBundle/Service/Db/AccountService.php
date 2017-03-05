@@ -11,7 +11,7 @@ use FrontendBundle\Form\AddressData;
 use FrontendBundle\Form\CustomerData;
 use FrontendBundle\Form\PasswordData;
 
-class ProfileService extends EntityService
+class AccountService extends EntityService
 {
 
     private $customerRepository;

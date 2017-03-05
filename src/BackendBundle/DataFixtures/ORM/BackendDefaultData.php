@@ -2,7 +2,9 @@
 
 namespace BackendBundle\DataFixtures\ORM;
 
+use BackendBundle\Form\AdministratorData;
 use CoreBundle\DataFixtures\ORM\AbstractFixtureInterface;
+use CoreBundle\Form\PasswordData;
 use CoreBundle\Model\CategoryBuilder;
 use CoreBundle\Model\ImageBuilder;
 use CoreBundle\Model\PathBuilder;
@@ -18,8 +20,30 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
 
     function loadData()
     {
+        $this->createDefaultAdministrators();
         $this->createDefaultCategories();
         $this->createDefaultProducts();
+    }
+
+    private function createDefaultAdministrators()
+    {
+        $administrators = array();
+        $passwordData = PasswordData::builder()->setPassword('123');
+        $administrators[] = $this->createAdministratorData('Emma', 'Stone', $passwordData);
+        $administrators[] = $this->createAdministratorData('Jennifer', 'Aniston', $passwordData);
+        $administrators[] = $this->createAdministratorData('Angelina', 'Jolie', $passwordData);
+        foreach ($administrators as $administrator) {
+            $this->administratorService()->create($administrator);
+        }
+    }
+
+    private function createAdministratorData($firstName, $lastName, PasswordData $passwordData): AdministratorData
+    {
+        return AdministratorData::builder()
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setEmail(mb_strtolower($firstName . '.' . $lastName . '@localhost.local'))
+            ->setPasswordData($passwordData);
     }
 
     private function createDefaultCategories()
@@ -83,7 +107,7 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
         $products[] = ProductBuilder::instance()->setName('Huawei MediaPad M3')->setDescription($defaultDescription)->setCategory($category)->setPrice(319)->setImage($defaultImage)->build();
 
         foreach ($products as $product) {
-            $this->productService()->create($product);
+            $this->backendProductService()->create($product);
         }
     }
 

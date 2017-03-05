@@ -1,5 +1,11 @@
 services:
     # Repositories
+    repository.address:
+        class: CoreBundle\Repository\AddressRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.customer:
+        class: CoreBundle\Repository\CustomerRepository
+        arguments: ["@doctrine.orm.entity_manager"]
     repository.category:
         class: CoreBundle\Repository\CategoryRepository
         arguments: ["@doctrine.orm.entity_manager"]
@@ -8,9 +14,6 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     repository.product:
         class: CoreBundle\Repository\ProductRepository
-        arguments: ["@doctrine.orm.entity_manager"]
-    repository.customer:
-        class: CoreBundle\Repository\CustomerRepository
         arguments: ["@doctrine.orm.entity_manager"]
     repository.order:
         class: CoreBundle\Repository\OrderRepository

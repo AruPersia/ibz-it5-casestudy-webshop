@@ -1,19 +1,10 @@
 services:
-    repository.customer:
-        class: CoreBundle\Repository\CustomerRepository
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    repository.address:
-        class: CoreBundle\Repository\AddressRepository
-        arguments: ["@doctrine.orm.entity_manager"]
-
     frontend.service.db.registration:
         class:  FrontendBundle\Service\Db\RegistrationService
         arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]
 
-
     frontend.service.db.profile:
-        class:  FrontendBundle\Service\Db\ProfileService
+        class:  FrontendBundle\Service\Db\AccountService
         arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]
 
     frontend.service.db.customer:
@@ -29,7 +20,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "@repository.category"]
 
     frontend.service.product:
-        class: FrontendBundle\Service\Db\ProductService
+        class: CoreBundle\Service\Db\ProductService
         arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]
 
     frontend.service.shopping.cart:
