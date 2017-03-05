@@ -8,6 +8,7 @@ class ProductController extends CategoryController
 {
 
     /**
+     * @Route("/", defaults={"categoryPath": "/"})
      * @Route("/catalogue{categoryPath}", name="catalogue", requirements={"categoryPath": ".+"}, defaults={"categoryPath": "/"})
      * @param $categoryPath - Category path
      * @return \Symfony\Component\HttpFoundation\Response
