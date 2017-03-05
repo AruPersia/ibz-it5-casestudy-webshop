@@ -18,6 +18,7 @@ class OrderMapper
             ->setOrderDate($orderEntity->getOrderDate())
             ->setShipmentDate($orderEntity->getShipmentDate())
             ->setCustomer(CustomerMapper::mapToCustomer($orderEntity->getCustomer()))
+            ->setDeliveryAddress(AddressMapper::mapToAddress($orderEntity->getDeliveryAddress()))
             ->setOrderLines(OrderLineMapper::mapToOrderLines($orderEntity->getOrderLines()))
             ->build();
     }

@@ -2,57 +2,29 @@
 
 namespace FrontendBundle\DataFixtures\ORM;
 
-use CoreBundle\Entity\CategoryEntityBuilder;
-use CoreBundle\Repository\AddressRepository;
-use CoreBundle\Repository\CustomerRepository;
+use CoreBundle\DataFixtures\ORM\AbstractFixtureInterface;
+use CoreBundle\Model\OrderLineBuilder;
 use CoreBundle\Util\PasswordUtil;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use FrontendBundle\Form\AddressData;
 use FrontendBundle\Form\CustomerData;
-use FrontendBundle\Form\CustomerWithPwData;
 use FrontendBundle\Form\PasswordData;
 use FrontendBundle\Form\RegistrationData;
-use FrontendBundle\Service\Db\RegistrationService;
 
-class FrontendDefaultData implements FixtureInterface
+class FrontendDefaultData extends AbstractFixtureInterface implements OrderedFixtureInterface
 {
-
-    /**
-     * @var EntityManager
-     */
-    private $entityManger;
-
-    private $customerRepository;
-    private $addressRepository;
-
-    /**
-     * @var RegistrationService
-     */
-    private $registrationService;
-
-
-    public function load(ObjectManager $manager)
+    public function getOrder()
     {
-        $this->entityManger = $manager;
-        $this->initRepositories();
-        $this->initServices();
-        $this->loadDefaultCustomer();
+        return 2;
     }
 
-    private function initRepositories()
+    function loadData()
     {
-        $this->customerRepository = new CustomerRepository($this->entityManger);
-        $this->addressRepository = new AddressRepository($this->entityManger);
+        $this->createDefaultCustomer();
+        $this->createDefaultOrders();
     }
 
-    private function initServices()
-    {
-        $this->registrationService = new RegistrationService($this->entityManger, $this->customerRepository, $this->addressRepository);
-    }
-
-    private function loadDefaultCustomer()
+    private function createDefaultCustomer()
     {
         $data = array();
         $password = PasswordUtil::encrypt('123');
@@ -63,7 +35,7 @@ class FrontendDefaultData implements FixtureInterface
         $data[] = $this->createRegistrationData('Donald', 'Trump', $password);
 
         foreach ($data as $registrationData) {
-            $this->registrationService->create($registrationData);
+            $this->registrationService()->create($registrationData);
         }
     }
 
@@ -72,12 +44,12 @@ class FrontendDefaultData implements FixtureInterface
         $customerData = CustomerData::builder()
             ->setFirstName($firstName)
             ->setLastName($lastName)
-            ->setEmail(strtolower($firstName . '.' . $lastName . '@localhost.local'));
+            ->setEmail(mb_strtolower($firstName . '.' . $lastName . '@localhost.local'));
 
         $passwordData = PasswordData::builder()->setPassword($password);
 
         $addressData = AddressData::builder()
-            ->setStreet(ucfirst(strtolower($firstName . $lastName . 'strasse')))
+            ->setStreet($firstName . $lastName . 'strasse')
             ->setHouseNumber('98B')
             ->setPostCode('8000')
             ->setCity('Zürich');
@@ -86,6 +58,23 @@ class FrontendDefaultData implements FixtureInterface
             ->setCustomerData($customerData)
             ->setPasswordData($passwordData)
             ->setAddressData($addressData);
+    }
+
+    private function createDefaultOrders()
+    {
+        foreach ($this->backendCustomerService()->findAll() as $customer) {
+
+            $orderLines = array();
+            for ($i = 1; $i <= (3 * $customer->getId()); $i++) {
+                $product = $this->productService()->findById($customer->getId());
+                $orderLines[] = OrderLineBuilder::instance()
+                    ->setProduct($product)
+                    ->setQuantity($i)
+                    ->build();
+            }
+
+            $this->orderService()->create($customer->getId(), $customer->getAddress(), $orderLines);
+        }
     }
 
 }

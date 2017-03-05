@@ -59,9 +59,9 @@ class AddressRepository extends AbstractRepository
 
     private function neutralizeData($street, $houseNumber, $postcode, $city): AddressEntity
     {
-        $street = ucfirst(strtolower($street));
-        $houseNumber = strtolower($houseNumber);
-        $city = ucfirst(strtolower($city));
+        $street = ucfirst(mb_strtolower($street));
+        $houseNumber = mb_strtolower($houseNumber);
+        $city = ucfirst(mb_strtolower($city));
         return AddressEntity::instance()
             ->setStreet($street)
             ->setHouseNumber($houseNumber)

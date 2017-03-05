@@ -63,6 +63,14 @@ class CustomerRepository extends SecurityRepository
         return $this->repository()->find($id);
     }
 
+    /**
+     * @return CustomerEntity[]
+     */
+    public function findAll()
+    {
+        return $this->repository()->findAll();
+    }
+
     protected function repository(): EntityRepository
     {
         return $this->createRepository('CoreBundle:CustomerEntity');

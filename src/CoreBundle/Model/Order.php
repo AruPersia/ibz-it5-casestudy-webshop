@@ -9,14 +9,16 @@ class Order
     private $orderDate;
     private $shipmentDate;
     private $customer;
+    private $deliveryAddress;
     private $orderLines;
 
-    public function __construct($id, $orderDate, $shipmentDate, Customer $customer, $orderLines = array())
+    public function __construct($id, $orderDate, $shipmentDate, Customer $customer, Address $deliveryAddress, $orderLines = array())
     {
         $this->id = $id;
         $this->orderDate = $orderDate;
         $this->shipmentDate = $shipmentDate;
         $this->customer = $customer;
+        $this->deliveryAddress = $deliveryAddress;
         $this->orderLines = $orderLines;
     }
 
@@ -38,6 +40,11 @@ class Order
     public function getCustomer(): Customer
     {
         return $this->customer;
+    }
+
+    public function getDeliveryAddress(): Address
+    {
+        return $this->deliveryAddress;
     }
 
     /**

@@ -44,7 +44,7 @@ class LoginController extends CategoryController
     public function logout()
     {
         $this->securityService()->logout();
-        return $this->redirectToRoute('catalogue');
+        return $this->redirectToRoute('login');
     }
 
     private function renderLoginForm(Form $loginForm)

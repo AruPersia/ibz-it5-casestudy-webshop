@@ -2,6 +2,7 @@
 namespace Tests\CoreBundle\Boot;
 
 use CoreBundle\Service\Db\CategoryService;
+use CoreBundle\Service\Db\CustomerService;
 use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
 use CoreBundle\Service\Db\StockService;
@@ -30,33 +31,26 @@ class TestWithDb extends KernelTestCase
 
     private $metadata;
 
-    /**
-     * @return CategoryService
-     */
     protected function categoryService(): CategoryService
     {
         return $this->container->get('service.category');
     }
 
-    /**
-     * @return ProductService
-     */
     protected function productService(): ProductService
     {
         return $this->container->get('service.product');
     }
 
-    /**
-     * @return OrderService
-     */
+    protected function customerService(): CustomerService
+    {
+        return $this->container->get('frontend.service.db.customer');
+    }
+
     protected function orderService(): OrderService
     {
         return $this->container->get('service.order');
     }
 
-    /**
-     * @return StockService
-     */
     protected function stockService(): StockService
     {
         return $this->container->get('service.stock');

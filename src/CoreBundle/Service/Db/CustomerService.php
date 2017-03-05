@@ -11,8 +11,8 @@ use Doctrine\ORM\EntityManager;
 class CustomerService extends EntityService
 {
 
-    private $customerRepository;
-    private $addressRepository;
+    protected $customerRepository;
+    protected $addressRepository;
 
     public function __construct(EntityManager $entityManager, CustomerRepository $customerRepository, AddressRepository $addressRepository)
     {

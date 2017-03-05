@@ -11,22 +11,22 @@ class StepBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildStepShouldWorkProperly()
     {
         // when
-        $step = StepBuilder::instance('a', 'a-href')
-            ->create('b', 'b-href')
-            ->create('c', 'c-href')
+        $step = StepBuilder::instance('a', 'view-a')
+            ->create('b', 'view-b')
+            ->create('c', 'view-c')
             ->build();
 
         // then
-        $nextStep = $this->assertStep('a', 'a-href', $step);
-        $nextStep = $this->assertStep('b', 'b-href', $nextStep);
-        $nextStep = $this->assertStep('c', 'c-href', $nextStep);
+        $nextStep = $this->assertStep('a', 'view-a', $step);
+        $nextStep = $this->assertStep('b', 'view-b', $nextStep);
+        $nextStep = $this->assertStep('c', 'view-c', $nextStep);
         $this->assertNull($nextStep);
     }
 
     private function assertStep($name, $href, Step $step)
     {
         $this->assertEquals($name, $step->getName());
-        $this->assertEquals($href, $step->getHref());
+        $this->assertEquals($href, $step->getView());
         return $step->getNext();
     }
 

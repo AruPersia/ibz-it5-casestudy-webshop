@@ -81,7 +81,7 @@ class CheckoutController extends CategoryController
         }
 
         $customer = $this->customerService()->findOrCreate($this->getCustomer());
-        $order = $this->orderService()->create($customer->getId(), $orderLines);
+        $order = $this->orderService()->create($customer->getId(), $this->getCustomer()->getAddress(), $orderLines);
         $this->shoppingCartService()->removeAll();
         return $this->redirectToRoute('catalogue');
     }

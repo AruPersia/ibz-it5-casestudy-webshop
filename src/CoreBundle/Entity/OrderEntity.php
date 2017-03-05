@@ -36,6 +36,12 @@ class OrderEntity implements EntityBuilder
     private $customer;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\AddressEntity")
+     * @ORM\JoinColumn(name="deliveryAddressId", referencedColumnName="id")
+     */
+    private $deliveryAddress;
+
+    /**
      * @ORM\OneToMany(targetEntity="CoreBundle\Entity\OrderLineEntity", mappedBy="order", cascade={"persist"}, fetch="EAGER")
      */
     private $orderLines;
@@ -102,6 +108,17 @@ class OrderEntity implements EntityBuilder
     public function setCustomer($customer): OrderEntity
     {
         $this->customer = $customer;
+        return $this;
+    }
+
+    public function getDeliveryAddress()
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(AddressEntity $deliveryAddress): OrderEntity
+    {
+        $this->deliveryAddress = $deliveryAddress;
         return $this;
     }
 

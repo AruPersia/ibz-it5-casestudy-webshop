@@ -2,64 +2,27 @@
 
 namespace BackendBundle\DataFixtures\ORM;
 
-use BackendBundle\Service\Db\CategoryService;
-use BackendBundle\Service\Db\ProductService;
+use CoreBundle\DataFixtures\ORM\AbstractFixtureInterface;
 use CoreBundle\Model\CategoryBuilder;
 use CoreBundle\Model\ImageBuilder;
 use CoreBundle\Model\PathBuilder;
 use CoreBundle\Model\ProductBuilder;
-use CoreBundle\Repository\CategoryRepository;
-use CoreBundle\Repository\ImageRepository;
-use CoreBundle\Repository\ProductRepository;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class BackendDefaultData implements FixtureInterface
+class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixtureInterface
 {
-
-    /**
-     * @var EntityManager
-     */
-    private $entityManger;
-
-    private $productRepository;
-    private $categoryRepository;
-    private $imageRepository;
-
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-
-    /**
-     * @var ProductService
-     */
-    private $productService;
-
-    public function load(ObjectManager $manager)
+    public function getOrder()
     {
-        $this->entityManger = $manager;
-        $this->initRepositories();
-        $this->initServices();
-        $this->loadDefaultCategories();
-        $this->loadDefaultProducts();
+        return 1;
     }
 
-    private function initRepositories()
+    function loadData()
     {
-        $this->productRepository = new ProductRepository($this->entityManger);
-        $this->categoryRepository = new CategoryRepository($this->entityManger);
-        $this->imageRepository = new ImageRepository($this->entityManger);
+        $this->createDefaultCategories();
+        $this->createDefaultProducts();
     }
 
-    private function initServices()
-    {
-        $this->productService = new ProductService($this->entityManger, $this->productRepository, $this->categoryRepository, $this->imageRepository);
-        $this->categoryService = new CategoryService($this->entityManger, $this->categoryRepository);
-    }
-
-    private function loadDefaultCategories()
+    private function createDefaultCategories()
     {
         $paths = array();
         $paths[] = PathBuilder::create('PC components')->createChild('Hard drives')->createChild('SSD')->build();
@@ -77,11 +40,11 @@ class BackendDefaultData implements FixtureInterface
         $paths[] = PathBuilder::create('Peripherals')->createChild('Keyboard & Mice')->createChild('Keyboards')->build();
 
         foreach ($paths as $path) {
-            $this->categoryService->create($path);
+            $this->categoryService()->create($path);
         }
     }
 
-    private function loadDefaultProducts()
+    private function createDefaultProducts()
     {
         $defaultDescription = 'Lorem ipsum dolor sit amete, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores';
         $defaultImage = ImageBuilder::instance()->setBinary(file_get_contents('./web/images/no-product.jpg'))->build();
@@ -120,7 +83,7 @@ class BackendDefaultData implements FixtureInterface
         $products[] = ProductBuilder::instance()->setName('Huawei MediaPad M3')->setDescription($defaultDescription)->setCategory($category)->setPrice(319)->setImage($defaultImage)->build();
 
         foreach ($products as $product) {
-            $this->productService->create($product);
+            $this->productService()->create($product);
         }
     }
 

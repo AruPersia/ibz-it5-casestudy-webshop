@@ -28,7 +28,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]
     service.order:
         class: CoreBundle\Service\Db\OrderService
-        arguments: ["@doctrine.orm.entity_manager", "@repository.order"]
+        arguments: ["@doctrine.orm.entity_manager", "@repository.order", "@repository.address"]
     service.stock:
         class: CoreBundle\Service\Db\StockService
         arguments: ["@doctrine.orm.entity_manager", "@repository.stock"]

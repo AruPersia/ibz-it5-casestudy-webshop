@@ -28,6 +28,19 @@ class CustomerMapper
             ->build();
     }
 
+    /**
+     * @param CustomerEntity[] $customerEntities
+     * @return Customer[]
+     */
+    public static function mapToCustomers($customerEntities)
+    {
+        $customers = array();
+        foreach ($customerEntities as $customerEntity) {
+            $customers[] = self::mapToCustomer($customerEntity);
+        }
+        return $customers;
+    }
+
     public static function mapToCustomerData(Customer $customer): CustomerData
     {
         return CustomerData::builder()

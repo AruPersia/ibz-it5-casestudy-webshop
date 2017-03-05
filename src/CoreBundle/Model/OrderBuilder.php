@@ -9,6 +9,7 @@ class OrderBuilder
     private $orderDate;
     private $shipmentDate;
     private $customer;
+    private $deliveryAddress;
     private $orderLines;
 
     private function __construct()
@@ -46,6 +47,12 @@ class OrderBuilder
         return $this;
     }
 
+    public function setDeliveryAddress($deliveryAddress): OrderBuilder
+    {
+        $this->deliveryAddress = $deliveryAddress;
+        return $this;
+    }
+
     public function setOrderLines($orderLines = array()): OrderBuilder
     {
         $this->orderLines = $orderLines;
@@ -60,7 +67,7 @@ class OrderBuilder
 
     public function build(): Order
     {
-        return new Order($this->id, $this->orderDate, $this->shipmentDate, $this->customer, $this->orderLines);
+        return new Order($this->id, $this->orderDate, $this->shipmentDate, $this->customer, $this->deliveryAddress, $this->orderLines);
     }
 
 }

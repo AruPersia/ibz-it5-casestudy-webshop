@@ -33,14 +33,6 @@ class RegistrationServiceTest extends TestWithDb
             ->setPassword('123456');
     }
 
-    /**
-     * @return RegistrationService
-     */
-    private function customerService()
-    {
-        return static::$kernel->getContainer()->get('frontend.service.db.registration');
-    }
-
     public function testExceptionExpectedByDuplicatedEmailAddress()
     {
         // given
