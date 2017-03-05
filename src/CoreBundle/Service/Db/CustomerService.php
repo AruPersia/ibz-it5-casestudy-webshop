@@ -42,4 +42,9 @@ class CustomerService extends EntityService
         return CustomerMapper::mapToCustomer($customerEntity);
     }
 
+    public function findById($id): Customer
+    {
+        return CustomerMapper::mapToCustomer($this->customerRepository->findById($id));
+    }
+
 }

@@ -2,7 +2,6 @@
 
 namespace FrontendBundle\Controller;
 
-use Doctrine\ORM\NoResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
@@ -30,8 +29,8 @@ class LoginController extends CategoryController
             try {
                 $this->securityService()->login($loginForm->getData());
                 return $this->redirectToRoute('catalogue');
-            } catch (NoResultException $e) {
-                $this->get('logger')->info($e);
+            } catch (\Exception $e) {
+                $this->get('logger')->debug($e);
                 $loginForm->addError(new FormError('Wrong email or password'));
             }
         }

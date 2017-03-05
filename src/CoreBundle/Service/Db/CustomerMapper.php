@@ -12,6 +12,7 @@ namespace CoreBundle\Service\Db;
 use CoreBundle\Entity\CustomerEntity;
 use CoreBundle\Model\Customer;
 use CoreBundle\Model\CustomerBuilder;
+use FrontendBundle\Form\CustomerData;
 
 class CustomerMapper
 {
@@ -25,6 +26,14 @@ class CustomerMapper
             ->setEmail($customerEntity->getEmail())
             ->setAddress(AddressMapper::mapToAddress($customerEntity->getAddress()))
             ->build();
+    }
+
+    public static function mapToCustomerData(Customer $customer): CustomerData
+    {
+        return CustomerData::builder()
+            ->setFirstName($customer->getFirstName())
+            ->setLastName($customer->getLastName())
+            ->setEmail($customer->getEmail());
     }
 
 }

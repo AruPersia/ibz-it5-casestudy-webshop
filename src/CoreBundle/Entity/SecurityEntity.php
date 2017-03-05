@@ -41,6 +41,7 @@ class SecurityEntity implements UserInterface, \Serializable
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getRoles()
@@ -51,6 +52,7 @@ class SecurityEntity implements UserInterface, \Serializable
     public function setRoles($roles)
     {
         $this->roles = $roles;
+        return $this;
     }
 
     public function getPassword()
@@ -61,11 +63,7 @@ class SecurityEntity implements UserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
-    }
-
-    public function serialize()
-    {
-        return serialize([$this->id, $this->email, $this->password]);
+        return $this;
     }
 
     public function getSalt()
@@ -78,19 +76,14 @@ class SecurityEntity implements UserInterface, \Serializable
         return $this->getEmail();
     }
 
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
     public function eraseCredentials()
     {
         // TODO AAF: Implement if needed
+    }
+
+    public function serialize()
+    {
+        return serialize([$this->id, $this->email, $this->password]);
     }
 
     public function unserialize($serialized)
@@ -100,6 +93,17 @@ class SecurityEntity implements UserInterface, \Serializable
             $this->email,
             $this->password
             ) = unserialize($serialized);
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
     }
 
 

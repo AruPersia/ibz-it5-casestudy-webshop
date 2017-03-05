@@ -9,6 +9,8 @@ use CoreBundle\Util\PasswordUtil;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use FrontendBundle\Form\AddressData;
+use FrontendBundle\Form\CustomerWithPwData;
 use FrontendBundle\Form\RegistrationData;
 use FrontendBundle\Service\Db\RegistrationService;
 
@@ -50,25 +52,35 @@ class FrontendDefaultData implements FixtureInterface
 
     private function loadDefaultCustomer()
     {
-        $defaultPassword = PasswordUtil::encrypt('123');
         $data = array();
-        $data[] = $this->createRegistrationData('Brad', 'pitt', $defaultPassword);
-        $data[] = $this->createRegistrationData('Tom', 'Hardy', $defaultPassword);
-        $data[] = $this->createRegistrationData('Johnny', 'Depp', $defaultPassword);
-        $data[] = $this->createRegistrationData('Donald', 'Trump', $defaultPassword);
+        $password = PasswordUtil::encrypt('123');
+        $addressData = AddressData::builder()
+            ->setStreet('Talackerstrasse')
+            ->setHouseNumber('45H')
+            ->setPostCode('3604')
+            ->setCity('Thun');
+
+        $data[] = $this->createRegistrationData('Brad', 'pitt', $password, $addressData);
+        $data[] = $this->createRegistrationData('Tom', 'Hardy', $password, $addressData);
+        $data[] = $this->createRegistrationData('Johnny', 'Depp', $password, $addressData);
+        $data[] = $this->createRegistrationData('Donald', 'Trump', $password, $addressData);
 
         foreach ($data as $registrationData) {
             $this->registrationService->create($registrationData);
         }
     }
 
-    private function createRegistrationData($firstName, $lastName, $password): RegistrationData
+    private function createRegistrationData($firstName, $lastName, $password, $addressData): RegistrationData
     {
-        return RegistrationData::builder()
+        $customerData = CustomerWithPwData::builder()
             ->setFirstName($firstName)
             ->setLastName($lastName)
             ->setEmail(strtolower($firstName . '.' . $lastName . '@localhost.local'))
             ->setPassword($password);
+
+        return RegistrationData::builder()
+            ->setCustomerWithPwData($customerData)
+            ->setAddressData($addressData);
     }
 
 }

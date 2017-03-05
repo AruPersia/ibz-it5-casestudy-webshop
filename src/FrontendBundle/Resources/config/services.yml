@@ -11,6 +11,11 @@ services:
         class:  FrontendBundle\Service\Db\RegistrationService
         arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]
 
+
+    frontend.service.db.profile:
+        class:  FrontendBundle\Service\Db\ProfileService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]
+
     frontend.service.db.customer:
         class:  CoreBundle\Service\Db\CustomerService
         arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]

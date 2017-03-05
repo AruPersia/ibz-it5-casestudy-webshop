@@ -7,6 +7,7 @@ use CoreBundle\Repository\CustomerRepository;
 use CoreBundle\Service\Db\CustomerMapper;
 use CoreBundle\Service\Db\EntityService;
 use Doctrine\ORM\EntityManager;
+use FrontendBundle\Form\CustomerData;
 use FrontendBundle\Form\RegistrationData;
 
 class RegistrationService extends EntityService
@@ -22,20 +23,30 @@ class RegistrationService extends EntityService
         $this->addressRepository = $addressRepository;
     }
 
-    public function create(RegistrationData $formData): Customer
+    public function create(RegistrationData $registrationData): Customer
     {
-        $address = $formData->getAddressData();
-        $addressEntity = $this->addressRepository->create($address->getStreet(), $address->getHouseNumber(), $address->getPostCode(), $address->getCity());
+        $customerData = $registrationData->getCustomerWithPwData();
+        $addressData = $registrationData->getAddressData();
+
+        $addressEntity = $this->addressRepository->create($addressData->getStreet(), $addressData->getHouseNumber(), $addressData->getPostCode(), $addressData->getCity());
 
         $customerEntity = $this->customerRepository->create(
-            $formData->getFirstName(),
-            $formData->getLastName(),
-            $formData->getEmail(),
-            $formData->getPassword(),
+            $customerData->getFirstName(),
+            $customerData->getLastName(),
+            $customerData->getEmail(),
+            $customerData->getPassword(),
             $addressEntity);
 
         $this->flush();
         return CustomerMapper::mapToCustomer($customerEntity);
+    }
+
+    public function update($customerId, CustomerData $customerData): Customer
+    {
+        $customerEntity = $this->customerRepository->findById($customerId);
+        $customerEntity->setFirstName($customerData->getFirstName());
+        $customerEntity->setLastName($customerData->getLastName());
+        $customerEntity->setEmail($customerData->getEmail());
     }
 
 }

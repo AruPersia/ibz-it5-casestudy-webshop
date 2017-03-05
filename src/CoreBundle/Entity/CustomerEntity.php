@@ -44,9 +44,10 @@ class CustomerEntity extends SecurityEntity
         return $this->firstName;
     }
 
-    public function setFirstName($firstName)
+    public function setFirstName($firstName): CustomerEntity
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     public function getLastName()
@@ -54,9 +55,10 @@ class CustomerEntity extends SecurityEntity
         return $this->lastName;
     }
 
-    public function setLastName($lastName)
+    public function setLastName($lastName): CustomerEntity
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     public function getAddress(): AddressEntity
@@ -64,9 +66,10 @@ class CustomerEntity extends SecurityEntity
         return $this->address;
     }
 
-    public function setAddress(AddressEntity $address)
+    public function setAddress(AddressEntity $address): CustomerEntity
     {
         $this->address = $address;
+        return $this;
     }
 
     public function getOrders()

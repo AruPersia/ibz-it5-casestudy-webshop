@@ -1,17 +1,11 @@
 <?php
 
-namespace CoreBundle\Form;
+namespace FrontendBundle\Form;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class LoginData
+class CustomerWithPwData extends CustomerData
 {
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
-    private $email;
 
     /**
      * @Assert\NotBlank()
@@ -20,18 +14,7 @@ class LoginData
 
     public static function builder()
     {
-        return new LoginData();
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-        return $this;
+        return new CustomerWithPwData();
     }
 
     public function getPassword()

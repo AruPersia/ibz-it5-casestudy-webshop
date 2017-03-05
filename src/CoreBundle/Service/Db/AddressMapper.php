@@ -5,6 +5,7 @@ namespace CoreBundle\Service\Db;
 use CoreBundle\Entity\AddressEntity;
 use CoreBundle\Model\Address;
 use CoreBundle\Model\AddressBuilder;
+use FrontendBundle\Form\AddressData;
 
 class AddressMapper
 {
@@ -18,6 +19,15 @@ class AddressMapper
             ->setPostCode($addressEntity->getPostcode())
             ->setCity($addressEntity->getCity())
             ->build();
+    }
+
+    public static function mapToAddressData(Address $address): AddressData
+    {
+        return AddressData::builder()
+            ->setStreet($address->getStreet())
+            ->setHouseNumber($address->getHouseNumber())
+            ->setPostCode($address->getPostCode())
+            ->setCity($address->getCity());
     }
 
 }

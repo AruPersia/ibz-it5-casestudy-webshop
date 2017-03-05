@@ -2,6 +2,7 @@
 
 namespace Tests\CoreBundle\Util;
 
+use CoreBundle\Util\PasswordHashDoesNotMatchException;
 use CoreBundle\Util\PasswordUtil;
 
 class PasswordUtilTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +17,7 @@ class PasswordUtilTest extends \PHPUnit_Framework_TestCase
         $encrypted = PasswordUtil::encrypt($pw);
 
         // then
-        $this->assertEquals('$2y$04$NT1xQDQ3NnVzai0jQDF5UOCWAdMUuznEILI5td.AHBtA9oddo8ffG', $encrypted);
+        PasswordUtil::verify($pw, $encrypted);
         $this->assertEquals(60, strlen($encrypted));
     }
 
@@ -28,9 +29,23 @@ class PasswordUtilTest extends \PHPUnit_Framework_TestCase
         // when
         $encrypted = PasswordUtil::encrypt($pw);
 
-        // then
-        $this->assertEquals('$2y$04$NT1xQDQ3NnVzai0jQDF5UO.EoMXpcOaDFaHQbUQ0sNHT.CK1krg3K', $encrypted);
+        //
+        PasswordUtil::verify($pw, $encrypted);
         $this->assertEquals(60, strlen($encrypted));
+    }
+
+    public function testWrongPasswordShouldThrowAnException()
+    {
+        // given
+        $pw = '123';
+        $encrypted = PasswordUtil::encrypt($pw);
+
+        // then
+        $this->expectException(PasswordHashDoesNotMatchException::class);
+        $this->expectExceptionMessage('Password hash does not match');
+
+        // when
+        PasswordUtil::verify('1234', $encrypted);
     }
 
     public function testEncryptEmptyPassword()

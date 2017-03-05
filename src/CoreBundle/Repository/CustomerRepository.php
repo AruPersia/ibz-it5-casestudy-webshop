@@ -21,6 +21,19 @@ class CustomerRepository extends SecurityRepository
         return $this->persist($customerEntity);
     }
 
+    public function update($customerId, $firstName, $lastName, $email): CustomerEntity
+    {
+        return $this->merge($this->findById($customerId)
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setEmail($email));
+    }
+
+    public function updateAddress($customerId, AddressEntity $addressEntity): CustomerEntity
+    {
+        return $this->merge($this->findById($customerId)->setAddress($addressEntity));
+    }
+
     /**
      * @param $firstName
      * @param $lastName
@@ -34,6 +47,15 @@ class CustomerRepository extends SecurityRepository
             'lastName' => $lastName,
             'email' => $email
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return CustomerEntity|null|object
+     */
+    public function findById($id)
+    {
+        return $this->repository()->find($id);
     }
 
     protected function repository(): EntityRepository

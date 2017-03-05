@@ -18,9 +18,9 @@ abstract class SecurityRepository extends AbstractRepository implements Security
         return $this->repository()
             ->createQueryBuilder('u')
             ->where('u.email = :email')
-            ->andWhere('u.password = :password')
+            //->andWhere('u.password = :password')
             ->setParameter('email', $loginData->getEmail())
-            ->setParameter('password', $loginData->getPassword())
+            //->setParameter('password', $loginData->getPassword())
             ->getQuery()
             ->getSingleResult();
     }

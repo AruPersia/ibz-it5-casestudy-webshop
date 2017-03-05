@@ -1,6 +1,6 @@
 <?php
 
-namespace CoreBundle\Form;
+namespace FrontendBundle\Form;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

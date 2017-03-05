@@ -1,0 +1,10 @@
+{% extends '@Frontend/category.html.twig' %}
+
+{% block title %}Join us{% endblock %}
+
+{% block content %}
+
+    <h4 class="card-title">Edit</h4>
+    {{ form(customerForm, {'action': path('profile_edit_personal_data_submit')}) }}
+
+{% endblock %}

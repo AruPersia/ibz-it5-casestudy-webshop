@@ -1,0 +1,55 @@
+{% extends '@Frontend/category.html.twig' %}
+
+{% block title %}Join us{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card card-inverse card-primary p-3 text-center">
+                <blockquote class="card-blockquote">
+                    <a class="card-link" href="#">
+                        <h3><i class="fa fa-reorder"></i></h3>
+                        My orders
+                    </a>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-inverse card-primary p-3 text-center">
+                <blockquote class="card-blockquote">
+                    <a class="card-link" href="{{ path('profile_edit_personal_data') }}">
+                        <h3><i class="fa fa-address-card"></i></h3>
+                        Edit personal data
+                    </a>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-inverse card-primary p-3 text-center">
+                <blockquote class="card-blockquote">
+                    <a class="card-link" href="{{ path('profile_edit_address') }}">
+                        <h3><i class="fa fa-address-card"></i></h3>
+                        Edit address
+                    </a>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-inverse card-primary p-3 text-center">
+                <blockquote class="card-blockquote">
+                    <a class="card-link" href="#">
+                        <h3><i class="fa fa-reorder"></i></h3>
+                        Change password
+                    </a>
+                </blockquote>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

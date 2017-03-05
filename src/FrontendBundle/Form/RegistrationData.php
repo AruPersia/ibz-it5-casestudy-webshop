@@ -2,32 +2,15 @@
 
 namespace FrontendBundle\Form;
 
-use CoreBundle\Form\AddressData;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationData
 {
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Valid()
      */
-    private $firstName;
-
-    /**
-     * @Assert\NotBlank()
-     */
-    private $lastName;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
-    private $email;
-
-    /**
-     * @Assert\NotBlank()
-     */
-    private $password;
+    private $customerWithPwData;
 
     /**
      * @Assert\Valid()
@@ -39,47 +22,17 @@ class RegistrationData
         return new RegistrationData();
     }
 
-    public function getFirstName()
+    /**
+     * @return CustomerWithPwData|null
+     */
+    public function getCustomerWithPwData()
     {
-        return $this->firstName;
+        return $this->customerWithPwData;
     }
 
-    public function setFirstName($firstName)
+    public function setCustomerWithPwData(CustomerWithPwData $customerWithPwData): RegistrationData
     {
-        $this->firstName = $firstName;
-        return $this;
-    }
-
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-        return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
+        $this->customerWithPwData = $customerWithPwData;
         return $this;
     }
 
@@ -91,9 +44,10 @@ class RegistrationData
         return $this->addressData;
     }
 
-    public function setAddressData(AddressData $addressData = null)
+    public function setAddressData(AddressData $addressData = null): RegistrationData
     {
         $this->addressData = $addressData;
+        return $this;
     }
 
 }
