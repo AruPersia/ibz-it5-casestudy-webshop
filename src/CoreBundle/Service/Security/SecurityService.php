@@ -5,7 +5,7 @@ namespace CoreBundle\Service\Security;
 use CoreBundle\Form\LoginData;
 use CoreBundle\Repository\SecurityRepository;
 use CoreBundle\Util\PasswordUtil;
-use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -18,7 +18,7 @@ class SecurityService
     private $eventDispatcher;
     private $securityRepository;
 
-    public function __construct(RequestStack $requestStack, TokenStorage $tokenStorage, ContainerAwareEventDispatcher $eventDispatcher, SecurityRepository $securityRepository)
+    public function __construct(RequestStack $requestStack, TokenStorage $tokenStorage, EventDispatcherInterface $eventDispatcher, SecurityRepository $securityRepository)
     {
         $this->requestStack = $requestStack;
         $this->tokenStorage = $tokenStorage;

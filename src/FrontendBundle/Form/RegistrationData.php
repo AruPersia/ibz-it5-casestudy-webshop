@@ -10,7 +10,12 @@ class RegistrationData
     /**
      * @Assert\Valid()
      */
-    private $customerWithPwData;
+    private $customerData;
+
+    /**
+     * @Assert\Valid()
+     */
+    private $passwordData;
 
     /**
      * @Assert\Valid()
@@ -23,16 +28,30 @@ class RegistrationData
     }
 
     /**
-     * @return CustomerWithPwData|null
+     * @return CustomerData|null
      */
-    public function getCustomerWithPwData()
+    public function getCustomerData()
     {
-        return $this->customerWithPwData;
+        return $this->customerData;
     }
 
-    public function setCustomerWithPwData(CustomerWithPwData $customerWithPwData): RegistrationData
+    public function setCustomerData(CustomerData $customerData): RegistrationData
     {
-        $this->customerWithPwData = $customerWithPwData;
+        $this->customerData = $customerData;
+        return $this;
+    }
+
+    /**
+     * @return PasswordData|null
+     */
+    public function getPasswordData()
+    {
+        return $this->passwordData;
+    }
+
+    public function setPasswordData(PasswordData $passwordData): RegistrationData
+    {
+        $this->passwordData = $passwordData;
         return $this;
     }
 

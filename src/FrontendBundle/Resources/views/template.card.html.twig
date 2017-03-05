@@ -1,0 +1,10 @@
+{% macro primary(name, faIcon, path) %}
+    <div class="card card-inverse card-primary p-3 text-center">
+        <blockquote class="card-blockquote">
+            <a class="card-link" href="{{ path }}">
+                <h3><i class="fa {{ faIcon }}"></i></h3>
+                {{ name }}
+            </a>
+        </blockquote>
+    </div>
+{% endmacro %}

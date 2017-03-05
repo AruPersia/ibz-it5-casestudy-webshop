@@ -9,6 +9,7 @@ use FrontendBundle\Form\AddressEditFormType;
 use FrontendBundle\Form\AddressFormType;
 use FrontendBundle\Form\CustomerEditFormType;
 use FrontendBundle\Form\CustomerFormType;
+use FrontendBundle\Form\PasswordEditFormType;
 use FrontendBundle\Form\RegistrationFormType;
 use Symfony\Component\Form\Form;
 
@@ -48,6 +49,11 @@ abstract class FormController extends CoreController
     protected function addressEditForm(): Form
     {
         return $this->createForm(AddressEditFormType::class);
+    }
+
+    protected function passwordEditForm(): Form
+    {
+        return $this->createForm(PasswordEditFormType::class);
     }
 
 }

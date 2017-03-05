@@ -4,7 +4,7 @@ namespace FrontendBundle\Form;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CustomerWithPwData extends CustomerData
+class PasswordData
 {
 
     /**
@@ -14,7 +14,7 @@ class CustomerWithPwData extends CustomerData
 
     public static function builder()
     {
-        return new CustomerWithPwData();
+        return new PasswordData();
     }
 
     public function getPassword()

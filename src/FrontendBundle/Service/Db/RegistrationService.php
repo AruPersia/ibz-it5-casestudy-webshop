@@ -25,7 +25,8 @@ class RegistrationService extends EntityService
 
     public function create(RegistrationData $registrationData): Customer
     {
-        $customerData = $registrationData->getCustomerWithPwData();
+        $customerData = $registrationData->getCustomerData();
+        $passwordData = $registrationData->getPasswordData();
         $addressData = $registrationData->getAddressData();
 
         $addressEntity = $this->addressRepository->create($addressData->getStreet(), $addressData->getHouseNumber(), $addressData->getPostCode(), $addressData->getCity());
@@ -34,7 +35,7 @@ class RegistrationService extends EntityService
             $customerData->getFirstName(),
             $customerData->getLastName(),
             $customerData->getEmail(),
-            $customerData->getPassword(),
+            $passwordData->getPassword(),
             $addressEntity);
 
         $this->flush();

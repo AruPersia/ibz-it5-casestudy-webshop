@@ -1,0 +1,23 @@
+{% extends '@Frontend/category.html.twig' %}
+{% import '@Frontend/template.card.html.twig' as card %}
+
+{% block title %}Join us{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-3">
+            {{ card.primary('My orders', 'fa-reorder', path('account_my_orders')) }}
+        </div>
+        <div class="col-md-3">
+            {{ card.primary('Change personal data', 'fa-user', path('account_edit_personal_data')) }}
+        </div>
+        <div class="col-md-3">
+            {{ card.primary('Change address', 'fa-address-card', path('account_edit_address')) }}
+        </div>
+        <div class="col-md-3">
+            {{ card.primary('Change password', 'fa-key', path('account_edit_password')) }}
+        </div>
+    </div>
+
+{% endblock %}

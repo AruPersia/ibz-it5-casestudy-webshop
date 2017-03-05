@@ -1,0 +1,36 @@
+{% extends '@Frontend/category.html.twig' %}
+
+{% block title %}Join us{% endblock %}
+
+{% block content %}
+
+    {% for order in orders %}
+        <div class="row">
+            <div class="col-md-2 font-weight-bold text-right">Order date</div>
+            <div class="col-md-10">{{ order.orderDate|date }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 font-weight-bold text-right">Shipment date</div>
+            <div class="col-md-10">{{ order.shipmentDate|date }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 font-weight-bold text-right">Articles</div>
+            <div class="col-md-10">
+                {% for line in order.orderLines %}
+                    <hr/>
+                    <div class="font-weight-bold">{{ line.quantity }}x {{ line.product.name }}</div>
+                    <div>{{ line.product.description }}</div>
+                    <div class="row">
+                        <div class="col-md-1 font-weight-bold">Price:</div>
+                        <div class="col-md-2">{{ line.price }}.-</div>
+                        <div class="col-md-1 font-weight-bold">Total:</div>
+                        <div class="col-md-2">{{ line.price * line.quantity }}.-</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

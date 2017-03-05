@@ -28,9 +28,8 @@ class RegistrationController extends CategoryController
             return $this->renderForm($registrationForm);
         }
 
-        // FIXME AAF: Forward here would be a better choice
         $this->registrationService()->create($registrationForm->getData());
-        return $this->render('@Frontend/base.html.twig');
+        return $this->redirectToRoute('login');
     }
 
     private function renderForm(Form $form): Response

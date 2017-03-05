@@ -9,6 +9,7 @@ use CoreBundle\Service\Db\EntityService;
 use Doctrine\ORM\EntityManager;
 use FrontendBundle\Form\AddressData;
 use FrontendBundle\Form\CustomerData;
+use FrontendBundle\Form\PasswordData;
 
 class ProfileService extends EntityService
 {
@@ -34,6 +35,13 @@ class ProfileService extends EntityService
     {
         $addressEntity = $this->addressRepository->create($addressData->getStreet(), $addressData->getHouseNumber(), $addressData->getPostCode(), $addressData->getCity());
         $customerEntity = $this->customerRepository->updateAddress($customerId, $addressEntity);
+        $this->flush();
+        return CustomerMapper::mapToCustomer($customerEntity);
+    }
+
+    public function updatePassword($customerId, PasswordData $passwordData): Customer
+    {
+        $customerEntity = $this->customerRepository->updatePassword($customerId, $passwordData->getPassword());
         $this->flush();
         return CustomerMapper::mapToCustomer($customerEntity);
     }

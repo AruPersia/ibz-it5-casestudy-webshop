@@ -34,6 +34,11 @@ class CustomerRepository extends SecurityRepository
         return $this->merge($this->findById($customerId)->setAddress($addressEntity));
     }
 
+    public function updatePassword($customerId, $password): CustomerEntity
+    {
+        return $this->merge($this->findById($customerId)->setPassword($password));
+    }
+
     /**
      * @param $firstName
      * @param $lastName
