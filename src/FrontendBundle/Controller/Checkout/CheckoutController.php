@@ -2,13 +2,13 @@
 
 namespace FrontendBundle\Controller\Checkout;
 
-use CoreBundle\Form\AddressData;
 use CoreBundle\Form\PersonalData;
 use CoreBundle\Model\AddressBuilder;
 use CoreBundle\Model\Customer;
 use CoreBundle\Model\CustomerBuilder;
 use CoreBundle\Model\OrderLineBuilder;
 use FrontendBundle\Controller\CategoryController;
+use FrontendBundle\Form\AddressData;
 use FrontendBundle\Model\Checkout\Step;
 use FrontendBundle\Model\Checkout\StepBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -101,7 +101,6 @@ class CheckoutController extends CategoryController
                 StepBuilder::instance('Check shopping cart', $this->redirectToRoute('checkout_shopping_cart'))
                     ->create('Personal data', $this->redirectToRoute('checkout_personal'))
                     ->create('Address', $this->redirectToRoute('checkout_address'))
-                    ->create('Payment', $this->redirectToRoute('checkout_shopping_cart'))
                     ->create('Overview', $this->redirectToRoute('checkout_overview'))
                     ->build());
         }
