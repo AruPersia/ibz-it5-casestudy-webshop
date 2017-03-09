@@ -41,6 +41,18 @@ class ProductController extends ServiceController
     }
 
     /**
+     * @param $id
+     * @param $imageId
+     * @Route("/product/edit/{id}/main/image/{imageId}", name="backend_product_change_image")
+     * @return Response
+     */
+    public function setMainImage($id, $imageId)
+    {
+        $product = $this->productService()->changeMainImage($id, $imageId);
+        return $this->renderProductEditForm($product);
+    }
+
+    /**
      * @Route("/product/create", name="backend_product_create")
      */
     public function create()

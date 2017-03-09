@@ -27,7 +27,6 @@ class ProductService extends EntityService
     }
 
 
-
     /**
      * @param $id
      * @param Image[] $images
@@ -56,6 +55,16 @@ class ProductService extends EntityService
         $productEntity = $this->productRepository->removeImages($id, $imageEntityIds);
         $this->flush();
         return ProductMapper::mapToProduct($productEntity);
+    }
+
+    /**
+     * @param $id - Product id
+     * @param $imageId - Image id
+     * @return Product
+     */
+    public function changeMainImage($id, $imageId): Product
+    {
+        return ProductMapper::mapToProduct($this->productRepository->changeMainImage($id, $imageId));
     }
 
     public function findById($id): Product

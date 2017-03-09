@@ -63,6 +63,25 @@ class ProductRepository extends AbstractRepository
 
     /**
      * @param $id - Product id
+     * @param $imageId - Image id
+     * @return ProductEntity
+     */
+    public function changeMainImage($id, $imageId): ProductEntity
+    {
+        $imageEntity = $this->findById($id);
+        foreach ($imageEntity->getImages() as $image) {
+            if ($image->getId() == $imageId) {
+                $imageEntity->getImages()->removeElement($image);
+                $imageEntity->getImages()->add($imageEntity->getImage());
+                $imageEntity->setImage($image);
+            }
+        }
+
+        return $this->merge($imageEntity);
+    }
+
+    /**
+     * @param $id - Product id
      * @return ProductEntity
      */
     public function findById($id): ProductEntity

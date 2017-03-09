@@ -15,7 +15,9 @@
             {% for image in product.images %}
                 <div class="card text-center">
                     <div class="card-block">
-                        <img style="height: 100px;" src="data:image/png;base64,{{ image.toBase64 }}">
+                        <a href="{{ path('backend_product_change_image', {'id':product.id, 'imageId':image.id}) }}">
+                            <img style="height: 100px;" src="data:image/png;base64,{{ image.toBase64 }}">
+                        </a>
                     </div>
                 </div>
             {% endfor %}
