@@ -15,7 +15,7 @@ class LoginController extends CategoryController
      */
     public function index()
     {
-        return $this->renderLoginForm($this->getLoginForm());
+        return $this->renderLoginForm($this->loginForm());
     }
 
     /**
@@ -24,7 +24,7 @@ class LoginController extends CategoryController
      */
     public function login()
     {
-        $loginForm = $this->getLoginForm()->handleRequest($this->getRequest());
+        $loginForm = $this->loginForm()->handleRequest($this->getRequest());
         if ($loginForm->isValid()) {
             try {
                 $this->securityService()->login($loginForm->getData());

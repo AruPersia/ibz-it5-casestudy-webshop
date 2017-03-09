@@ -11,7 +11,9 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-block">
-                        <p><img src="data:image/png;base64,{{ product.image.toBase64 }}"></p>
+                        <p class="text-center">
+                            <img style="max-width: 200px; max-height: 200px;"
+                                 src="data:image/png;base64,{{ product.image.toBase64 }}"></p>
                         <h5 class="card-title">{{ product.name }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">[manufacturer]</h6>
                         <p class="card-text">

@@ -1,5 +1,8 @@
 services:
     # Repositories
+    repository.administrator:
+        class: CoreBundle\Repository\AdministratorRepository
+        arguments: ["@doctrine.orm.entity_manager"]
     repository.address:
         class: CoreBundle\Repository\AddressRepository
         arguments: ["@doctrine.orm.entity_manager"]

@@ -1,0 +1,88 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% set title = 'Orders' %}
+
+{% block body %}
+
+    {% set customer = order.customer %}
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <div class="card card-inverse bg-inverse mt-3">
+                <div class="card-block">
+                    <div class="pull-right">
+                        <a href="#"><i class="fa fa-user fa-5x mr-3"></i></a>
+                    </div>
+                    <h3 class="card-title">Personal data</h3>
+                    <div class="card-text">{{ customer.firstName }} {{ customer.lastName }}</div>
+                    <div class="card-text">{{ customer.email }}</div>
+                    <div class="card-text">{{ customer.address.street }} {{ customer.address.houseNumber }}</div>
+                    <div class="card-text">{{ customer.address.postCode }} {{ customer.address.city }}</div>
+                </div>
+            </div>
+
+            <div class="card card-inverse bg-inverse mt-3">
+                <div class="card-block">
+                    <div class="pull-right">
+                        <a href="https://www.google.ch/maps/place/Rehhagstrasse+33,+3018+Bern">
+                            <i class="fa fa-map-marker fa-5x mr-3"></i>
+                        </a>
+                    </div>
+                    <h3 class="card-title">Delivery address</h3>
+                    <div class="card-text">{{ customer.address.street }} {{ customer.address.houseNumber }}</div>
+                    <div class="card-text">{{ customer.address.postCode }} {{ customer.address.city }}</div>
+                </div>
+            </div>
+
+            <div class="card card-inverse bg-inverse mt-3">
+                <div class="card-block">
+                    <div class="pull-right"><i class="fa fa-calendar-check-o fa-5x"></i></div>
+                    <h3 class="card-title">Order date</h3>
+                    <div class="card-text">{{ order.orderDate|date }}</div>
+                </div>
+            </div>
+
+            <div class="card card-inverse bg-inverse mt-3">
+                <div class="card-block">
+                    <div class="pull-right"><i class="fa fa-calendar fa-5x"></i></div>
+                    <h3 class="card-title">Shipment date</h3>
+                    <div class="card-text">{{ order.shipmentDate ? order.shipmentDate|date : 'PENDING' }}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+            <div class="card card-inverse bg-inverse mt-3">
+                <div class="card-block">
+                    <h3 class="card-title">Articles</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for line in order.orderLines %}
+                            <tr>
+                                <td>{{ line.product.name }}</td>
+                                <td>{{ line.quantity }}</td>
+                                <td>{{ line.product.price }}.-</td>
+                                <td>{{ line.sum }}.-</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

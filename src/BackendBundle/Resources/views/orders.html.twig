@@ -1,0 +1,53 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% macro row(order) %}
+    <tr>
+        <td><a href="{{ path('backend_order_detail', {'id' : order.id}) }}">{{ order.id }}</a></td>
+        <td>
+            {{ order.customer.firstName }} {{ order.customer.lastName }}
+            <span class="badge badge-default pull-right">{{ order.customer.email }}</span>
+        </td>
+        <td>
+            {{ order.deliveryAddress.street }} {{ order.deliveryAddress.houseNumber }},
+            {{ order.deliveryAddress.postCode }} {{ order.deliveryAddress.city }}
+        </td>
+        <td>{{ order.orderDate|date }}</td>
+        <td>
+            {% if order.shipmentDate %}
+                <span class="badge badge-success">{{ order.shipmentDate|date }}</span>
+            {% else %}
+                <span class="badge badge-danger">PENDING</span>
+            {% endif %}
+        </td>
+        <td></td>
+    </tr>
+{% endmacro %}
+
+{% set title = 'Orders' %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Delivery address</th>
+            <th>Order date</th>
+            <th>Shipment date</th>
+            <th>Total cost</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in openOrders %}
+            {% import _self as m %}
+            {{ m.row(order) }}
+        {% endfor %}
+        {% for order in completedOrders %}
+            {% import _self as m %}
+            {{ m.row(order) }}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

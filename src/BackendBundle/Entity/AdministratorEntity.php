@@ -6,8 +6,8 @@ use CoreBundle\Entity\SecurityEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Entity
  * @ORM\Table(name="administrator")
- * @ORM\Entity(repositoryClass="CoreBundle\Repository\SecurityRepository")
  */
 class AdministratorEntity extends SecurityEntity
 {

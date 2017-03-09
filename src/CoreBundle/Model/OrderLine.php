@@ -38,4 +38,9 @@ class OrderLine
         return $this->price;
     }
 
+    public function getSum()
+    {
+        return $this->price * $this->getQuantity();
+    }
+
 }

@@ -1,7 +1,7 @@
 <div ng-controller="ShoppingCartController as shoppingCart">
     <div class="row ws-shopping-cart-item" ng-repeat="item in shoppingCart.items">
         <div class="col-md-3">
-            <img src="{ item.image }" width="80px;">
+            <img style="max-width: 50px; max-height: 50px;" src="{ item.image }" width="80px;">
         </div>
         <div class="col-md-9">
             <div class="row">

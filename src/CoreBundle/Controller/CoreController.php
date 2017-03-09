@@ -2,8 +2,8 @@
 
 namespace CoreBundle\Controller;
 
-use CoreBundle\Form\LoginFormType;
 use CoreBundle\Message\Message;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,7 +11,6 @@ class CoreController extends ServiceController
 {
 
     private $messages = array();
-    private $request = null;
 
     protected function render($view, array $parameters = array(), Response $response = null)
     {
@@ -24,20 +23,9 @@ class CoreController extends ServiceController
         $this->messages[] = $message;
     }
 
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    protected function getEntityManager()
+    protected function entityManager(): EntityManager
     {
         return $this->get('doctrine.orm.entity_manager');
-    }
-
-    /**
-     * @return \Symfony\Component\Form\Form
-     */
-    protected function getLoginForm()
-    {
-        return $this->createForm(LoginFormType::class);
     }
 
     protected function getRequest(): Request

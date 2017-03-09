@@ -3,13 +3,12 @@
 namespace BackendBundle\DataFixtures\ORM;
 
 use BackendBundle\Form\AdministratorData;
+use BackendBundle\Form\ProductData;
 use CoreBundle\DataFixtures\ORM\AbstractFixtureInterface;
 use CoreBundle\Form\PasswordData;
-use CoreBundle\Model\CategoryBuilder;
-use CoreBundle\Model\ImageBuilder;
-use CoreBundle\Model\PathBuilder;
-use CoreBundle\Model\ProductBuilder;
+use CoreBundle\Util\PasswordUtil;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixtureInterface
 {
@@ -21,14 +20,14 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
     function loadData()
     {
         $this->createDefaultAdministrators();
-        $this->createDefaultCategories();
+        //$this->createDefaultCategories();
         $this->createDefaultProducts();
     }
 
     private function createDefaultAdministrators()
     {
         $administrators = array();
-        $passwordData = PasswordData::builder()->setPassword('123');
+        $passwordData = PasswordData::builder()->setPassword(PasswordUtil::encrypt('123'));
         $administrators[] = $this->createAdministratorData('Emma', 'Stone', $passwordData);
         $administrators[] = $this->createAdministratorData('Jennifer', 'Aniston', $passwordData);
         $administrators[] = $this->createAdministratorData('Angelina', 'Jolie', $passwordData);
@@ -46,69 +45,71 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
             ->setPasswordData($passwordData);
     }
 
-    private function createDefaultCategories()
-    {
-        $paths = array();
-        $paths[] = PathBuilder::create('PC components')->createChild('Hard drives')->createChild('SSD')->build();
-        $paths[] = PathBuilder::create('PC components')->createChild('Hard drives')->createChild('External SSD')->build();
-        $paths[] = PathBuilder::create('PC components')->createChild('Hard drives')->createChild('Server hard drives')->build();
-
-        $paths[] = PathBuilder::create('Notebooks & Tablets')->createChild('Notebooks')->build();
-        $paths[] = PathBuilder::create('Notebooks & Tablets')->createChild('Tablets')->build();
-
-        $paths[] = PathBuilder::create('Peripherals')->createChild('Monitors')->build();
-        $paths[] = PathBuilder::create('Peripherals')->createChild('Monitors')->createChild('Curved Monitors')->build();
-        $paths[] = PathBuilder::create('Peripherals')->createChild('Monitors')->createChild('4K Monitors')->build();
-
-        $paths[] = PathBuilder::create('Peripherals')->createChild('Keyboard & Mice')->createChild('Mice')->build();
-        $paths[] = PathBuilder::create('Peripherals')->createChild('Keyboard & Mice')->createChild('Keyboards')->build();
-
-        foreach ($paths as $path) {
-            $this->categoryService()->create($path);
-        }
-    }
-
     private function createDefaultProducts()
     {
-        $defaultDescription = 'Lorem ipsum dolor sit amete, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores';
-        $defaultImage = ImageBuilder::instance()->setBinary(file_get_contents('./web/images/no-product.jpg'))->build();
         $products = array();
 
-        $category = CategoryBuilder::instance()->setPath(PathBuilder::createByPath('/'))->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung 850 Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(462)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung 950 Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(723)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('ASUS ROG Gaming')->setDescription($defaultDescription)->setCategory($category)->setPrice(899)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('BenQ SW320')->setDescription($defaultDescription)->setCategory($category)->setPrice(1499)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Apple MacBook Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(2599)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Microsoft Surface Pro 4')->setDescription($defaultDescription)->setCategory($category)->setPrice(1199)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Apple iPad Air 2')->setDescription($defaultDescription)->setCategory($category)->setPrice(499)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung Galaxy Tab A')->setDescription($defaultDescription)->setCategory($category)->setPrice(299)->setImage($defaultImage)->build();
+        $categoryPath = '/Notebooks & Tablets/Notebooks';
+        $products[] = $this->createProduct('HP 250 G5', $categoryPath, 299);
+        $products[] = $this->createProduct('Apple MacBook Pro Space Gray', $categoryPath, 85);
+        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 2799);
+        $products[] = $this->createProduct('Microsoft Surface Book', $categoryPath, 2649);
 
-        $category = CategoryBuilder::instance()->setPath(PathBuilder::createByPath('/PC components/Hard drives/SSD'))->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung 850 Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(462)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung 950 Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(723)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung 200 Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(256)->setImage($defaultImage)->build();
+        $categoryPath = '/TV & Video/Televisions';
+        $products[] = $this->createProduct('Samsung UE88KS9888', $categoryPath, 19799);
+        $products[] = $this->createProduct('LG OLED65G6V', $categoryPath, 7499);
+        $products[] = $this->createProduct('Sony KD-85XD8505', $categoryPath, 7299);
+        $products[] = $this->createProduct('Samsung UE78KU6500', $categoryPath, 3999);
 
-        $category = CategoryBuilder::instance()->setPath(PathBuilder::createByPath('/Peripherals/Monitors/4K Monitors'))->build();
-        $products[] = ProductBuilder::instance()->setName('ASUS ROG Gaming')->setDescription($defaultDescription)->setCategory($category)->setPrice(899)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('BenQ SW320')->setDescription($defaultDescription)->setCategory($category)->setPrice(1499)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('NEC EA244UHD')->setDescription($defaultDescription)->setCategory($category)->setPrice(1434)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('HP Z30i')->setDescription($defaultDescription)->setCategory($category)->setPrice(1365)->setImage($defaultImage)->build();
+        $categoryPath = '/PC components/Hard drives/SSD';
+        $products[] = $this->createProduct('Samsung 850 EVO Basic', $categoryPath, 173);
+        $products[] = $this->createProduct('Samsung 960 EVO', $categoryPath, 245);
+        $products[] = $this->createProduct('Samsung 850 Pro', $categoryPath, 139);
+        $products[] = $this->createProduct('WD Blue', $categoryPath, 101);
+        $products[] = $this->createProduct('Crucial MX300', $categoryPath, 298);
 
-        $category = CategoryBuilder::instance()->setPath(PathBuilder::createByPath('/Notebooks & Tablets/Notebooks'))->build();
-        $products[] = ProductBuilder::instance()->setName('Apple MacBook Pro')->setDescription($defaultDescription)->setCategory($category)->setPrice(2599)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Microsoft Surface Pro 4')->setDescription($defaultDescription)->setCategory($category)->setPrice(1199)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('HP Spectre Pro x360')->setDescription($defaultDescription)->setCategory($category)->setPrice(1099)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Microsoft Surface Book')->setDescription($defaultDescription)->setCategory($category)->setPrice(1499)->setImage($defaultImage)->build();
+        $categoryPath = '/PC components/Hard drives/Server hard drives';
+        $products[] = $this->createProduct('HPE 762263-B21 Solid State Disk', $categoryPath, 8076);
+        $products[] = $this->createProduct('Fujitsu S26361-F3671-L400 Harddisk', $categoryPath, 747);
 
-        $category = CategoryBuilder::instance()->setPath(PathBuilder::createByPath('/Notebooks & Tablets/Tablets'))->build();
-        $products[] = ProductBuilder::instance()->setName('Apple iPad Air 2')->setDescription($defaultDescription)->setCategory($category)->setPrice(499)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Samsung Galaxy Tab A')->setDescription($defaultDescription)->setCategory($category)->setPrice(299)->setImage($defaultImage)->build();
-        $products[] = ProductBuilder::instance()->setName('Huawei MediaPad M3')->setDescription($defaultDescription)->setCategory($category)->setPrice(319)->setImage($defaultImage)->build();
+        $categoryPath = '/Peripherals/Keyboard & Mice/Mice';
+        $products[] = $this->createProduct('Logitech MX Anywhere 2', $categoryPath, 69);
+        $products[] = $this->createProduct('Logitech MX Master', $categoryPath, 85);
+        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 79);
+        $products[] = $this->createProduct('Logitech G G502 Proteus Spectrum RGB', $categoryPath, 69);
 
         foreach ($products as $product) {
             $this->backendProductService()->create($product);
         }
+    }
+
+    private function createProduct($name, $categoryPath, $price)
+    {
+        $description = 'Lorem ipsum dolor sit amete, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat...';
+        $images = $this->createImages($name);
+        return ProductData::instance()
+            ->setName($name)
+            ->setDescription(sprintf('Some is description for: %s. %s', $name, $description))
+            ->setCategoryPath($categoryPath)
+            ->setPrice($price)
+            ->setImages($images);
+    }
+
+    private function createImages($productName)
+    {
+        $imageFiles = array();
+        $imageDir = sprintf('./tests/BackendBundle/Resources/images/%s/', $productName);
+        $fileIterator = is_dir($imageDir) ? new \FilesystemIterator($imageDir, \FilesystemIterator::SKIP_DOTS) : null;
+
+        if (is_dir($imageDir) && iterator_count($fileIterator) > 0) {
+            foreach ($fileIterator as $file) {
+                $imageFiles[] = new File($file->getRealPath());
+            }
+        } else {
+            $imageFiles[] = new File('./web/images/no-product.jpg');
+        }
+
+        return $imageFiles;
     }
 
 }

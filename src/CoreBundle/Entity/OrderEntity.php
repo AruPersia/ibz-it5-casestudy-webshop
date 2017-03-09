@@ -25,7 +25,7 @@ class OrderEntity implements EntityBuilder
     private $orderDate;
 
     /**
-     * @ORM\Column(name="shipmentDate", type="datetime")
+     * @ORM\Column(name="shipmentDate", type="datetime", nullable=true)
      */
     private $shipmentDate;
 

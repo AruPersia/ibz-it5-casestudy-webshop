@@ -1,6 +1,6 @@
 {% extends '@Backend/base.html.twig' %}
 
-{% block title %}Join us{% endblock %}
+{% set title = 'Dashboard' %}
 
 {% block body %}
 
@@ -9,15 +9,15 @@
 
             <div class="col-sm-3">
                 <article class="ws-static-box ws-bg-red">
-                    <div class="ws-caption">Open Orders</div>
-                    <div class="ws-value">26</div>
+                    <div class="ws-caption">Pending orders</div>
+                    <div class="ws-value">{{ dashboard.orders.pendingSize }}</div>
                 </article>
             </div>
 
             <div class="col-sm-3">
                 <article class="ws-static-box ws-bg-purple">
-                    <div class="ws-caption">Re-Ordering</div>
-                    <div class="ws-value">12</div>
+                    <div class="ws-caption">Processed orders</div>
+                    <div class="ws-value">{{ dashboard.orders.processedSize }}</div>
                 </article>
             </div>
 

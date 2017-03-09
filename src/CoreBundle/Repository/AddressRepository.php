@@ -5,7 +5,7 @@ namespace CoreBundle\Repository;
 use CoreBundle\Entity\AddressEntity;
 use Doctrine\ORM\EntityRepository;
 
-class AddressRepository extends AbstractRepository
+class AddressRepository extends SecurityRepository
 {
 
     /**

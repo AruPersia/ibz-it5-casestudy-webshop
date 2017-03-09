@@ -39,8 +39,7 @@ class OrderService extends \CoreBundle\Service\Db\OrderService
         $orderEntity = OrderEntity::instance()
             ->setCustomer($this->orderRepository->customerEntityRefById($customerId))
             ->setDeliveryAddress($addressEntity)
-            ->setOrderDate(new \DateTime())
-            ->setShipmentDate(new \DateTime());
+            ->setOrderDate(new \DateTime());
 
         foreach ($orderLines as $orderLine) {
             $productEntity = $this->orderRepository->productEntityRefById($orderLine->getProduct()->getId());

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @A\Security("has_role('EMPLOYEE')")
  * @package BackendBundle\Controller
  */
-class CategoryController extends BackendController
+class CategoryController extends ServiceController
 {
 
     /**
