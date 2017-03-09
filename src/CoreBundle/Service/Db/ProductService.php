@@ -2,9 +2,6 @@
 
 namespace CoreBundle\Service\Db;
 
-use CoreBundle\Entity\CategoryEntity;
-use CoreBundle\Model\Category;
-use CoreBundle\Model\Image;
 use CoreBundle\Model\Product;
 use CoreBundle\Repository\CategoryRepository;
 use CoreBundle\Repository\ImageRepository;
@@ -26,71 +23,14 @@ class ProductService extends EntityService
         $this->imageRepository = $imageRepository;
     }
 
-
-    /**
-     * @param $id
-     * @param Image[] $images
-     * @return Product
-     */
-    public function addImages($id, $images = array()): Product
-    {
-        $imageEntities = array();
-        foreach ($images as $image) {
-            $imageEntities[] = $this->imageRepository->create($image->getBinary());
-        }
-
-        $productEntity = $this->productRepository->addImages($id, $imageEntities);
-        $this->flush();
-
-        return ProductMapper::mapToProduct($productEntity);
-    }
-
-    /**
-     * @param $id - Product id
-     * @param array $imageEntityIds - Image ids which should be deleted
-     * @return Product
-     */
-    public function removeImages($id, $imageEntityIds = array()): Product
-    {
-        $productEntity = $this->productRepository->removeImages($id, $imageEntityIds);
-        $this->flush();
-        return ProductMapper::mapToProduct($productEntity);
-    }
-
-    /**
-     * @param $id - Product id
-     * @param $imageId - Image id
-     * @return Product
-     */
-    public function changeMainImage($id, $imageId): Product
-    {
-        return ProductMapper::mapToProduct($this->productRepository->changeMainImage($id, $imageId));
-    }
-
-    public function findById($id): Product
-    {
-        return ProductMapper::mapToProduct($this->productRepository->findById($id));
-    }
-
     /**
      * @param $path
+     * @param $includeDisabled - With disabled products
      * @return Product[]
      */
-    public function findByPath($path)
+    public function findByPath($path, $includeDisabled = false)
     {
-        return ProductMapper::mapToProducts($this->productRepository->findByPath($path));
-    }
-
-    private function createCategory(Category $category, CategoryEntity $parent = null): CategoryEntity
-    {
-        $categoryEntity = $this->categoryRepository->create($category->getPath());
-        $categoryEntity->setParent($parent);
-
-        foreach ($category->getChildren() as $child) {
-            $this->createCategory($child, $categoryEntity);
-        }
-
-        return $categoryEntity;
+        return ProductMapper::mapToProducts($this->productRepository->findByPath($path, $includeDisabled));
     }
 
 }

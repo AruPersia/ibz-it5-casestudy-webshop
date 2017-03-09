@@ -24,8 +24,10 @@
                          src="data:image/png;base64,{{ product.image.toBase64 }}">
                 </td>
                 <td>
-                    <i class="fa fa-power-off {{ product.enabled ? 'text-success' : 'text-danger' }}"></i>
-                    <a href="{{ path('backend_product_edit', {'productId' : product.id}) }}">{{ product.name }}</a>
+                    <a href="{{ path('backend_product_toggle_status', {'id': product.id}) }}">
+                        <i class="fa fa-power-off {{ product.enabled ? 'text-success' : 'text-danger' }}"></i>
+                    </a>
+                    <a href="{{ path('backend_product_edit', {'id' : product.id}) }}">{{ product.name }}</a>
                 </td>
                 <td>{{ product.category.path }}</td>
                 <td>{{ product.price }}.-</td>

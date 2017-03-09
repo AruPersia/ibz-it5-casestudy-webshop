@@ -20,24 +20,36 @@ class ProductController extends ServiceController
      */
     public function index()
     {
-        $products = $this->productService()->findByPath('/');
+        $products = $this->productService()->findByPath('/', true);
         return $this->render('@Backend/products.html.twig', ['products' => $products]);
     }
 
     /**
-     * @Route("/product/edit/{productId}", name="backend_product_edit")
+     * @param $id - Product id
+     * @Route("/product/edit/{id}", name="backend_product_edit", requirements={"id": "\d+"})
+     * @return Response
      */
-    public function edit($productId)
+    public function edit($id)
     {
-        return $this->renderProductEditForm($this->productService()->findById($productId));
+        $product = $this->productService()->findById($id);
+        $productData = $this->buildProductData($product);
+        $productEditForm = $this->updateProductForm($productData);
+        return $this->renderProductEditForm($productEditForm, $product);
     }
 
     /**
-     * @Route("/product/submit/{id}", name="backend_product_edit_submit")
+     * @Route("/product/edit/submit", name="backend_product_edit_submit")
      */
     public function submitEdit()
     {
+        $productData = new ProductData();
+        $productEditForm = $this->updateProductForm($productData)->handleRequest($this->getRequest());
+        $product = $this->productService()->findById($productData->getId());
+        if ($productEditForm->isValid()) {
+            $this->productService()->update($productData);
+        }
 
+        return $this->renderProductEditForm($productEditForm, $product);
     }
 
     /**
@@ -46,10 +58,23 @@ class ProductController extends ServiceController
      * @Route("/product/edit/{id}/main/image/{imageId}", name="backend_product_change_image")
      * @return Response
      */
-    public function setMainImage($id, $imageId)
+    public function changeMainImage($id, $imageId)
     {
         $product = $this->productService()->changeMainImage($id, $imageId);
-        return $this->renderProductEditForm($product);
+        $productData = $this->buildProductData($product);
+        $productEditForm = $this->updateProductForm($productData);
+        return $this->renderProductEditForm($productEditForm, $product);
+    }
+
+    /**
+     * @param $id - Product id
+     * @Route("/product/{id}/toggle/status", name="backend_product_toggle_status")
+     * @return Response
+     */
+    public function toggleStatus($id)
+    {
+        $this->productService()->toggleStatus($id);
+        return $this->index();
     }
 
     /**
@@ -57,7 +82,7 @@ class ProductController extends ServiceController
      */
     public function create()
     {
-        return $this->renderProductForm($this->productForm());
+        return $this->renderProductForm($this->createProductForm());
     }
 
     /**
@@ -65,7 +90,7 @@ class ProductController extends ServiceController
      */
     public function submitCreate()
     {
-        $productForm = $this->productForm()->handleRequest($this->getRequest());
+        $productForm = $this->createProductForm()->handleRequest($this->getRequest());
 
         if (!$productForm->isValid()) {
             return $this->renderProductForm($productForm);
@@ -80,18 +105,23 @@ class ProductController extends ServiceController
         return $this->render('@Backend/product.create.form.html.twig', ['productForm' => $form->createView()]);
     }
 
-    private function renderProductEditForm(Product $product): Response
+    private function renderProductEditForm(Form $form, Product $product): Response
+    {
+        return $this->render('@Backend/product.edit.html.twig', [
+            'productForm' => $form->createView(),
+            'product' => $product
+        ]);
+    }
+
+    private function buildProductData(Product $product): ProductData
     {
         $productData = new ProductData();
+        $productData->setId($product->getId());
         $productData->setName($product->getName());
         $productData->setCategoryPath($product->getCategory()->getPath());
         $productData->setDescription($product->getDescription());
         $productData->setPrice($product->getPrice());
-        $productForm = $this->productForm($productData);
-        return $this->render('@Backend/product.edit.html.twig', [
-            'product' => $product,
-            'productForm' => $productForm->createView()
-        ]);
+        return $productData;
     }
 
 }

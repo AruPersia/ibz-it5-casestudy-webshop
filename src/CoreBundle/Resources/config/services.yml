@@ -1,4 +1,9 @@
 services:
+    # Utils
+    util.path:
+        class: CoreBundle\Util\PathUtil
+        arguments: ["@=service('kernel').getRootDir()"]
+
     # Repositories
     repository.administrator:
         class: CoreBundle\Repository\AdministratorRepository

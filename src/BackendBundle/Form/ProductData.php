@@ -2,11 +2,14 @@
 
 namespace BackendBundle\Form;
 
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductData
 {
+
+    private $id;
 
     /**
      * @Assert\NotBlank()
@@ -38,6 +41,16 @@ class ProductData
         return new ProductData();
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function getCategoryPath()
     {
         return $this->categoryPath;
@@ -58,7 +71,6 @@ class ProductData
     {
         $this->name = $name;
         return $this;
-
     }
 
     public function getDescription()
@@ -95,6 +107,17 @@ class ProductData
     {
         $this->images = $images;
         return $this;
+    }
+
+    /**
+     * @return File[]
+     */
+    public function getImageFiles()
+    {
+        if ($this->images == null) {
+            $this->images = array();
+        }
+        return array_filter($this->images);
     }
 
 }

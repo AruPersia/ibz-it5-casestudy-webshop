@@ -49,17 +49,15 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
     {
         $products = array();
 
-        $categoryPath = '/Notebooks & Tablets/Notebooks';
-        $products[] = $this->createProduct('HP 250 G5', $categoryPath, 299);
-        $products[] = $this->createProduct('Apple MacBook Pro Space Gray', $categoryPath, 85);
-        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 2799);
-        $products[] = $this->createProduct('Microsoft Surface Book', $categoryPath, 2649);
+        $categoryPath = '/Peripherals/Keyboard & Mice/Mice';
+        $products[] = $this->createProduct('Logitech MX Anywhere 2', $categoryPath, 69);
+        $products[] = $this->createProduct('Logitech MX Master', $categoryPath, 85);
+        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 79);
+        $products[] = $this->createProduct('Logitech G G502 Proteus Spectrum RGB', $categoryPath, 69);
 
-        $categoryPath = '/TV & Video/Televisions';
-        $products[] = $this->createProduct('Samsung UE88KS9888', $categoryPath, 19799);
-        $products[] = $this->createProduct('LG OLED65G6V', $categoryPath, 7499);
-        $products[] = $this->createProduct('Sony KD-85XD8505', $categoryPath, 7299);
-        $products[] = $this->createProduct('Samsung UE78KU6500', $categoryPath, 3999);
+        $categoryPath = '/PC components/Hard drives/Server hard drives';
+        $products[] = $this->createProduct('HPE 762263-B21 Solid State Disk', $categoryPath, 8076);
+        $products[] = $this->createProduct('Fujitsu S26361-F3671-L400 Harddisk', $categoryPath, 747);
 
         $categoryPath = '/PC components/Hard drives/SSD';
         $products[] = $this->createProduct('Samsung 850 EVO Basic', $categoryPath, 173);
@@ -68,15 +66,22 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
         $products[] = $this->createProduct('WD Blue', $categoryPath, 101);
         $products[] = $this->createProduct('Crucial MX300', $categoryPath, 298);
 
-        $categoryPath = '/PC components/Hard drives/Server hard drives';
-        $products[] = $this->createProduct('HPE 762263-B21 Solid State Disk', $categoryPath, 8076);
-        $products[] = $this->createProduct('Fujitsu S26361-F3671-L400 Harddisk', $categoryPath, 747);
+        $categoryPath = '/TV & Video/Televisions';
+        $products[] = $this->createProduct('Samsung UE88KS9888', $categoryPath, 19799);
+        $products[] = $this->createProduct('LG OLED65G6V', $categoryPath, 7499);
+        $products[] = $this->createProduct('Sony KD-85XD8505', $categoryPath, 7299);
+        $products[] = $this->createProduct('Samsung UE78KU6500', $categoryPath, 3999);
 
-        $categoryPath = '/Peripherals/Keyboard & Mice/Mice';
-        $products[] = $this->createProduct('Logitech MX Anywhere 2', $categoryPath, 69);
-        $products[] = $this->createProduct('Logitech MX Master', $categoryPath, 85);
-        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 79);
-        $products[] = $this->createProduct('Logitech G G502 Proteus Spectrum RGB', $categoryPath, 69);
+        $categoryPath = '/Notebooks & Tablets/Notebooks';
+        $products[] = $this->createProduct('HP 250 G5', $categoryPath, 299);
+        $products[] = $this->createProduct('Apple MacBook Pro Space Gray', $categoryPath, 85);
+        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 2799);
+        $products[] = $this->createProduct('Microsoft Surface Book', $categoryPath, 2649);
+
+        $categoryPath = '/Audio & Hi-fi/Hi-fi Streaming/Bluetooth & Portable speakers';
+        $products[] = $this->createProduct('UE BOOM 2 black', $categoryPath, 149);
+        $products[] = $this->createProduct('UE BOOM 2 blue', $categoryPath, 149);
+        $products[] = $this->createProduct('UE BOOM 2 red', $categoryPath, 149);
 
         foreach ($products as $product) {
             $this->backendProductService()->create($product);
@@ -99,14 +104,10 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
     {
         $imageFiles = array();
         $imageDir = sprintf('./tests/BackendBundle/Resources/images/%s/', $productName);
-        $fileIterator = is_dir($imageDir) ? new \FilesystemIterator($imageDir, \FilesystemIterator::SKIP_DOTS) : null;
+        $fileIterator = is_dir($imageDir) ? new \FilesystemIterator($imageDir, \FilesystemIterator::SKIP_DOTS) : array();
 
-        if (is_dir($imageDir) && iterator_count($fileIterator) > 0) {
-            foreach ($fileIterator as $file) {
-                $imageFiles[] = new File($file->getRealPath());
-            }
-        } else {
-            $imageFiles[] = new File('./web/images/no-product.jpg');
+        foreach ($fileIterator as $file) {
+            $imageFiles[] = new File($file->getRealPath());
         }
 
         return $imageFiles;

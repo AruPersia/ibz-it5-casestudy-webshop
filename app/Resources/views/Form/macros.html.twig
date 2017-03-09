@@ -38,7 +38,7 @@
     <input class="form-control-file" type="file"
            id="{{ form.vars.id }}" name="{{ form.vars.full_name }}[]"
             {{ (form.vars.attr.multiple is defined) ? 'multiple="multiple"' }}
-            {{ form.vars.attr.accept is defined ? 'accept="'~form.vars.attr.accept~'"' }}
+            {{ form.vars.attr.accept is defined ?  ('accept="' ~ form.vars.attr.accept ~ '"')|raw }}
            aria-describedby="fileHelp">
     <small id="fileHelp" class="form-text text-muted">{{ fileHelpText }}</small>
 {% endmacro %}

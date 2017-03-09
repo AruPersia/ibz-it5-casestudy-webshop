@@ -13,6 +13,7 @@ use CoreBundle\Repository\CustomerRepository;
 use CoreBundle\Repository\ImageRepository;
 use CoreBundle\Repository\OrderRepository;
 use CoreBundle\Repository\ProductRepository;
+use CoreBundle\Util\PathUtil;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -125,8 +126,9 @@ abstract class AbstractFixtureInterface implements FixtureInterface, OrderedFixt
 
     private function initServices()
     {
+
         $this->administratorService = new AdministratorService($this->entityManger, $this->administratorRepository);
-        $this->productService = new ProductService($this->entityManger, $this->productRepository, $this->categoryRepository, $this->imageRepository);
+        $this->productService = new ProductService($this->entityManger, $this->productRepository, $this->categoryRepository, $this->imageRepository, new PathUtil('./app/'));
         $this->categoryService = new CategoryService($this->entityManger, $this->categoryRepository);
         $this->registrationService = new RegistrationService($this->entityManger, $this->customerRepository, $this->addressRepository);
         $this->backendCustomerService = new CustomerService($this->entityManger, $this->customerRepository, $this->addressRepository);

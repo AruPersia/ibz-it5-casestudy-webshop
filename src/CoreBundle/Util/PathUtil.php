@@ -2,32 +2,37 @@
 
 namespace CoreBundle\Util;
 
-class ValidateUtil
+class PathUtil
 {
+    private $rootDir;
+    private $appDir;
+    private $webDir;
 
-    public static function notNulls(...$objects)
+    public function __construct($appDir)
     {
-        foreach ($objects as $object) {
-            self::notNull($object);
-        }
+        $this->rootDir = realpath($appDir . '/../');
+        $this->appDir = realpath($this->rootDir . '/app/');
+        $this->webDir = realpath($this->rootDir . '/web/');
     }
 
-    public static function notNull($object, $message = 'Validated object is null!')
+    public function getAppDir($extend)
     {
-        if (is_null($object)) {
-            throw new \InvalidArgumentException($message);
-        }
-
-        return $object;
+        return $this->extend($this->git , $extend);
     }
 
-    public static function notEmpty($object, $message = 'Validated object is empty!')
+    public function getWebDir($extend)
     {
-        if (empty($object)) {
-            throw new \InvalidArgumentException($message);
-        }
+        return $this->extend($this->webDir, $extend);
+    }
 
-        return $object;
+    function __toString()
+    {
+        return sprintf('rootDir:%s; appDir:%s, webDir:%s', $this->rootDir, $this->appDir, $this->webDir);
+    }
+
+    private function extend($base, $extend)
+    {
+        return $base . '/' . ltrim($extend, '/');
     }
 
 }

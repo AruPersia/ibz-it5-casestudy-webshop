@@ -14,7 +14,7 @@ class ProductRepository extends AbstractRepository
     public function create($name, $description, $price, CategoryEntity $category, ImageEntity $image, $images = array()): ProductEntity
     {
         ValidateUtil::notNulls($name, $description, $price, $category, $image);
-        $entity = ProductEntity::instance()
+        $productEntity = ProductEntity::instance()
             ->setName($name)
             ->setDescription($description)
             ->setPrice($price)
@@ -22,10 +22,27 @@ class ProductRepository extends AbstractRepository
             ->setImage($image);
 
         foreach ($images as $image) {
-            $entity->addImage($image);
+            $productEntity->addImage($image);
         }
 
-        return $this->persist($entity);
+        return $this->persist($productEntity);
+    }
+
+    public function update($id, $name, $description, $price, CategoryEntity $category, $images = array()): ProductEntity
+    {
+        ValidateUtil::notNulls($id, $name, $description, $price, $category);
+
+        $productEntity = $this->findById($id)
+            ->setName($name)
+            ->setDescription($description)
+            ->setPrice($price)
+            ->setCategory($category);
+
+        foreach ($images as $image) {
+            $productEntity->getImages()->add($image);
+        }
+
+        return $this->merge($productEntity);
     }
 
     /**
@@ -84,6 +101,17 @@ class ProductRepository extends AbstractRepository
      * @param $id - Product id
      * @return ProductEntity
      */
+    public function toggleStatus($id): ProductEntity
+    {
+        $productEntity = $this->findById($id);
+        $productEntity->setEnabled(!$productEntity->getEnabled());
+        return $this->persist($productEntity);
+    }
+
+    /**
+     * @param $id - Product id
+     * @return ProductEntity
+     */
     public function findById($id): ProductEntity
     {
         return $this->repository()
@@ -96,15 +124,23 @@ class ProductRepository extends AbstractRepository
 
     /**
      * @param String $path
+     * @param $includeDisabled - With disabled products
      * @return ProductEntity[]
      */
-    public function findByPath(String $path)
+    public function findByPath(String $path, $includeDisabled = false)
     {
-        return $this->repository()
+        $queryBuilder = $this->repository()
             ->createQueryBuilder('p')
             ->join('p.category', 'c')
-            ->where('c.path like :aaa')
-            ->setParameter('aaa', $path . '%')
+            ->where('c.path like :path');
+
+        if (!$includeDisabled) {
+            $queryBuilder->andWhere('p.enabled = 1');
+        }
+
+        return $queryBuilder
+            ->setParameter('path', $path . '%')
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
