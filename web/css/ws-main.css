@@ -9,8 +9,9 @@
 }
 
 .ws-static-box > div.ws-value {
-    font-size: 1.2em;
+    font-size: 2.2em;
     text-align: right;
+    font-weight: bold;
 }
 
 .ws-bg-green {

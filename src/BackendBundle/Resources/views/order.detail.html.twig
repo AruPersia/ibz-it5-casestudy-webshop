@@ -66,9 +66,10 @@
             <div class="card card-inverse bg-inverse mt-3">
                 <div class="card-block">
                     <h3 class="card-title">Articles</h3>
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
@@ -78,7 +79,16 @@
                         <tbody>
                         {% for line in order.orderLines %}
                             <tr>
-                                <td>{{ line.product.name }}</td>
+                                <td class="">
+                                    <div class="card">
+                                        <div class="card-text text-center" style="max-height: 50px; max-width: 50px;">
+                                            <img style="max-height: 50px; max-width: 50px;"
+                                                 src="data:image/png;base64,{{ line.product.image.toBase64 }}">
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td class="font-weight-bold">{{ line.product.name }}</td>
                                 <td>{{ line.quantity }}</td>
                                 <td>{{ line.product.price }}.-</td>
                                 <td>{{ line.sum }}.-</td>

@@ -65,8 +65,8 @@ class FrontendDefaultData extends AbstractFixtureInterface implements OrderedFix
         foreach ($this->backendCustomerService()->findAll() as $customer) {
 
             $orderLines = array();
-            for ($i = 1; $i <= (3 * $customer->getId()); $i++) {
-                $product = $this->backendProductService()->findById($customer->getId());
+            for ($i = 1; $i <= $customer->getId() * 3; $i++) {
+                $product = $this->backendProductService()->findById($i);
                 $orderLines[] = OrderLineBuilder::instance()
                     ->setProduct($product)
                     ->setQuantity($i)
