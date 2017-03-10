@@ -33,7 +33,7 @@ class ProductData
     /**
      * @Assert\Type(type="Array")
      */
-    private $images = array();
+    private $images;
 
     public static function instance(): ProductData
     {
@@ -99,7 +99,7 @@ class ProductData
      */
     public function getImages()
     {
-        return array_filter($this->images);
+        return $this->images == null ? null : array_filter($this->images);
     }
 
     public function setImages($images): ProductData

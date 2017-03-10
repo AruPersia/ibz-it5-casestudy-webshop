@@ -19,6 +19,15 @@ class OrderRepository extends AbstractRepository
     }
 
     /**
+     * @param $id - Order id
+     * @return OrderEntity
+     */
+    public function updateShipmentDate($id): OrderEntity
+    {
+        return $this->persist($this->findById($id)->setShipmentDate(new \DateTime()));
+    }
+
+    /**
      * @param $id
      * @return OrderEntity|null|object
      */

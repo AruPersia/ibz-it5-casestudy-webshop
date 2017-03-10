@@ -75,7 +75,6 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
         $categoryPath = '/Notebooks & Tablets/Notebooks';
         $products[] = $this->createProduct('HP 250 G5', $categoryPath, 299);
         $products[] = $this->createProduct('Apple MacBook Pro Space Gray', $categoryPath, 85);
-        $products[] = $this->createProduct('Apple Magic Mouse 2', $categoryPath, 2799);
         $products[] = $this->createProduct('Microsoft Surface Book', $categoryPath, 2649);
 
         $categoryPath = '/Audio & Hi-fi/Hi-fi Streaming/Bluetooth & Portable speakers';

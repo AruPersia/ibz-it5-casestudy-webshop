@@ -32,4 +32,15 @@ class OrderController extends ServiceController
         return $this->render('@Backend/order.detail.html.twig', ['order' => $order]);
     }
 
+    /**
+     * @param $id - Order id
+     * @Route("/order/send/{id}", name="backend_order_sent")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function orderSent($id)
+    {
+        $this->orderService()->updateShipmentDate($id);
+        return $this->detail($id);
+    }
+
 }

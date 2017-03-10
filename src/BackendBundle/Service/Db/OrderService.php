@@ -45,9 +45,15 @@ class OrderService extends \CoreBundle\Service\Db\OrderService
         return $this->orderRepository->processedOrdersSize();
     }
 
-    public function updateShipmentDate()
+    /**
+     * @param $id - Order id
+     * @return Order
+     */
+    public function updateShipmentDate($id)
     {
-        // TODO AAF
+        $orderEntity = $this->orderRepository->updateShipmentDate($id);
+        $this->flush();
+        return OrderMapper::mapToOrder($orderEntity);
     }
 
 }

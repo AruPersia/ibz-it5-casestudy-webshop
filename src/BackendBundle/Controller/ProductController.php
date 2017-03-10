@@ -49,7 +49,7 @@ class ProductController extends ServiceController
             $this->productService()->update($productData);
         }
 
-        return $this->renderProductEditForm($productEditForm, $product);
+        return $this->redirectToRoute('backend_product_edit', ['id' => $product->getId()]);
     }
 
     /**
