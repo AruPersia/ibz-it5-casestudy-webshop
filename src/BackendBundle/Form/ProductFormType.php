@@ -19,7 +19,7 @@ class ProductFormType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)
             ->add('price', NumberType::class)
-            ->add('images', FileType::class, ['attr' => ['multiple' => 'multiple', 'accept' => 'image/*']]);
+            ->add('images', FileType::class, ['attr' => ['multiple' => true, 'accept' => 'image/*']]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

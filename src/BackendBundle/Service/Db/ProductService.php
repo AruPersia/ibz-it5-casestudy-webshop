@@ -30,7 +30,7 @@ class ProductService extends \CoreBundle\Service\Db\ProductService
         $categoryEntity = $this->categoryRepository->create($path);
 
         $imageEntities = array();
-        foreach ($productData->getImageFiles() as $image) {
+        foreach ($productData->getImages() as $image) {
             $imageEntities[] = $this->imageRepository->create(file_get_contents($image->getRealPath()));
         }
 
@@ -57,7 +57,7 @@ class ProductService extends \CoreBundle\Service\Db\ProductService
         $categoryEntity = $this->categoryRepository->create($path);
 
         $imageEntities = array();
-        foreach ($productData->getImageFiles() as $image) {
+        foreach ($productData->getImages() as $image) {
             $imageEntities[] = $this->imageRepository->create(file_get_contents($image->getRealPath()));
         }
 

@@ -2,7 +2,9 @@
 Override form
 #####################################}
 {% block form %}
-    <form name="{{ name }}" action="{{ action|default('#') }}" method="{{ method|default('POST') }}">
+    <form name="{{ name }}"
+          action="{{ action|default('#') }}"
+          method="{{ method|default('POST') }}" {{ multipart is defined ? ('enctype="multipart/form-data"')|raw }}>
         {{ form_errors(form) }}
         {{ form_rest(form) }}
     </form>

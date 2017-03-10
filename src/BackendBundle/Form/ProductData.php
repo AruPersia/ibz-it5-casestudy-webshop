@@ -2,7 +2,6 @@
 
 namespace BackendBundle\Form;
 
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,9 +31,9 @@ class ProductData
     private $price;
 
     /**
-     * @Assert\Type(type="array")
+     * @Assert\Type(type="Array")
      */
-    private $images;
+    private $images = array();
 
     public static function instance(): ProductData
     {
@@ -100,24 +99,13 @@ class ProductData
      */
     public function getImages()
     {
-        return $this->images;
+        return array_filter($this->images);
     }
 
     public function setImages($images): ProductData
     {
         $this->images = $images;
         return $this;
-    }
-
-    /**
-     * @return File[]
-     */
-    public function getImageFiles()
-    {
-        if ($this->images == null) {
-            $this->images = array();
-        }
-        return array_filter($this->images);
     }
 
 }
