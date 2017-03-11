@@ -42,6 +42,11 @@ class ProductEntity
     private $price;
 
     /**
+     * @ORM\Column(name="stockQuantity", type="integer", nullable=FALSE)
+     */
+    private $stockQuantity;
+
+    /**
      * @ORM\Column(type="boolean", nullable=FALSE)
      */
     private $enabled = true;
@@ -134,6 +139,17 @@ class ProductEntity
     public function setPrice($price): ProductEntity
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getStockQuantity()
+    {
+        return $this->stockQuantity;
+    }
+
+    public function setStockQuantity($stockQuantity): ProductEntity
+    {
+        $this->stockQuantity = $stockQuantity;
         return $this;
     }
 

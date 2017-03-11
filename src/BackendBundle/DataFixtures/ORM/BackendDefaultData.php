@@ -19,12 +19,12 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
 
     function loadData()
     {
-        $this->createDefaultAdministrators();
-        //$this->createDefaultCategories();
-        $this->createDefaultProducts();
+        $this->loadAdministratorData();
+        $this->loadProductData();
+        $this->loadReorderData();
     }
 
-    private function createDefaultAdministrators()
+    private function loadAdministratorData()
     {
         $administrators = array();
         $passwordData = PasswordData::builder()->setPassword(PasswordUtil::encrypt('123'));
@@ -45,7 +45,7 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
             ->setPasswordData($passwordData);
     }
 
-    private function createDefaultProducts()
+    private function loadProductData()
     {
         $products = array();
 
@@ -96,6 +96,7 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
             ->setDescription(sprintf('Some is description for: %s. %s', $name, $description))
             ->setCategoryPath($categoryPath)
             ->setPrice($price)
+            ->setStockQuantity(10)
             ->setImages($images);
     }
 
@@ -110,6 +111,17 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
         }
 
         return $imageFiles;
+    }
+
+    private function loadReorderData()
+    {
+        $products = $this->backendProductService()->findByPath('/');
+        foreach ($products as $product) {
+            $reorderId = $this->reorderService()->create($product->getId(), 20, new \DateTime(), new \DateTime());
+            if ($reorderId % 2 == 0) {
+                $this->reorderService()->updateDeliveredDate($reorderId);
+            }
+        }
     }
 
 }

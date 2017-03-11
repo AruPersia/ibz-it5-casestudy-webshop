@@ -31,6 +31,11 @@ class ProductData
     private $price;
 
     /**
+     * @Assert\NotBlank()
+     */
+    private $stockQuantity;
+
+    /**
      * @Assert\Type(type="Array")
      */
     private $images;
@@ -91,6 +96,17 @@ class ProductData
     public function setPrice($price): ProductData
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getStockQuantity()
+    {
+        return $this->stockQuantity;
+    }
+
+    public function setStockQuantity($stockQuantity): ProductData
+    {
+        $this->stockQuantity = $stockQuantity;
         return $this;
     }
 

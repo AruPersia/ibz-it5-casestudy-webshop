@@ -11,13 +11,14 @@ use Doctrine\ORM\EntityRepository;
 class ProductRepository extends AbstractRepository
 {
 
-    public function create($name, $description, $price, CategoryEntity $category, ImageEntity $image, $images = array()): ProductEntity
+    public function create($name, $description, $price, $stockQuantity, CategoryEntity $category, ImageEntity $image, $images = array()): ProductEntity
     {
         ValidateUtil::notNulls($name, $description, $price, $category, $image);
         $productEntity = ProductEntity::instance()
             ->setName($name)
             ->setDescription($description)
             ->setPrice($price)
+            ->setStockQuantity($stockQuantity)
             ->setCategory($category)
             ->setImage($image);
 
@@ -28,7 +29,7 @@ class ProductRepository extends AbstractRepository
         return $this->persist($productEntity);
     }
 
-    public function update($id, $name, $description, $price, CategoryEntity $category, $images = array()): ProductEntity
+    public function update($id, $name, $description, $price, $stockQuantity, CategoryEntity $category, $images = array()): ProductEntity
     {
         ValidateUtil::notNulls($id, $name, $description, $price, $category);
 
@@ -36,6 +37,7 @@ class ProductRepository extends AbstractRepository
             ->setName($name)
             ->setDescription($description)
             ->setPrice($price)
+            ->setStockQuantity($stockQuantity)
             ->setCategory($category);
 
         foreach ($images as $image) {

@@ -42,6 +42,7 @@ class ProductService extends \CoreBundle\Service\Db\ProductService
             $productData->getName(),
             $productData->getDescription(),
             $productData->getPrice(),
+            $productData->getStockQuantity(),
             $categoryEntity,
             array_shift($imageEntities),
             $imageEntities);
@@ -66,6 +67,7 @@ class ProductService extends \CoreBundle\Service\Db\ProductService
             $productData->getName(),
             $productData->getDescription(),
             $productData->getPrice(),
+            $productData->getStockQuantity(),
             $categoryEntity,
             $imageEntities
         );

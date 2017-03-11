@@ -23,11 +23,11 @@ services:
     repository.product:
         class: CoreBundle\Repository\ProductRepository
         arguments: ["@doctrine.orm.entity_manager"]
+    repository.reorder:
+        class: CoreBundle\Repository\ReorderRepository
+        arguments: ["@doctrine.orm.entity_manager"]
     repository.order:
         class: CoreBundle\Repository\OrderRepository
-        arguments: ["@doctrine.orm.entity_manager"]
-    repository.stock:
-        class: CoreBundle\Repository\StockRepository
         arguments: ["@doctrine.orm.entity_manager"]
 
     # Services
@@ -40,6 +40,3 @@ services:
     service.order:
         class: CoreBundle\Service\Db\OrderService
         arguments: ["@doctrine.orm.entity_manager", "@repository.order", "@repository.address"]
-    service.stock:
-        class: CoreBundle\Service\Db\StockService
-        arguments: ["@doctrine.orm.entity_manager", "@repository.stock"]
