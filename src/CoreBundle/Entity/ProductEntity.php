@@ -67,6 +67,11 @@ class ProductEntity
      */
     private $images;
 
+    /**
+     * @ORM\Column(name="deletedDate", type="datetime", nullable=TRUE)
+     */
+    private $deletedDate;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -184,6 +189,17 @@ class ProductEntity
     public function getImages()
     {
         return $this->images;
+    }
+
+    public function getDeletedDate()
+    {
+        return $this->deletedDate;
+    }
+
+    public function setDeletedDate($deletedDate): ProductEntity
+    {
+        $this->deletedDate = $deletedDate;
+        return $this;
     }
 
 }

@@ -130,4 +130,15 @@ class ProductService extends \CoreBundle\Service\Db\ProductService
         return ProductMapper::mapToProduct($productEntity);
     }
 
+    /**
+     * @param $id - Product id
+     * @return Product
+     */
+    public function deleteById($id): Product
+    {
+        $productEntity = $this->productRepository->deleteById($id);
+        $this->flush();
+        return ProductMapper::mapToProduct($productEntity);
+    }
+
 }

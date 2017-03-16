@@ -30,7 +30,7 @@ class ReorderEntity
     private $quantity;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="reorderedDate", type="datetime")
      */
     private $reorderedDate;
 

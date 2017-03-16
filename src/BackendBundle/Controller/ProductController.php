@@ -3,6 +3,7 @@
 namespace BackendBundle\Controller;
 
 use BackendBundle\Form\ProductData;
+use CoreBundle\Message\Message;
 use CoreBundle\Model\Product;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -98,6 +99,18 @@ class ProductController extends ServiceController
 
         $this->productService()->create($productForm->getData());
         return $this->renderProductForm($productForm);
+    }
+
+    /**
+     * @param $productId
+     * @Route("/product/delete/{productId}", name="backend_product_delete")
+     * @return Response
+     */
+    public function delete($productId)
+    {
+        $product = $this->productService()->deleteById($productId);
+        $this->addMessage(Message::success('Product deleted', $product->getName()));
+        return $this->index();
     }
 
     private function renderProductForm(Form $form): Response

@@ -134,7 +134,8 @@ class ProductRepository extends AbstractRepository
         $queryBuilder = $this->repository()
             ->createQueryBuilder('p')
             ->join('p.category', 'c')
-            ->where('c.path like :path');
+            ->where('p.deletedDate IS NULL')
+            ->andwhere('c.path like :path');
 
         if (!$includeDisabled) {
             $queryBuilder->andWhere('p.enabled = 1');
@@ -145,6 +146,15 @@ class ProductRepository extends AbstractRepository
             ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param $id - Product id
+     * @return ProductEntity
+     */
+    public function deleteById($id): ProductEntity
+    {
+        return $this->merge($this->productEntityRefById($id)->setDeletedDate(new \DateTime()));
     }
 
     protected function repository(): EntityRepository
