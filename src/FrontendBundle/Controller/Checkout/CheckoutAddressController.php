@@ -23,7 +23,7 @@ class CheckoutAddressController extends CheckoutController
         $addressData = null;
         if ($step->hasAttribute(self::ADDRESS_DATA)) {
             $data = $step->getAttribute(self::ADDRESS_DATA);
-            if (!empty($data->getFirstname())) {
+            if (!empty($data->getStreet())) {
                 $addressData = $data;
             }
         }

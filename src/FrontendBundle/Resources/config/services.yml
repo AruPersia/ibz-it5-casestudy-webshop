@@ -29,3 +29,14 @@ services:
     frontend.service.shopping.cart:
         class: FrontendBundle\Service\ShoppingCart\DbShoppingCartService
         arguments: ["@request_stack"]
+
+    frontend.service.currency:
+        class: FrontendBundle\Twig\Extension\CurrencyService
+        arguments: ["@request_stack"]
+
+    app.twig_extension:
+        class: FrontendBundle\Twig\Extension\PriceExtension
+        arguments: ["@frontend.service.currency"]
+        public: false
+        tags:
+            - { name: twig.extension }

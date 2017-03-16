@@ -44,6 +44,19 @@
             <a class="nav-link" href="{{ path('login') }}">Login</a>
         {% endif %}
 
+        <ul class="nav navbar-nav pull-right">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-money"></i> </a>
+                <div class="dropdown-menu">
+                    {% for currency, rate in currencies %}
+                        <a href="{{ path('change_currency', {'name': currency}) }}"
+                           class="dropdown-item">{{ currency }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+
     </div>
 
 </nav>

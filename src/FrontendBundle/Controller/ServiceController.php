@@ -10,6 +10,7 @@ use FrontendBundle\Service\Db\CategoryService;
 use FrontendBundle\Service\Db\OrderService;
 use FrontendBundle\Service\Db\RegistrationService;
 use FrontendBundle\Service\ShoppingCart\DbShoppingCartService;
+use FrontendBundle\Twig\Extension\CurrencyService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 
 abstract class ServiceController extends FormController
@@ -53,6 +54,11 @@ abstract class ServiceController extends FormController
     protected function orderService(): OrderService
     {
         return $this->get('frontend.service.order');
+    }
+
+    protected function currencyService(): CurrencyService
+    {
+        return $this->get('frontend.service.currency');
     }
 
     /**
