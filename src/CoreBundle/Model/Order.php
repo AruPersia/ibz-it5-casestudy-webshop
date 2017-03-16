@@ -55,4 +55,13 @@ class Order
         return $this->orderLines;
     }
 
+    public function getSum()
+    {
+        $total = 0;
+        foreach ($this->getOrderLines() as $orderLine) {
+            $total += $orderLine->getSum();
+        }
+        return $total;
+    }
+
 }

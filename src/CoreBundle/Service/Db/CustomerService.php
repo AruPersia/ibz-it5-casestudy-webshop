@@ -26,6 +26,7 @@ class CustomerService extends EntityService
         $address = $customer->getAddress();
         $addressEntity = $this->addressRepository->create($address->getStreet(), $address->getHouseNumber(), $address->getPostCode(), $address->getCity());
         $customerEntity = $this->customerRepository->create($customer->getFirstName(), $customer->getLastName(), $customer->getEmail(), $password, $addressEntity);
+        $this->flush();
         return CustomerMapper::mapToCustomer($customerEntity);
     }
 
@@ -35,7 +36,6 @@ class CustomerService extends EntityService
 
         if ($customerEntity == null) {
             $customer = $this->create($customer, PasswordUtil::encrypt(uniqid()));
-            $this->flush();
             return $customer;
         }
 

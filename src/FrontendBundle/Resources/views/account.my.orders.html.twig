@@ -7,12 +7,16 @@
     {% for order in orders %}
         <div class="row">
             <div class="col-md-2 font-weight-bold text-right">Order date</div>
-            <div class="col-md-10">{{ order.orderDate|date }}</div>
+            <div class="col-md-10"><span class="badge badge-primary">{{ order.orderDate|date }}</span></div>
         </div>
 
         <div class="row">
             <div class="col-md-2 font-weight-bold text-right">Shipment date</div>
-            <div class="col-md-10">{{ order.shipmentDate|date }}</div>
+            <div class="col-md-10">
+                <span class="badge {{ order.shipmentDate ? 'badge-success' : 'badge-danger' }}">
+                    {{ order.shipmentDate ? order.shipmentDate|date : 'PENDING' }}
+                </span>
+            </div>
         </div>
 
         <div class="row">

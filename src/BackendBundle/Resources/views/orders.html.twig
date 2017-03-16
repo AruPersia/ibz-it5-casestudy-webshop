@@ -19,7 +19,7 @@
                 <span class="badge badge-danger">PENDING</span>
             {% endif %}
         </td>
-        <td></td>
+        <td>{{ order.sum|price }}</td>
     </tr>
 {% endmacro %}
 

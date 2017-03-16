@@ -58,7 +58,7 @@ class CurrencyService
 
     private function reload(): CurrencyManager
     {
-        $jsonData = file_get_contents('http://api.fixer.io/latest?base=CHF&symbols=EUR,GBP,USD');
+        $jsonData = file_get_contents('http://api.fixer.io/latest?base=CHF&symbols=EUR,GBP,USD,JPY');
         return new CurrencyManager($jsonData);
     }
 
