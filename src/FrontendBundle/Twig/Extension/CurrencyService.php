@@ -14,9 +14,14 @@ class CurrencyService
 
     public function __construct(RequestStack $requestStack)
     {
+        if ($requestStack->getCurrentRequest() == null) {
+            $this->currencyManager = $this->reload();
+            return;
+        }
+
         $this->session = $requestStack->getCurrentRequest()->getSession();
         $this->currencyManager = $this->loadOrCreateCurrencyManager();
-        if ($this->currencyManager->getDate() != (new \DateTime())->format('Y-m-d')) {
+        if ($this->currencyManager->getUpdated() != (new \DateTime())->format('Y-m-d')) {
             $this->currencyManager = $this->reload();
         }
     }
