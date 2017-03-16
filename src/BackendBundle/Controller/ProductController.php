@@ -120,6 +120,7 @@ class ProductController extends ServiceController
         $productData->setName($product->getName());
         $productData->setCategoryPath($product->getCategory()->getPath());
         $productData->setDescription($product->getDescription());
+        $productData->setStockQuantity($product->getStockQuantity());
         $productData->setPrice($product->getPrice());
         return $productData;
     }

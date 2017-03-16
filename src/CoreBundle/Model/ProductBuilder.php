@@ -9,6 +9,7 @@ class ProductBuilder implements Builder
     private $name;
     private $description;
     private $price;
+    private $stockQuantity;
     private $enabled = true;
     private $category;
     private $image;
@@ -27,7 +28,7 @@ class ProductBuilder implements Builder
 
     public function build(): Product
     {
-        return new Product($this->id, $this->name, $this->description, $this->price, $this->enabled, $this->category, $this->image, $this->images);
+        return new Product($this->id, $this->name, $this->description, $this->price, $this->stockQuantity, $this->enabled, $this->category, $this->image, $this->images);
     }
 
     public function setId($id): ProductBuilder
@@ -51,6 +52,12 @@ class ProductBuilder implements Builder
     public function setPrice($price): ProductBuilder
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function setStockQuantity($stockQuantity): ProductBuilder
+    {
+        $this->stockQuantity = $stockQuantity;
         return $this;
     }
 

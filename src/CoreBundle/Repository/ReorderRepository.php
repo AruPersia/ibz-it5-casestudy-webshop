@@ -45,6 +45,28 @@ class ReorderRepository extends AbstractRepository
         return $this->repository()->find($id);
     }
 
+    /**
+     * @return ReorderEntity[]
+     */
+    public function findAll()
+    {
+        return $this->repository()->findAll();
+    }
+
+    public function findPending()
+    {
+        return $this->repository()->findBy(['deliveredDate' => null]);
+    }
+
+    public function findDelivered($maxResults)
+    {
+        return $this->repository()->createQueryBuilder('r')
+            ->where('r.deliveredDate IS NOT NULL')
+            ->getQuery()
+            ->setMaxResults($maxResults)
+            ->getResult();
+    }
+
     protected function repository(): EntityRepository
     {
         return $this->createRepository('CoreBundle:ReorderEntity');

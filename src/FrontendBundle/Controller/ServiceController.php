@@ -3,11 +3,11 @@
 namespace FrontendBundle\Controller;
 
 use CoreBundle\Service\Db\CustomerService;
-use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
 use CoreBundle\Service\Security\SecurityService;
 use FrontendBundle\Service\Db\AccountService;
 use FrontendBundle\Service\Db\CategoryService;
+use FrontendBundle\Service\Db\OrderService;
 use FrontendBundle\Service\Db\RegistrationService;
 use FrontendBundle\Service\ShoppingCart\DbShoppingCartService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
@@ -52,7 +52,7 @@ abstract class ServiceController extends FormController
 
     protected function orderService(): OrderService
     {
-        return $this->get('service.order');
+        return $this->get('frontend.service.order');
     }
 
     /**

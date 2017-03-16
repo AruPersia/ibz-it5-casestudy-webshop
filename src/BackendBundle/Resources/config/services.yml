@@ -6,6 +6,9 @@ services:
   backend.service.order:
     class:  BackendBundle\Service\Db\OrderService
     arguments: ["@doctrine.orm.entity_manager", "@repository.order"]
+  backend.service.reorder:
+    class:  BackendBundle\Service\Db\ReorderService
+    arguments: ["@doctrine.orm.entity_manager", "@repository.reorder", "@repository.product"]
 
   backend.service.db.security:
     class:  CoreBundle\Service\Security\SecurityService

@@ -33,4 +33,13 @@ class ProductService extends EntityService
         return ProductMapper::mapToProducts($this->productRepository->findByPath($path, $includeDisabled));
     }
 
+    /**
+     * @param $id - Product id
+     * @return Product
+     */
+    public function findById($id): Product
+    {
+        return ProductMapper::mapToProduct($this->productRepository->findById($id));
+    }
+
 }

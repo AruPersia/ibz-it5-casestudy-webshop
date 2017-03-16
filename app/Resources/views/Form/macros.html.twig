@@ -29,6 +29,12 @@
            value="{{ type == 'submit' ? form.vars.label : form.vars.value }}">
 {% endmacro %}
 
+{% macro date(form, class = 'form-control') %}
+    <input class="{{ class }}" type="date"
+           id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"
+           value="{{ form.vars.data|date('Y-m-d') }}">
+{% endmacro %}
+
 {% macro textarea(form) %}
     <textarea class="form-control" id="{{ form.vars.id }}"
               name="{{ form.vars.full_name }}">{{ form.vars.value }}</textarea>

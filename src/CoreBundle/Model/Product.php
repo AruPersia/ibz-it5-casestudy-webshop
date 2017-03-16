@@ -11,19 +11,21 @@ class Product
     private $name;
     private $description;
     private $price;
+    private $stockQuantity;
     private $enabled;
     private $category;
     private $image;
     private $images;
 
-    public function __construct($id, $name, $description, $price, $enabled, Category $category, Image $image, $images = array())
+    public function __construct($id, $name, $description, $price, $stockQuantity, $enabled, Category $category, Image $image, $images = array())
     {
-        ValidateUtil::notNulls($name, $description, $price, $enabled, $category, $image);
+        ValidateUtil::notNulls($name, $description, $price, $stockQuantity, $enabled, $category, $image);
 
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
+        $this->stockQuantity = $stockQuantity;
         $this->enabled = $enabled;
         $this->category = $category;
         $this->image = $image;
@@ -48,6 +50,11 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    public function getStockQuantity()
+    {
+        return $this->stockQuantity;
     }
 
     public function isEnabled()

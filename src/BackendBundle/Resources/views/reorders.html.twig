@@ -1,0 +1,39 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% set title = 'Reorders' %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Reorder date</th>
+            <th>Expected delivery date</th>
+            <th>Delivered date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reorder in reorders %}
+            <tr>
+                <td>{{ reorder.id }}</td>
+                <td>{{ reorder.product.name }}</td>
+                <td>{{ reorder.quantity }}</td>
+                <td>{{ reorder.reorderedDate|date }}</td>
+                <td>{{ reorder.expectedDeliveryDate|date }}</td>
+                <td>
+                    {% if reorder.deliveredDate %}
+                        {{ reorder.deliveredDate|date }}
+                    {% else %}
+                        <a href="{{ path('backend_update_delivered_date', {'reorderId': reorder.id}) }}"
+                           class="btn btn-sm btn-primary">Mark as delivered</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

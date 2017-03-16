@@ -1,4 +1,7 @@
 services:
+    frontend.service.order:
+        class: FrontendBundle\Service\Db\OrderService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.order", "@repository.address"]
     frontend.service.db.registration:
         class:  FrontendBundle\Service\Db\RegistrationService
         arguments: ["@doctrine.orm.entity_manager", "@repository.customer", "@repository.address"]

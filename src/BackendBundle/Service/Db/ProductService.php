@@ -130,9 +130,4 @@ class ProductService extends \CoreBundle\Service\Db\ProductService
         return ProductMapper::mapToProduct($productEntity);
     }
 
-    public function findById($id): Product
-    {
-        return ProductMapper::mapToProduct($this->productRepository->findById($id));
-    }
-
 }

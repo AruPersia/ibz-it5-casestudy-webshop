@@ -23,6 +23,7 @@ class ProductMapper
             ->setName($productEntity->getName())
             ->setDescription($productEntity->getDescription())
             ->setPrice($productEntity->getPrice())
+            ->setStockQuantity($productEntity->getStockQuantity())
             ->setEnabled($productEntity->getEnabled())
             ->setCategory($category)
             ->setImage($image)

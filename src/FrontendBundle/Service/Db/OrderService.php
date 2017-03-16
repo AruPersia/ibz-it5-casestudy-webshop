@@ -43,6 +43,7 @@ class OrderService extends \CoreBundle\Service\Db\OrderService
 
         foreach ($orderLines as $orderLine) {
             $productEntity = $this->orderRepository->productEntityRefById($orderLine->getProduct()->getId());
+            $productEntity->setStockQuantity($productEntity->getStockQuantity() - $orderLine->getQuantity());
             $orderEntity->addLine($productEntity, $orderLine->getQuantity());
         }
 

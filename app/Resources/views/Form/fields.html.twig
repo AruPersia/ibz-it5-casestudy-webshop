@@ -58,6 +58,11 @@ Override rows
     {{ m.render(m.label(form), m.file(form, 'Choise one or more images to upload'), errors) }}
 {% endblock %}
 
+{% block date_row %}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.date(form), errors) }}
+{% endblock %}
+
 {% block submit_row %}
     {% import ':Form:macros.html.twig' as m %}
     {{ m.render(m.labelWithoutName(form), m.input(form, 'submit', 'btn btn-primary mt-2'), true) }}

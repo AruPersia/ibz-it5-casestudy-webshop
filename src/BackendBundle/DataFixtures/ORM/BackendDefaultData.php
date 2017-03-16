@@ -117,9 +117,9 @@ class BackendDefaultData extends AbstractFixtureInterface implements OrderedFixt
     {
         $products = $this->backendProductService()->findByPath('/');
         foreach ($products as $product) {
-            $reorderId = $this->reorderService()->create($product->getId(), 20, new \DateTime(), new \DateTime());
-            if ($reorderId % 2 == 0) {
-                $this->reorderService()->updateDeliveredDate($reorderId);
+            $reorder = $this->reorderService()->create($product->getId(), 20, new \DateTime(), new \DateTime());
+            if ($reorder->getId() % 2 == 0) {
+                $this->reorderService()->updateDeliveredDate($reorder->getId());
             }
         }
     }

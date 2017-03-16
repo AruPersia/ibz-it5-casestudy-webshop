@@ -24,6 +24,10 @@
                             <i class="fa fa fa-cart-arrow-down"></i>&nbsp;&nbsp;
                             <b>{{ product.price }}.-</b>
                         </button>
+                        <div class="badge  {{ product.stockQuantity > 5 ? 'badge-success' : product.stockQuantity < 1 ? 'badge-danger' : 'badge-warning' }}">
+                            <i class="fa fa-database"></i>
+                            {{ product.stockQuantity }} in stock
+                        </div>
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@ class ReorderEntity
     private $expectedDeliveryDate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=TRUE)
+     * @ORM\Column(name="deliveredDate", type="datetime", nullable=TRUE)
      */
     private $deliveredDate;
 

@@ -2,6 +2,7 @@
 
 namespace BackendBundle\Service\Db;
 
+use BackendBundle\Model\Reorder;
 use CoreBundle\Repository\ProductRepository;
 use CoreBundle\Repository\ReorderRepository;
 use CoreBundle\Service\Db\EntityService;
@@ -20,21 +21,37 @@ class ReorderService extends EntityService
         $this->productRepository = $productRepository;
     }
 
-    public function create($productId, $quantity, $reorderedDate, $expectedDeliveryDate)
+    public function create($productId, $quantity, $reorderedDate, $expectedDeliveryDate): Reorder
     {
         $reorderEntity = $this->reorderRepository->create($productId, $quantity, $reorderedDate, $expectedDeliveryDate);
         $this->flush();
-        // TODO AAF: return the model
-        return $reorderEntity->getId();
+        return ReorderMapper::mapToReorder($reorderEntity);
     }
 
-    public function updateDeliveredDate($reorderId)
+    public function updateDeliveredDate($reorderId): Reorder
     {
         $reorderEntity = $this->reorderRepository->updateDeliveredDate($reorderId, new \DateTime());
         $productEntity = $reorderEntity->getProduct();
         $productEntity->setStockQuantity($productEntity->getStockQuantity() + $reorderEntity->getQuantity());
         $this->flush();
-        // TODO AAF: return the model
+        return ReorderMapper::mapToReorder($reorderEntity);
+    }
+
+    /**
+     * @return Reorder[]
+     */
+    public function findPending()
+    {
+        return ReorderMapper::mapToReorders($this->reorderRepository->findPending());
+    }
+
+    /**
+     * @param $maxResults
+     * @return Reorder[]
+     */
+    public function findDelivered($maxResults)
+    {
+        return ReorderMapper::mapToReorders($this->reorderRepository->findDelivered($maxResults));
     }
 
 }
