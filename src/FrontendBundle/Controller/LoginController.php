@@ -2,6 +2,7 @@
 
 namespace FrontendBundle\Controller;
 
+use FrontendBundle\Controller\Checkout\CheckoutController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
@@ -28,6 +29,7 @@ class LoginController extends CategoryController
         if ($loginForm->isValid()) {
             try {
                 $this->securityService()->login($loginForm->getData());
+                $this->resetCheckoutSteps();
                 return $this->redirectToRoute('catalogue');
             } catch (\Exception $e) {
                 $this->get('logger')->debug($e);
@@ -44,7 +46,13 @@ class LoginController extends CategoryController
     public function logout()
     {
         $this->securityService()->logout();
+        $this->resetCheckoutSteps();
         return $this->redirectToRoute('login');
+    }
+
+    private function resetCheckoutSteps()
+    {
+        $this->getRequest()->getSession()->remove(CheckoutController::CHECKOUT_SESSION_KEY);
     }
 
     private function renderLoginForm(Form $loginForm)

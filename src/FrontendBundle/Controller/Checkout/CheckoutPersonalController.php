@@ -2,6 +2,7 @@
 
 namespace FrontendBundle\Controller\Checkout;
 
+use CoreBundle\Form\PersonalData;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
 
@@ -18,8 +19,26 @@ class CheckoutPersonalController extends CheckoutController
     {
         $step = $this->createOrLoadStep();
         $personalForm = $this->personalForm();
+
+        $personalData = null;
         if ($step->hasAttribute(self::PERSONAL_DATA)) {
-            $personalForm->setData($step->getAttribute(self::PERSONAL_DATA));
+            $data = $step->getAttribute(self::PERSONAL_DATA);
+            if (!empty($data->getFirstname())) {
+                $personalData = $data;
+            }
+        }
+
+        if ($personalData == null && $this->getUser()) {
+            $customer = $this->customerService()->findById($this->getUser()->getId());
+            $personalData = PersonalData::builder()
+                ->setFirstName($customer->getFirstName())
+                ->setLastName($customer->getLastName())
+                ->setEmail($customer->getEmail())
+                ->setGender('male');
+        }
+
+        if ($personalData != null) {
+            $personalForm->setData($personalData);
         }
 
         return $this->renderForm($personalForm);

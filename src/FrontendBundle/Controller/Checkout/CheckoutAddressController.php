@@ -2,6 +2,7 @@
 
 namespace FrontendBundle\Controller\Checkout;
 
+use FrontendBundle\Form\AddressData;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
 
@@ -18,8 +19,27 @@ class CheckoutAddressController extends CheckoutController
     {
         $step = $this->createOrLoadStep();
         $addressForm = $this->addressForm();
+
+        $addressData = null;
         if ($step->hasAttribute(self::ADDRESS_DATA)) {
-            $addressForm->setData($step->getAttribute(self::ADDRESS_DATA));
+            $data = $step->getAttribute(self::ADDRESS_DATA);
+            if (!empty($data->getFirstname())) {
+                $addressData = $data;
+            }
+        }
+
+        if ($addressData == null && $this->getUser()) {
+            $customer = $this->customerService()->findById($this->getUser()->getId());
+            $address = $customer->getAddress();
+            $addressData = AddressData::builder()
+                ->setStreet($address->getStreet())
+                ->setHouseNumber($address->getHouseNumber())
+                ->setPostCode($address->getPostCode())
+                ->setCity($address->getCity());
+        }
+
+        if ($addressData != null) {
+            $addressForm->setData($addressData);
         }
 
         return $this->renderAddressForm($addressForm);
