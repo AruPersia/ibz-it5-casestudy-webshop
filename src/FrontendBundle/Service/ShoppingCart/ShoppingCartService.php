@@ -10,6 +10,8 @@ interface ShoppingCartService extends JsonData
 
     public function remove($itemId): Item;
 
+    public function removeAll();
+
     public function setQuantity($itemId, $quantity): Item;
 
     /**

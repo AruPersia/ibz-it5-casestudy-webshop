@@ -2,26 +2,63 @@
 
 namespace FrontendBundle\Controller;
 
-use CoreBundle\Controller\CoreController;
+use CoreBundle\Service\Db\CustomerService;
+use CoreBundle\Service\Db\ProductService;
+use CoreBundle\Service\Security\SecurityService;
+use FrontendBundle\Service\Db\AccountService;
+use FrontendBundle\Service\Db\CategoryService;
+use FrontendBundle\Service\Db\OrderService;
+use FrontendBundle\Service\Db\RegistrationService;
+use FrontendBundle\Service\ShoppingCart\DbShoppingCartService;
+use FrontendBundle\Twig\Extension\CurrencyService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
 
-class ServiceController extends CoreController
+abstract class ServiceController extends FormController
 {
 
-    /**
-     * @return \FrontendBundle\Service\Db\RegistrationService
-     */
-    protected function getRegistrationService()
+    protected function registrationService(): RegistrationService
     {
         return $this->get('frontend.service.db.registration');
     }
 
-    /**
-     * @return \FrontendBundle\Service\Db\CategoryService
-     */
-    protected function getCategoryService()
+    protected function profileService(): AccountService
     {
-        return $this->get('frontend.service.db.frontend.category');
+        return $this->get('frontend.service.db.profile');
+    }
+
+    protected function customerService(): CustomerService
+    {
+        return $this->get('frontend.service.db.customer');
+    }
+
+    protected function securityService(): SecurityService
+    {
+        return $this->get('frontend.service.db.security');
+    }
+
+    protected function productService(): ProductService
+    {
+        return $this->get('service.product');
+    }
+
+    protected function categoryService(): CategoryService
+    {
+        return $this->get('frontend.service.category');
+    }
+
+    protected function shoppingCartService(): DbShoppingCartService
+    {
+        return $this->get('frontend.service.shopping.cart');
+    }
+
+    protected function orderService(): OrderService
+    {
+        return $this->get('frontend.service.order');
+    }
+
+    protected function currencyService(): CurrencyService
+    {
+        return $this->get('frontend.service.currency');
     }
 
     /**

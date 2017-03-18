@@ -1,52 +1,40 @@
 <?php
+
 namespace FrontendBundle\Controller;
 
-use CoreBundle\Message\Message;
-use FrontendBundle\Form\RegistrationFormType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration as A;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class RegistrationController extends NavigatorController
+class RegistrationController extends CategoryController
 {
 
     /**
-     * @A\Route("/registration", name="frontendRegistrationShowForm")
+     * @Route("/registration", name="registration")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showFormAction(Request $request)
+    public function index()
     {
-        return $this->renderRegistrationForm($this->getRegistrationForm());
+        return $this->renderForm($this->registrationForm());
     }
 
     /**
-     * @param Form $form
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("registration/submit", name="registration_submit")
      */
-    private function renderRegistrationForm(Form $form)
+    public function submit()
     {
-        return $this->render('@Frontend/Registration/registration.form.html.twig', ['registrationForm' => $form->createView()]);
-    }
-
-    private function getRegistrationForm()
-    {
-        return $this->createForm(RegistrationFormType::class);
-    }
-
-    /**
-     * @A\Route("/registration/submit", name="frontendRegistrationSubmitForm")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function submitFormAction(Request $request)
-    {
-        $registrationForm = $this->getRegistrationForm()->handleRequest($request);
-        if ($registrationForm->isValid()) {
-            $this->getRegistrationService()->register($registrationForm->getData());
-            $this->addMessage(Message::success('registration.successful', 'thanks.for.your.registration'));
-            return $this->render('@Frontend/base.html.twig');
+        $registrationForm = $this->registrationForm()->handleRequest($this->getRequest());
+        if (!$registrationForm->isValid()) {
+            return $this->renderForm($registrationForm);
         }
 
-        return $this->renderRegistrationForm($registrationForm);
+        $this->registrationService()->create($registrationForm->getData());
+        return $this->redirectToRoute('login');
+    }
+
+    private function renderForm(Form $form): Response
+    {
+        return $this->render('@Frontend/registration.form.html.twig', ['registrationForm' => $form->createView()]);
     }
 
 }

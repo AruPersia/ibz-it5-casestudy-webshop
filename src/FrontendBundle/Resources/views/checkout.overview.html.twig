@@ -1,0 +1,71 @@
+{% extends '@Frontend/checkout.html.twig' %}
+{% block checkoutContent %}
+
+    {% set shoppingCartStep = currentStep.root %}
+    {% set personStep = shoppingCartStep.next %}
+    {% set addressStep = personStep.next %}
+    {% set paymentStep = addressStep.next %}
+    {% set overviewStep = paymentStep.next %}
+
+    {% set shoppingCartData = shoppingCartStep.attribute('shoppingCartData') %}
+    {% set personData = personStep.attribute('personalData') %}
+    {% set addressData = addressStep.attribute('addressData') %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Personal data</h4>
+            <hr class="my-1">
+            <p>
+                {{ personData.gender }} {{ personData.firstName }} {{ personData.lastName }}<br/>
+                {{ personData.email }}
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>Delivery address</h4>
+            <hr class="my-1">
+            <p>
+                {{ addressData.street }} {{ addressData.houseNumber }}<br/>
+                {{ addressData.postCode }} {{ addressData.city }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Articles</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set total = 0 %}
+                {% for item in shoppingCartData %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price }}.-</td>
+                        <td>{{ item.sum }}.-</td>
+                    </tr>
+                    {% set total = total + item.sum %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr class="font-weight-bold">
+                    <td colspan="3">Total</td>
+                    <td>{{ total }}.-</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block nextButton %}
+    <a class="btn btn-success" href="{{ path('checkout_buy') }}">Buy</a>
+{% endblock %}

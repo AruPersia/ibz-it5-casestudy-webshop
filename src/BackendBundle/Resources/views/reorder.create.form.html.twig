@@ -1,0 +1,7 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% set title = 'Create a new reorder' %}
+
+{% block body %}
+    {{ form(reorderForm, {'title': 'Create Product', 'action': path('backend_reorder_submit_create')}) }}
+{% endblock %}

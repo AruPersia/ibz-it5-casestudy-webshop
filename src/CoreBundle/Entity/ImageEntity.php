@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="image")
  */
-class ImageEntity
+class ImageEntity implements EntityBuilder
 {
 
     /**
@@ -19,29 +19,35 @@ class ImageEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\ProductEntity", inversedBy="images", fetch="LAZY")
-     * @ORM\JoinColumn(name="productId", referencedColumnName="id", nullable=FALSE)
+     * @ORM\Column(type="blob", name="`binary`")
      */
-    private $product;
+    private $binary;
+
+    public static function instance(): ImageEntity
+    {
+        return new ImageEntity();
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId($id): ImageEntity
     {
         $this->id = $id;
+        return $this;
     }
 
-    public function getProduct()
+    public function getBinary()
     {
-        return $this->product;
+        return $this->binary;
     }
 
-    public function setProduct($product)
+    public function setBinary($binary): ImageEntity
     {
-        $this->product = $product;
+        $this->binary = $binary;
+        return $this;
     }
 
 }

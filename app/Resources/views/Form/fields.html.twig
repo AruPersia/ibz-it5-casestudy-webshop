@@ -1,36 +1,10 @@
 {#####################################
-    Bootstrap default draft
-#####################################}
-{% block renderLabel %}
-    <label for="{{ id }}">{{ label|default(name)|capitalize }}</label>
-{% endblock %}
-
-{% block renderWidget %}
-    <input class="form-control" type="{{ type }}" value="{{ value }}" id="{{ id }}" name="{{ full_name }}">
-    {{ form_errors(form) }}
-{% endblock %}
-
-{% block renderField %}
-    {% set class = 'form-group' %}
-    {% if errors.valid %}
-        {% set class = class ~ ' has-danger' %}
-    {% endif %}
-    <div class="{{ class }}">
-        {{ block('renderLabel') }}
-        {{ block('renderWidget') }}
-    </div>
-{% endblock %}
-
-{#####################################
-    Bootstrap default form
+Override form
 #####################################}
 {% block form %}
-    <form action="{{ action|default('#') }}" method="{{ method|default('POST') }}">
-        {% if title is defined %}
-            <div class="form-group">
-                <h5>{{ title }}</h5>
-            </div>
-        {% endif %}
+    <form name="{{ name }}"
+          action="{{ action|default('#') }}"
+          method="{{ method|default('POST') }}" {{ multipart is defined ? ('enctype="multipart/form-data"')|raw }}>
         {{ form_errors(form) }}
         {{ form_rest(form) }}
     </form>
@@ -39,42 +13,57 @@
 {% block form_errors %}
     {% spaceless %}
         {% if errors|length > 0 %}
-            <ul>
-                {% for error in errors %}
-                    <li class="text-danger">{{ error.message }}</li>
-                {% endfor %}
-            </ul>
+            {% for error in errors %}
+                <span class="text-warning">({{ error.message }})</span>
+            {% endfor %}
         {% endif %}
     {% endspaceless %}
 {% endblock form_errors %}
 
 {#####################################
-    Bootstrap default fields
+Override rows
 #####################################}
+{% block choice_row %}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.select(form), errors) }}
+{% endblock %}
+
 {% block text_row %}
-    {% set type = 'text' %}
-    {{ block('renderField') }}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.input(form, 'text'), errors) }}
+{% endblock %}
+
+{% block textarea_row %}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.textarea(form), errors) }}
 {% endblock %}
 
 {% block number_row %}
-    {% set type = 'number' %}
-    {{ block('renderField') }}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.input(form,'number'), errors) }}
 {% endblock %}
 
 {% block email_row %}
-    {% set type = 'email' %}
-    {{ block('renderField') }}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.input(form, 'email'), errors) }}
 {% endblock %}
 
 {% block password_row %}
-    {% set type = 'password' %}
-    {{ block('renderField') }}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.input(form, 'password'), errors) }}
+{% endblock %}
+
+{% block file_row %}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.file(form, 'Choise one or more images to upload'), errors) }}
+{% endblock %}
+
+{% block date_row %}
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.label(form), m.date(form), errors) }}
 {% endblock %}
 
 {% block submit_row %}
-    <div class="form-group pull-right">
-        <label></label>
-        <button type="submit" class="btn btn-primary" value="{{ value }}" id="{{ id }}"
-                name="{{ full_name }}">{{ label }}</button>
-    </div>
+    {% import ':Form:macros.html.twig' as m %}
+    {{ m.render(m.labelWithoutName(form), m.input(form, 'submit', 'btn btn-primary mt-2'), true) }}
 {% endblock %}

@@ -1,0 +1,50 @@
+{% macro render(label, widget, errors) %}
+    <div class="form-group {{ errors is empty ? '' : 'has-danger' }}">
+        {{ label }}
+        {{ widget }}
+    </div>
+{% endmacro %}
+
+{% macro label(form) %}
+    <label for="{{ form.vars.id }}">
+        {{ form.vars.label|default(form.vars.name)|capitalize }}{{ form_errors(form) }}</label>
+{% endmacro %}
+
+{% macro labelWithoutName(form) %}
+    <label for="{{ form.vars.id }}"></label>
+{% endmacro %}
+
+{% macro select(form) %}
+    <select class="form-control" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}">
+        <option value="">Select {{ form.vars.name }}</option>
+        {% for c in form.vars.choices %}
+            <option value="{{ c.value }}" {{ form.vars.value == c.value ? 'selected' : '' }}>{{ c.label }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro input(form, type, class = 'form-control') %}
+    <input class="{{ class }}" type="{{ type }}"
+           id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"
+           value="{{ type == 'submit' ? form.vars.label : form.vars.value }}">
+{% endmacro %}
+
+{% macro date(form, class = 'form-control') %}
+    <input class="{{ class }}" type="date"
+           id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"
+           value="{{ form.vars.data|date('Y-m-d') }}">
+{% endmacro %}
+
+{% macro textarea(form) %}
+    <textarea class="form-control" id="{{ form.vars.id }}"
+              name="{{ form.vars.full_name }}">{{ form.vars.value }}</textarea>
+{% endmacro %}
+
+{% macro file(form, fileHelpText) %}
+    <input class="form-control-file" type="file"
+           id="{{ form.vars.id }}" name="{{ form.vars.full_name }}{{ (form.vars.attr.multiple is defined) ? '[]' }}"
+            {{ (form.vars.attr.multiple is defined) ? 'multiple="multiple"' }}
+            {{ form.vars.attr.accept is defined ?  ('accept="' ~ form.vars.attr.accept ~ '"')|raw }}
+           aria-describedby="fileHelp">
+    <small id="fileHelp" class="form-text text-muted">{{ fileHelpText }}</small>
+{% endmacro %}

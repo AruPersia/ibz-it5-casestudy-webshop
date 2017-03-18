@@ -5,9 +5,8 @@ namespace CoreBundle\Repository;
 use CoreBundle\Entity\SecurityEntity;
 use CoreBundle\Form\LoginData;
 use CoreBundle\Service\Security\SecurityRepositorySupport;
-use Doctrine\ORM\EntityRepository;
 
-class SecurityRepository extends EntityRepository implements SecurityRepositorySupport
+abstract class SecurityRepository extends AbstractRepository implements SecurityRepositorySupport
 {
 
     /**
@@ -16,12 +15,14 @@ class SecurityRepository extends EntityRepository implements SecurityRepositoryS
      */
     public function loadUserByEmailAndPassword(LoginData $loginData)
     {
-        return $this->createQueryBuilder('u')
+        return $this->repository()
+            ->createQueryBuilder('u')
             ->where('u.email = :email')
-            ->andWhere('u.password = :password')
+            //->andWhere('u.password = :password')
             ->setParameter('email', $loginData->getEmail())
-            ->setParameter('password', $loginData->getPassword())
-            ->getQuery()->getSingleResult();
+            //->setParameter('password', $loginData->getPassword())
+            ->getQuery()
+            ->getSingleResult();
     }
 
 }

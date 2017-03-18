@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="category")
  */
-class CategoryEntity
+class CategoryEntity implements EntityBuilder
 {
 
     /**
@@ -20,101 +20,35 @@ class CategoryEntity
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $name;
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="children", fetch="LAZY")
-     * @ORM\JoinColumn(name="parentCategoryId", referencedColumnName="id", nullable=TRUE)
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="children", fetch="LAZY", cascade={"persist"})
+     * @ORM\JoinColumn(name="parentCategoryId", referencedColumnName="id")
      */
-    private $parentCategory;
+    private $parent;
 
     /**
-     * @var CategoryEntity[]
-     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\CategoryEntity", mappedBy="parentCategory", cascade={"remove", "persist"}, fetch="LAZY")
+     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\CategoryEntity", mappedBy="parent", fetch="LAZY")
      */
     private $children;
 
     /**
-     * @var ProductEntity[]
-     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\ProductEntity", mappedBy="category", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\ProductEntity", mappedBy="category", fetch="EAGER")
      */
     private $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
-    public function getPath()
+    public static function instance(): CategoryEntity
     {
-        return $this->path;
-    }
-
-    public function setPath($path)
-    {
-        $this->path = strtolower($path);
-    }
-
-    public function getParentCategory()
-    {
-        return $this->parentCategory;
-    }
-
-    /**
-     * @return CategoryEntity
-     * @param $parentCategory
-     */
-    public function setParentCategory($parentCategory)
-    {
-        $this->parentCategory = $parentCategory;
-    }
-
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    public function setChildren($children)
-    {
-        $this->children = $children;
-    }
-
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-    public function setProducts($products)
-    {
-        $this->products = $products;
-    }
-
-    public function addProduct(ProductEntity $productEntity)
-    {
-        $this->products->add($productEntity);
-        $productEntity->setCategory($this);
-    }
-
-    function __toString()
-    {
-        return sprintf('%s [%d]', $this->getName(), $this->getId());
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
+        return new CategoryEntity();
     }
 
     public function getId()
@@ -122,10 +56,85 @@ class CategoryEntity
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId($id): CategoryEntity
     {
         $this->id = $id;
+        return $this;
     }
 
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath($path): CategoryEntity
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return CategoryEntity|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @return CategoryEntity
+     * @param $parent
+     */
+    public function setParent(CategoryEntity $parent = null)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    public function hasParent()
+    {
+        return $this->parent != null;
+    }
+
+    /**
+     * @return ArrayCollection|CategoryEntity[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function addChild(CategoryEntity $categoryEntity)
+    {
+        $this->children->add($categoryEntity);
+        $categoryEntity->setParent($this);
+        return $this;
+    }
+
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function addProduct(ProductEntity $productEntity)
+    {
+        $this->products->add($productEntity);
+        $productEntity->setCategory($this);
+        return $this;
+    }
+
+    public function getRoot()
+    {
+        $root = $this;
+        while ($root->hasParent()) {
+            $root = $root->getParent();
+        }
+        return $root;
+    }
+
+    function __toString()
+    {
+        return sprintf('%s [%d]', $this->getId(), $this->getPath());
+    }
 
 }

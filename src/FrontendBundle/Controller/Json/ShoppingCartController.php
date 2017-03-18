@@ -27,7 +27,7 @@ class ShoppingCartController extends ServiceController
      */
     public function addAction($productId)
     {
-        $product = $this->getEntityManager()->getRepository('CoreBundle:ProductEntity')->find($productId);
+        $product = $this->entityManager()->getRepository('CoreBundle:ProductEntity')->find($productId);
         return JsonUtil::renderJson($this->getShoppingCartService()->add(new DbItem($product)));
     }
 

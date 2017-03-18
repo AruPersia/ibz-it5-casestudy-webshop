@@ -3,6 +3,7 @@
     <thead>
     <tr>
         <th>Id</th>
+        <th></th>
         <th>Name</th>
         <th>Price</th>
         <th>Category</th>
@@ -13,9 +14,10 @@
     {% for product in products %}
         <tr>
             <td>{{ product.id }}</td>
+            <td><img src="data:image/png;base64,{{ product.image.toBase64 }}"></td>
             <td>{{ product.name }}</td>
             <td>{{ product.price }}</td>
-            <td>{{ product.category }}</td>
+            <td>{{ product.category.path }}</td>
         </tr>
     {% endfor %}
     </tbody>

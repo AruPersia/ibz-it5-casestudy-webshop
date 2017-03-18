@@ -1,7 +1,32 @@
 {% extends '@Backend/base.html.twig' %}
 
-{% block title %}Edit - Category{% endblock %}
+{% set title = 'Edit product' %}
 
 {% block body %}
-    {% embed '@Backend/product.list.html.twig' %}{% endembed %}
+
+    <div class="card-deck-wrapper mb-3">
+        <div class="card-deck align-items-center">
+            <div class="card text-center card-outline-primary">
+                <div class="card-block">
+                    <img style="height: 100px;" src="data:image/png;base64,{{ product.image.toBase64 }}">
+                </div>
+            </div>
+
+            {% for image in product.images %}
+                <div class="card text-center">
+                    <div class="card-block">
+                        <a href="{{ path('backend_product_change_image', {'id':product.id, 'imageId':image.id}) }}">
+                            <img style="height: 100px;" src="data:image/png;base64,{{ image.toBase64 }}">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ form(productForm, {'action': path('backend_product_edit_submit')}) }}
+
+    <a href="{{ path('backend_product_delete', {'productId':product.id}) }}" class="btn btn-danger pull-right">Delete
+        this product</a>
+
 {% endblock %}

@@ -1,4 +1,42 @@
 services:
-    core.service.security:
-        class:  CoreBundle\Service\Security\SecurityService
-        arguments: ["@request_stack", "@security.token_storage", "@event_dispatcher"]
+    # Utils
+    util.path:
+        class: CoreBundle\Util\PathUtil
+        arguments: ["@=service('kernel').getRootDir()"]
+
+    # Repositories
+    repository.administrator:
+        class: CoreBundle\Repository\AdministratorRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.address:
+        class: CoreBundle\Repository\AddressRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.customer:
+        class: CoreBundle\Repository\CustomerRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.category:
+        class: CoreBundle\Repository\CategoryRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.image:
+        class: CoreBundle\Repository\ImageRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.product:
+        class: CoreBundle\Repository\ProductRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.reorder:
+        class: CoreBundle\Repository\ReorderRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    repository.order:
+        class: CoreBundle\Repository\OrderRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    # Services
+    service.category:
+        class: CoreBundle\Service\Db\CategoryService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.category"]
+    service.product:
+        class: CoreBundle\Service\Db\ProductService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image"]
+    service.order:
+        class: CoreBundle\Service\Db\OrderService
+        arguments: ["@doctrine.orm.entity_manager", "@repository.order", "@repository.address"]

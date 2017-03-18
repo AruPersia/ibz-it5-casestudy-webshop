@@ -2,55 +2,56 @@
 
 namespace Tests\FrontendBundle\Service\Db;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use FrontendBundle\Form\RegistrationFormData;
-use FrontendBundle\Service\Db\RegistrationService;
-use Tests\CoreBundle\Boot\KernelTestCaseWithDbSupport;
 
-class RegistrationServiceTest extends KernelTestCaseWithDbSupport
+use CoreBundle\Util\PasswordUtil;
+use FrontendBundle\Form\AddressData;
+use FrontendBundle\Form\CustomerData;
+use FrontendBundle\Form\PasswordData;
+use FrontendBundle\Form\RegistrationData;
+use Tests\CoreBundle\Boot\TestWithDb;
+
+class RegistrationServiceTest extends TestWithDb
 {
 
-    public function testSaveNewCustomerShouldBeSuccessful()
+    public function testCreateCustomerShouldWorkProperly()
     {
         // given
         $registrationData = $this->createDefaultRegistrationData();
-        $savedCustomerEntity = $this->customerService()->register($registrationData);
+        $customerData = $registrationData->getCustomerData();
+        $addressData = $registrationData->getAddressData();
 
         // when
-        $customerEntityFromDb = $this->customerService()->findByEmailAndPassword($registrationData->getEmail(), '123456');
+        $customer = $this->registrationService()->create($registrationData);
 
         // then
-        $this->assertNotNull($customerEntityFromDb);
-        $this->assertEquals($savedCustomerEntity, $customerEntityFromDb);
+        $this->assertEquals($customerData->getFirstName(), $customer->getFirstName());
+        $this->assertEquals($customerData->getLastName(), $customer->getLastName());
+        $this->assertEquals($customerData->getEmail(), $customer->getEmail());
+        $this->assertEquals($addressData->getStreet(), $customer->getAddress()->getStreet());
+        $this->assertEquals($addressData->getHouseNumber(), $customer->getAddress()->getHouseNumber());
+        $this->assertEquals($addressData->getPostCode(), $customer->getAddress()->getPostCode());
+        $this->assertEquals($addressData->getCity(), $customer->getAddress()->getCity());
     }
 
     private function createDefaultRegistrationData()
     {
-        return RegistrationFormData::builder()
-            ->setFirstName('Brad')
-            ->setLastName('Pitt')
-            ->setEmail('brad.pitt@eample.gmail.com')
-            ->setPassword('123456');
-    }
+        $firstName = uniqid();
+        $lastName = uniqid();
+        $passwordData = PasswordData::builder()->setPassword(PasswordUtil::encrypt('123'));
+        $customerData = CustomerData::builder()
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setEmail(sprintf('%s.%s@example.local', $firstName, $lastName));
+        $addressData = AddressData::builder()
+            ->setStreet(sprintf('%s-street', $firstName))
+            ->setHouseNumber(33)
+            ->setPostCode('8000')
+            ->setCity('Zürich');
 
-    /**
-     * @return RegistrationService
-     */
-    private function customerService()
-    {
-        return static::$kernel->getContainer()->get('frontend.service.db.registration');
-    }
-
-    public function testExceptionExpectedByDuplicatedEmailAddress()
-    {
-        // given
-        $registrationData1 = $this->createDefaultRegistrationData();
-        $registrationData2 = $this->createDefaultRegistrationData();
-
-        // then & then
-        $this->customerService()->register($registrationData1);
-        $this->expectException(UniqueConstraintViolationException::class);
-        $this->customerService()->register($registrationData2);
+        return RegistrationData::builder()
+            ->setCustomerData($customerData)
+            ->setPasswordData($passwordData)
+            ->setAddressData($addressData);
     }
 
 }

@@ -2,9 +2,9 @@
 
 namespace Tests\Frontend\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Tests\CoreBundle\Boot\TestWebWithDbDefaultData;
 
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends TestWebWithDbDefaultData
 {
     protected static function createKernel(array $options = array())
     {
@@ -16,8 +16,16 @@ class DefaultControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/');
-
+        $this->assertCount(21, $crawler->filter('div.card-block .fa-database'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Welcome!', $crawler->filter('head')->text());
+    }
+
+    public function testCataloguePeripherals()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/catalogue/Peripherals');
+        $this->assertCount(4, $crawler->filter('div.card-block .fa-database'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

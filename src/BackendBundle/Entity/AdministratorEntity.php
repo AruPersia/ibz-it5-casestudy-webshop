@@ -6,8 +6,8 @@ use CoreBundle\Entity\SecurityEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Entity
  * @ORM\Table(name="administrator")
- * @ORM\Entity(repositoryClass="CoreBundle\Repository\SecurityRepository")
  */
 class AdministratorEntity extends SecurityEntity
 {
@@ -21,6 +21,11 @@ class AdministratorEntity extends SecurityEntity
      */
     private $lastName;
 
+    public static function instance(): AdministratorEntity
+    {
+        return new AdministratorEntity();
+    }
+
     public function getFirstName()
     {
         return $this->firstName;
@@ -29,6 +34,7 @@ class AdministratorEntity extends SecurityEntity
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     public function getLastName()
@@ -39,5 +45,6 @@ class AdministratorEntity extends SecurityEntity
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
 }

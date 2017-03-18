@@ -1,5 +1,23 @@
-{% for category in categories %}
-    <div>
-        <a href="{{ path('frontendShowCategory', {'categoryPath': category.path}) }}">{{ category.name|capitalize }}</a>
-    </div>
-{% endfor %}
+{% extends '@Frontend/shopping.html.twig' %}
+{% block menuLeft %}
+    <h4 class="card-title">Catalogue</h4>
+
+    {% if category.path.parent is not null %}
+        <p class="card-text">
+            <a href="{{ path('catalogue', {'categoryPath': category.path.parent}) }}">
+                <i class="fa fa-arrow-left"></i>
+                {% if category.path.parent.name == '' %}
+                    All products
+                {% else %}
+                    {{ category.path.parent.name }}
+                {% endif %}
+            </a>
+        </p>
+    {% endif %}
+
+    <p class="card-text font-weight-bold">{{ category.path.name }}</p>
+
+    {% for category in categories %}
+        <div><a href="{{ path('catalogue', {'categoryPath': category.path}) }}">{{ category.path.name }}</a></div>
+    {% endfor %}
+{% endblock %}

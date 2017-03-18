@@ -18,18 +18,6 @@ class DbShoppingCartService implements ShoppingCartService
         $this->shoppingCartItems = $this->loadShoppingCart();
     }
 
-    /**
-     * @return Item[]
-     */
-    private function loadShoppingCart()
-    {
-        if ($this->request->getSession()->has(self::SESSION_KEY)) {
-            return $this->request->getSession()->get(self::SESSION_KEY);
-        }
-
-        return array();
-    }
-
     public function setQuantity($itemId, $quantity): Item
     {
         if ($item = $this->getItem($itemId)) {
@@ -47,11 +35,6 @@ class DbShoppingCartService implements ShoppingCartService
         }
 
         return null;
-    }
-
-    private function flushSession()
-    {
-        $this->request->getSession()->set(self::SESSION_KEY, $this->shoppingCartItems);
     }
 
     public function add(Item $item): Item
@@ -80,6 +63,13 @@ class DbShoppingCartService implements ShoppingCartService
         return $itemToDelete;
     }
 
+    public function removeAll()
+    {
+        foreach ($this->shoppingCartItems as $item) {
+            $this->remove($item->getId());
+        }
+    }
+
     public function getJsonData()
     {
         $jsonData = array();
@@ -106,14 +96,21 @@ class DbShoppingCartService implements ShoppingCartService
         return $total;
     }
 
-    private function changeQuantity($itemId, $quantity): ItemChanged
+    /**
+     * @return Item[]
+     */
+    private function loadShoppingCart()
     {
-        if ($item = $this->getItem($itemId)) {
-            $item->setQuantity($item->getQuantity() + $quantity);
+        if ($this->request->getSession()->has(self::SESSION_KEY)) {
+            return $this->request->getSession()->get(self::SESSION_KEY);
         }
 
-        return new ItemChanged($this, $item);
+        return array();
     }
 
+    private function flushSession()
+    {
+        $this->request->getSession()->set(self::SESSION_KEY, $this->shoppingCartItems);
+    }
 
 }

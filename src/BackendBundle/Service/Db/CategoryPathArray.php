@@ -3,14 +3,14 @@
 namespace BackendBundle\Service\Db;
 
 
-use CoreBundle\Entity\CategoryEntity;
+use CoreBundle\Entity\CategoryEntityBuilder;
 
 class CategoryPathArray implements \Iterator
 {
     private $categoryNames = array();
     private $categoryService;
     /**
-     * @var CategoryEntity
+     * @var CategoryEntityBuilder
      */
     private $parentCategoryEntity;
     private $index;
@@ -23,7 +23,7 @@ class CategoryPathArray implements \Iterator
     }
 
     /**
-     * @return CategoryEntity
+     * @return CategoryEntityBuilder
      */
     public function current()
     {

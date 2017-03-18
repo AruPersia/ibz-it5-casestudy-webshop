@@ -18,4 +18,4 @@ security:
         main:
             anonymous: ~
             form_login:
-                login_path: backend_security_login
+                login_path: backend_login

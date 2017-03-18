@@ -1,7 +1,16 @@
 services:
-    backend.service.category:
-        class:  BackendBundle\Service\Db\CategoryService
-        arguments: ["@doctrine.orm.entity_manager"]
-    backend.service.product:
-        class:  BackendBundle\Service\Db\ProductService
-        arguments: ["@doctrine.orm.entity_manager", "@backend.service.category"]
+  backend.service.administrator:
+    class: BackendBundle\Service\Db\AdministratorService
+    arguments: ["@doctrine.orm.entity_manager", "@repository.administrator"]
+  backend.service.product:
+    class:  BackendBundle\Service\Db\ProductService
+    arguments: ["@doctrine.orm.entity_manager", "@repository.product", "@repository.category", "@repository.image", "@util.path"]
+  backend.service.order:
+    class:  BackendBundle\Service\Db\OrderService
+    arguments: ["@doctrine.orm.entity_manager", "@repository.order"]
+  backend.service.reorder:
+    class:  BackendBundle\Service\Db\ReorderService
+    arguments: ["@doctrine.orm.entity_manager", "@repository.reorder", "@repository.product"]
+  backend.service.db.security:
+    class:  CoreBundle\Service\Security\SecurityService
+    arguments: ["@request_stack", "@security.token_storage", "@event_dispatcher", "@repository.administrator"]

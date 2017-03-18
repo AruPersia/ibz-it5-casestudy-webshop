@@ -21,36 +21,71 @@ class ProductEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="products", fetch="LAZY")
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\CategoryEntity", inversedBy="products", cascade={"persist"})
      * @ORM\JoinColumn(name="categoryId", referencedColumnName="id", nullable=FALSE)
      */
     private $category;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255, nullable=FALSE)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string", length=255, nullable=FALSE)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="float", nullable=FALSE)
      */
     private $price;
 
     /**
-     * @var ImageEntity[]
-     * @ORM\OneToMany(targetEntity="CoreBundle\Entity\ImageEntity", mappedBy="product", cascade={"remove", "persist"})
+     * @ORM\Column(name="stockQuantity", type="integer", nullable=FALSE)
+     */
+    private $stockQuantity;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=FALSE)
+     */
+    private $enabled = true;
+
+    /**
+     * @ORM\OneToOne(targetEntity="CoreBundle\Entity\ImageEntity", cascade={"all"})
+     * @ORM\JoinColumn(name="imageId", referencedColumnName="id")
+     */
+    private $image;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CoreBundle\Entity\ImageEntity", cascade={"all"}, fetch="LAZY")
+     * @ORM\JoinColumn(name="id", referencedColumnName="productId")
+     * @ORM\JoinTable(name="productImage",
+     *      joinColumns={@ORM\JoinColumn(name="productId", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="imageId", referencedColumnName="id")}
+     * )
      */
     private $images;
+
+    /**
+     * @ORM\Column(name="deletedDate", type="datetime", nullable=TRUE)
+     */
+    private $deletedDate;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
     }
 
-    public function addImage(ImageEntity $imageEntity)
+    public static function instance(): ProductEntity
+    {
+        return new ProductEntity();
+    }
+
+    public function addImage(ImageEntity $imageEntity): ProductEntity
     {
         $this->images->add($imageEntity);
-        $imageEntity->setProduct($this);
+        return $this;
     }
 
     public function getId()
@@ -58,19 +93,25 @@ class ProductEntity
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId($id): ProductEntity
     {
         $this->id = $id;
+        return $this;
     }
 
+    /**
+     * @return CategoryEntity
+     */
     public function getCategory()
     {
         return $this->category;
     }
 
-    public function setCategory($category)
+    public function setCategory(CategoryEntity $category): ProductEntity
     {
         $this->category = $category;
+        $this->category->getProducts()->add($this);
+        return $this;
     }
 
     public function getName()
@@ -78,9 +119,21 @@ class ProductEntity
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName($name): ProductEntity
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description): ProductEntity
+    {
+        $this->description = $description;
+        return $this;
     }
 
     public function getPrice()
@@ -88,19 +141,65 @@ class ProductEntity
         return $this->price;
     }
 
-    public function setPrice($price)
+    public function setPrice($price): ProductEntity
     {
         $this->price = $price;
+        return $this;
     }
 
+    public function getStockQuantity()
+    {
+        return $this->stockQuantity;
+    }
+
+    public function setStockQuantity($stockQuantity): ProductEntity
+    {
+        $this->stockQuantity = $stockQuantity;
+        return $this;
+    }
+
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled($enabled): ProductEntity
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return ImageEntity
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage(ImageEntity $image = null): ProductEntity
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|ImageEntity[]
+     */
     public function getImages()
     {
         return $this->images;
     }
 
-    public function setImages($images)
+    public function getDeletedDate()
     {
-        $this->images = $images;
+        return $this->deletedDate;
+    }
+
+    public function setDeletedDate($deletedDate): ProductEntity
+    {
+        $this->deletedDate = $deletedDate;
+        return $this;
     }
 
 }

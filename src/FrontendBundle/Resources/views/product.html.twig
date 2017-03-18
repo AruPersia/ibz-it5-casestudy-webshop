@@ -1,0 +1,49 @@
+{% extends '@Frontend/category.html.twig' %}
+{% block content %}
+    <h4 class="card-title"><span class="badge badge-default">{{ app.request.get('categoryPath')|lower }}</span></h4>
+
+    {% if products is empty %}
+        <div>empty!</div>
+    {% endif %}
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-block">
+                        <p class="text-center">
+                            <img style="max-width: 200px; max-height: 200px;"
+                                 src="data:image/png;base64,{{ product.image.toBase64 }}"></p>
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">[manufacturer]</h6>
+                        <p class="card-text">
+                            {{ product.description|length > 50 ? product.description[:50] ~ '...' : product.description }}
+                        </p>
+
+                        <button class="btn btn-primary" onclick="shoppingCart.add({{ product.id }})">
+                            <i class="fa fa fa-cart-arrow-down"></i>&nbsp;&nbsp;
+                            <b>{{ product.price|price }}</b>
+                        </button>
+                        <div class="badge  {{ product.stockQuantity > 5 ? 'badge-success' : product.stockQuantity < 1 ? 'badge-danger' : 'badge-warning' }}">
+                            <i class="fa fa-database"></i>
+                            {{ product.stockQuantity }} in stock
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block menuRight %}
+    <h4>Shopping cart</h4>
+    <div class="ws-shopping-cart-items">
+        {% embed '@Frontend/shopping.cart.html.twig' %}{% endembed %}
+        <div class="row">
+            <div class="col-md-12 text-md-right">
+                <a class="btn btn-primary" href="{{ path('checkout') }}">Go to checkout </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

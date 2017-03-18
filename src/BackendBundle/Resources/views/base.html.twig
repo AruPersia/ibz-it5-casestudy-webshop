@@ -2,10 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{{ title }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css.map') }}"/>
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/ws-main.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/ws-frontend.css') }}"/>
@@ -13,12 +12,13 @@
 </head>
 <body>
 
-<nav class="navbar navbar-full navbar-dark bg-inverse">
-    {% embed '@Backend/nav.html.twig' %}{% endembed %}
-</nav>
-
+{% embed '@Backend/nav.html.twig' %}{% endembed %}
 {% embed 'message/render.html.twig' %}{% endembed %}
-{% block body %}{% endblock %}
+
+<div class="card-block">
+    <h3 class="card-title">{{ title }}</h3>
+    {% block body %}{% endblock %}
+</div>
 
 <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>

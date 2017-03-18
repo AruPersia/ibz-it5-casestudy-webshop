@@ -1,0 +1,47 @@
+{% extends '@Backend/base.html.twig' %}
+
+{% set title = 'Products' %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th></th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Stock quantity</th>
+            <th>Price</th>
+            <th>Reorder</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>
+                    <img style="max-width: 50px; max-height: 50px;"
+                         class="pull-right"
+                         src="data:image/png;base64,{{ product.image.toBase64 }}">
+                </td>
+                <td>
+                    <a href="{{ path('backend_product_toggle_status', {'id': product.id}) }}">
+                        <i class="fa fa-power-off {{ product.enabled ? 'text-success' : 'text-danger' }}"></i>
+                    </a>
+                    <a href="{{ path('backend_product_edit', {'id' : product.id}) }}">{{ product.name }}</a>
+                </td>
+                <td>{{ product.category.path }}</td>
+                <td>{{ product.stockQuantity }}</td>
+                <td>{{ product.price }}.-</td>
+                <td>
+                    <a href="{{ path('backend_create_reorder', {'productId': product.id}) }}">
+                        <i class="fa fa-truck"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

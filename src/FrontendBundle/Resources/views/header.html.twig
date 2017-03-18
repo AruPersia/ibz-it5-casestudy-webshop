@@ -1,0 +1,62 @@
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+    <a class="navbar-brand" href="{{ path('catalogue') }}">Navbar</a>
+
+    <div class="collapse navbar-collapse">
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('catalogue') }}">Home</a>
+            </li>
+            <li class="navbar-nav mr-auto">
+                <a class="nav-link" href="{{ path('registration') }}">Join now</a>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        {% if app.user %}
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"> {{ app.user.email }} </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('account') }}">
+                            <i class="fa fa-user"></i> My account
+                        </a>
+                        <a class="dropdown-item" href="{{ path('logout') }}">
+                            <i class="fa fa-pencil"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        {% else %}
+            <a class="nav-link" href="{{ path('login') }}">Login</a>
+        {% endif %}
+
+        <ul class="nav navbar-nav pull-right">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-dollar"></i> </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% for currency, rate in currencies %}
+                        <a href="{{ path('change_currency', {'name': currency}) }}"
+                           class="dropdown-item">{{ currency }} ({{ rate }})
+                        </a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>
