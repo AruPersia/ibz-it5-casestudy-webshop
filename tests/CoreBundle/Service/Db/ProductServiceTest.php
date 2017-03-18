@@ -2,12 +2,11 @@
 
 namespace Tests\CoreBundle\Service\Db;
 
-use CoreBundle\Model\Category;
+use BackendBundle\Form\ProductData;
 use CoreBundle\Model\Image;
 use CoreBundle\Model\ImageBuilder;
-use CoreBundle\Model\PathBuilder;
 use CoreBundle\Model\Product;
-use CoreBundle\Model\ProductBuilder;
+use Symfony\Component\HttpFoundation\File\File;
 use Tests\CoreBundle\Boot\TestWithDb;
 
 class ProductServiceTest extends TestWithDb
@@ -16,24 +15,23 @@ class ProductServiceTest extends TestWithDb
     public function testCreateProductShouldWorkProperly()
     {
         // given
-        $product = $this->createDefaultProduct();
+        $productData = $this->createDefaultProduct();
 
         // when
-        $createdProduct = $this->productService()->create($product);
+        $product = $this->backendProductService()->create($productData);
 
         // then
-        $this->assertEquals(1, $createdProduct->getId());
-        $this->assertEquals($this->getSomePngBinary(), $createdProduct->getImage()->getBinary());
-        $this->assertProductWithoutId($product, $createdProduct);
+        $this->assertEquals(1, $product->getId());
+        $this->assertProductData($productData, $product);
     }
 
     public function testFindProductByIdShouldWorkProperly()
     {
         // given
-        $product = $this->productService()->create($this->createDefaultProduct());
+        $product = $this->backendProductService()->create($this->createDefaultProduct());
 
         // when
-        $foundedProduct = $this->productService()->findById(1);
+        $foundedProduct = $this->backendProductService()->findById(1);
 
         // then
         $this->assertProduct($product, $foundedProduct);
@@ -43,8 +41,8 @@ class ProductServiceTest extends TestWithDb
     {
         // given
         for ($i = 0; $i < 10; $i++) {
-            $this->productService()->create($this->createDefaultProduct('/Mobile/Samsung'));
-            $this->productService()->create($this->createDefaultProduct('/Mobile/Apple'));
+            $this->backendProductService()->create($this->createDefaultProduct('/Mobile/Samsung'));
+            $this->backendProductService()->create($this->createDefaultProduct('/Mobile/Apple'));
         }
 
         // when
@@ -63,62 +61,65 @@ class ProductServiceTest extends TestWithDb
     public function testAddImageShouldWorkProperly()
     {
         // given
-        $product = $this->productService()->create($this->createDefaultProduct());
+        $product = $this->backendProductService()->create($this->createDefaultProduct());
         $images = $this->createDefaultImages(2);
 
         // when
-        $updatedProduct = $this->productService()->addImages($product->getId(), $images);
+        $updatedProduct = $this->backendProductService()->addImages($product->getId(), $images);
 
         // then
         $this->assertCount(5, $product->getImages());
         $this->assertCount(7, $updatedProduct->getImages());
-        $this->assertProduct($product, $updatedProduct);
+        $this->assertProduct($this->backendProductService()->findById($product->getId()), $updatedProduct);
     }
 
     public function testDeleteImagesShouldWorkProperly()
     {
         // given
-        $product = $this->productService()->create($this->createDefaultProduct());
+        $product = $this->backendProductService()->create($this->createDefaultProduct());
         $imageEntityIds = array();
         foreach ($product->getImages() as $images) {
             $imageEntityIds[] = $images->getId();
         }
 
         // when
-        $updatedProduct = $this->productService()->removeImages($product->getId(), $imageEntityIds);
+        $updatedProduct = $this->backendProductService()->removeImages($product->getId(), $imageEntityIds);
 
         // then
         $this->assertCount(5, $product->getImages());
         $this->assertCount(0, $updatedProduct->getImages());
-        $this->assertProduct($product, $updatedProduct);
+        $this->assertProduct($this->backendProductService()->findById($product->getId()), $updatedProduct);
     }
 
     private function assertProduct(Product $expected, Product $actual)
     {
         $this->assertEquals($expected->getId(), $actual->getId());
-        $this->assertProductWithoutId($expected, $actual);
+        $this->assertEquals($expected->getCategory(), $actual->getCategory());
+        $this->assertEquals($expected->getName(), $actual->getName());
+        $this->assertEquals($expected->getDescription(), $actual->getDescription());
+        $this->assertEquals($expected->getPrice(), $actual->getPrice());
+        $this->assertEquals($expected->getStockQuantity(), $actual->getStockQuantity());
+        $this->assertEquals($expected->getImage()->getId(), $actual->getImage()->getId());
+        $this->assertEquals($expected->getImage()->getBinary(), $actual->getImage()->getBinary());
+        $this->assertEquals($expected->getImages(), $actual->getImages());
     }
 
-    private function assertProductWithoutId(Product $expected, Product $actual)
+    private function assertProductData(ProductData $expected, Product $actual)
     {
         $this->assertEquals($expected->getName(), $actual->getName());
         $this->assertEquals($expected->getDescription(), $actual->getDescription());
-        $this->assertEquals($expected->getImage()->getBinary(), $actual->getImage()->getBinary());
+        $this->assertEquals(file_get_contents($expected->getImages()[0]->getRealPath()), $actual->getImage()->getBinary());
     }
 
-    private function createDefaultProduct($path = 'Mobile/Samsung'): Product
+    private function createDefaultProduct($path = 'Mobile/Samsung'): ProductData
     {
-        $name = 'Samsung Galaxy S7 - ' . uniqid();
-        $description = 'Some description - ' . uniqid();
-        $category = new Category(null, PathBuilder::createByPath($path));
-        return $product = ProductBuilder::instance()
-            ->setName($name)
-            ->setDescription($description)
-            ->setPrice(12)
-            ->setCategory($category)
-            ->setImage(ImageBuilder::instance()->setBinary($this->getSomePngBinary())->build())
-            ->setImages($this->createDefaultImages(5))
-            ->build();
+        return ProductData::instance()
+            ->setName('Samsung Galaxy S7 - ' . uniqid())
+            ->setDescription('Some description - ' . uniqid())
+            ->setPrice(980)
+            ->setStockQuantity(10)
+            ->setCategoryPath($path)
+            ->setImages($this->createImages('UE BOOM 2 red'));
     }
 
     /**
@@ -132,6 +133,19 @@ class ProductServiceTest extends TestWithDb
             $images[] = ImageBuilder::instance()->setBinary($i . $this->getSomePngBinary())->build();
         }
         return $images;
+    }
+
+    private function createImages($productName)
+    {
+        $imageFiles = array();
+        $imageDir = sprintf('./tests/BackendBundle/Resources/images/%s/', $productName);
+        $fileIterator = is_dir($imageDir) ? new \FilesystemIterator($imageDir, \FilesystemIterator::SKIP_DOTS) : array();
+
+        foreach ($fileIterator as $file) {
+            $imageFiles[] = new File($file->getRealPath());
+        }
+
+        return $imageFiles;
     }
 
     private function getSomePngBinary()

@@ -2,14 +2,15 @@
 namespace Tests\CoreBundle\Boot;
 
 use BackendBundle\Service\Db\AdministratorService;
+use BackendBundle\Service\Db\ReorderService;
 use CoreBundle\Service\Db\CategoryService;
 use CoreBundle\Service\Db\CustomerService;
 use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
-use CoreBundle\Service\Db\StockService;
 use CoreBundle\Service\Security\SecurityService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
+use FrontendBundle\Service\Db\RegistrationService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -53,9 +54,19 @@ class TestWithDb extends KernelTestCase
         return $this->container->get('service.product');
     }
 
+    protected function backendProductService(): \BackendBundle\Service\Db\ProductService
+    {
+        return $this->container->get('backend.service.product');
+    }
+
     protected function customerService(): CustomerService
     {
         return $this->container->get('frontend.service.db.customer');
+    }
+
+    protected function registrationService(): RegistrationService
+    {
+        return $this->container->get('frontend.service.db.registration');
     }
 
     protected function orderService(): OrderService
@@ -63,9 +74,14 @@ class TestWithDb extends KernelTestCase
         return $this->container->get('service.order');
     }
 
-    protected function stockService(): StockService
+    protected function frontendOrderService(): \FrontendBundle\Service\Db\OrderService
     {
-        return $this->container->get('service.stock');
+        return $this->container->get('frontend.service.order');
+    }
+
+    protected function backendReorderService(): ReorderService
+    {
+        return $this->container->get('backend.service.reorder');
     }
 
     protected function setUp()
