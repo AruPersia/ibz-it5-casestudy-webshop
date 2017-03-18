@@ -1,11 +1,13 @@
 <?php
 namespace Tests\CoreBundle\Boot;
 
+use BackendBundle\Service\Db\AdministratorService;
 use CoreBundle\Service\Db\CategoryService;
 use CoreBundle\Service\Db\CustomerService;
 use CoreBundle\Service\Db\OrderService;
 use CoreBundle\Service\Db\ProductService;
 use CoreBundle\Service\Db\StockService;
+use CoreBundle\Service\Security\SecurityService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -30,6 +32,16 @@ class TestWithDb extends KernelTestCase
     private $schemaTool;
 
     private $metadata;
+
+    protected function administratorService(): AdministratorService
+    {
+        return $this->container->get('backend.service.administrator');
+    }
+
+    protected function backendSecurityService(): SecurityService
+    {
+        return $this->container->get('backend.service.db.security');
+    }
 
     protected function categoryService(): CategoryService
     {

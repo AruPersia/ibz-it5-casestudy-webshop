@@ -2,8 +2,9 @@
 
 namespace Tests\BackendBundle\Service\Db;
 
-use BackendBundle\Entity\AdministratorEntity;
-use BackendBundle\Form\LoginData;
+use BackendBundle\Form\AdministratorData;
+use CoreBundle\Form\LoginData;
+use CoreBundle\Form\PasswordData;
 use CoreBundle\Util\PasswordUtil;
 use Tests\CoreBundle\Boot\TestWithDb;
 
@@ -14,61 +15,31 @@ class LoginServiceTest extends TestWithDb
     {
         // given
         $this->persistDefaultUsers();
-        $loginData = $this->createLoginData('some@email.com', '123456');
+        $loginData = LoginData::builder()->setEmail('emma.stone@localhost.local')->setPassword('123');
 
         // when
-        $result = $this->getLoginService()->findByEmailAndPassword($loginData);
-
-        // then
-        $this->assertNull($result);
+        $this->backendSecurityService()->login($loginData);
     }
 
     private function persistDefaultUsers()
     {
-        $this->em->persist($this->createUserEntity('Brad', 'Pitt', 'brad.pitt@example.com', '123456'));
-        $this->em->persist($this->createUserEntity('Brad2', 'Pitt2', 'brad2.pitt2@example.com', '654321'));
-        $this->em->flush();
+        $administrators = array();
+        $passwordData = PasswordData::builder()->setPassword(PasswordUtil::encrypt('123'));
+        $administrators[] = $this->createAdministratorData('Emma', 'Stone', $passwordData);
+        $administrators[] = $this->createAdministratorData('Jennifer', 'Aniston', $passwordData);
+        $administrators[] = $this->createAdministratorData('Angelina', 'Jolie', $passwordData);
+        foreach ($administrators as $administrator) {
+            $this->administratorService()->create($administrator);
+        }
     }
 
-    private function createUserEntity(String $firstName, String $lastName, String $email, String $password)
+    private function createAdministratorData($firstName, $lastName, PasswordData $passwordData): AdministratorData
     {
-        $userEntity = new AdministratorEntity();
-        $userEntity->setFirstName($firstName);
-        $userEntity->setLastName($lastName);
-        $userEntity->setEmail($email);
-        $userEntity->setPassword(PasswordUtil::encrypt($password));
-
-        return $userEntity;
-    }
-
-    private function createLoginData(String $email, String $password)
-    {
-        return LoginData::builder()
-            ->setEmail($email)
-            ->setPassword($password);
-    }
-
-    private function getLoginService()
-    {
-        return self::$kernel->getContainer()->get('backend.service.login');
-    }
-
-    public function testLoginShouldBeSuccessful()
-    {
-        // given
-        $this->persistDefaultUsers();
-        $loginData1 = $this->createLoginData('brad.pitt@example.com', '123456');
-        $loginData2 = $this->createLoginData('brad2.pitt2@example.com', '654321');
-
-        // when
-        $result1 = $this->getLoginService()->findByEmailAndPassword($loginData1);
-        $result2 = $this->getLoginService()->findByEmailAndPassword($loginData2);
-
-        // then
-        $this->assertNotNull($result1);
-        $this->assertNotNull($result2);
-        $this->assertEquals($loginData1->getEmail(), $result1->getEmail());
-        $this->assertEquals($loginData2->getEmail(), $result2->getEmail());
+        return AdministratorData::builder()
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setEmail(mb_strtolower($firstName . '.' . $lastName . '@localhost.local'))
+            ->setPasswordData($passwordData);
     }
 
 }
