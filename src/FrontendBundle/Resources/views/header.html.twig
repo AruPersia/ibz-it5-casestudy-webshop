@@ -16,18 +16,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('catalogue') }}">Home</a>
             </li>
-            <li class="navbar-nav mr-auto">
-                <a class="nav-link" href="{{ path('registration') }}">Join now</a>
-            </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-
-        {% if app.user %}
-            <ul class="nav navbar-nav pull-right">
+        <ul class="nav navbar-nav pull-right">
+            {% if app.user %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown"> {{ app.user.email }} </a>
                     <div class="dropdown-menu">
@@ -39,10 +31,13 @@
                         </a>
                     </div>
                 </li>
-            </ul>
-        {% else %}
-            <a class="nav-link" href="{{ path('login') }}">Login</a>
-        {% endif %}
+            {% else %}
+                <a class="nav-link" href="{{ path('login') }}">Login</a>
+                <li class="navbar-nav">
+                    <a class="nav-link" href="{{ path('registration') }}">Join now</a>
+                </li>
+            {% endif %}
+        </ul>
 
         <ul class="nav navbar-nav pull-right">
             <li class="nav-item dropdown">

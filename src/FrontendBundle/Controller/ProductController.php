@@ -16,7 +16,16 @@ class ProductController extends CategoryController
     public function index($categoryPath)
     {
         $products = $this->productService()->findByPath($categoryPath);
-        return $this->render('@Frontend/product.html.twig', ['products' => $products]);
+        return $this->render('@Frontend/products.html.twig', ['products' => $products]);
+    }
+
+    /**
+     * @Route("/product/{id}", name="show_product")
+     */
+    public function showProduct($id)
+    {
+        $product = $this->productService()->findById($id);
+        return $this->render('@Frontend/product.html.twig', ['product' => $product]);
     }
 
 }
