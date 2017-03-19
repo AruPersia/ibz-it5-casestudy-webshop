@@ -39,6 +39,7 @@ class RegistrationServiceTest extends TestWithDb
         $lastName = uniqid();
         $passwordData = PasswordData::builder()->setPassword(PasswordUtil::encrypt('123'));
         $customerData = CustomerData::builder()
+            ->setGender('m')
             ->setFirstName($firstName)
             ->setLastName($lastName)
             ->setEmail(sprintf('%s.%s@example.local', $firstName, $lastName));

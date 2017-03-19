@@ -31,7 +31,7 @@ class OrderServiceTest extends TestWithDbDefaultData
 
         // then
         $this->assertNotNull($order);
-        $this->assertEquals(5, $order->getId());
+        $this->assertEquals(6, $order->getId());
         $this->assertEquals($customer->getAddress(), $order->getCustomer()->getAddress());
         $this->assertAddress($deliveryAddress, $order->getDeliveryAddress());
         $this->assertCount(5, $order->getOrderLines());
