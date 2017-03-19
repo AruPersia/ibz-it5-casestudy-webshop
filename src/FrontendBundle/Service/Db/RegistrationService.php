@@ -32,6 +32,7 @@ class RegistrationService extends EntityService
         $addressEntity = $this->addressRepository->create($addressData->getStreet(), $addressData->getHouseNumber(), $addressData->getPostCode(), $addressData->getCity());
 
         $customerEntity = $this->customerRepository->create(
+            $customerData->getGender(),
             $customerData->getFirstName(),
             $customerData->getLastName(),
             $customerData->getEmail(),

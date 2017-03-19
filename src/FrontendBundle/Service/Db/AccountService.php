@@ -26,7 +26,7 @@ class AccountService extends EntityService
 
     public function updatePersonalData($customerId, CustomerData $customerData): Customer
     {
-        $customerEntity = $this->customerRepository->update($customerId, $customerData->getFirstName(), $customerData->getLastName(), $customerData->getEmail());
+        $customerEntity = $this->customerRepository->update($customerId, $customerData->getGender(), $customerData->getFirstName(), $customerData->getLastName(), $customerData->getEmail());
         $this->flush();
         return CustomerMapper::mapToCustomer($customerEntity);
     }

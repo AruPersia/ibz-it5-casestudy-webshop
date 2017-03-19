@@ -21,6 +21,7 @@ class CustomerMapper
     {
         return CustomerBuilder::instance()
             ->setId($customerEntity->getId())
+            ->setGender($customerEntity->getGender())
             ->setFirstName($customerEntity->getFirstName())
             ->setLastName($customerEntity->getLastName())
             ->setEmail($customerEntity->getEmail())
@@ -44,6 +45,7 @@ class CustomerMapper
     public static function mapToCustomerData(Customer $customer): CustomerData
     {
         return CustomerData::builder()
+            ->setGender($customer->getGender())
             ->setFirstName($customer->getFirstName())
             ->setLastName($customer->getLastName())
             ->setEmail($customer->getEmail());

@@ -9,9 +9,10 @@ use Doctrine\ORM\EntityRepository;
 class CustomerRepository extends SecurityRepository
 {
 
-    public function create($firstName, $lastName, $email, $password, AddressEntity $addressEntity): CustomerEntity
+    public function create($gender, $firstName, $lastName, $email, $password, AddressEntity $addressEntity): CustomerEntity
     {
         $customerEntity = new CustomerEntity();
+        $customerEntity->setGender($gender);
         $customerEntity->setFirstName($firstName);
         $customerEntity->setLastName($lastName);
         $customerEntity->setEmail($email);
@@ -21,9 +22,10 @@ class CustomerRepository extends SecurityRepository
         return $this->persist($customerEntity);
     }
 
-    public function update($customerId, $firstName, $lastName, $email): CustomerEntity
+    public function update($customerId, $gender, $firstName, $lastName, $email): CustomerEntity
     {
         return $this->merge($this->findById($customerId)
+            ->setGender($gender)
             ->setFirstName($firstName)
             ->setLastName($lastName)
             ->setEmail($email));

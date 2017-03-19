@@ -10,6 +10,11 @@ class CustomerData
     /**
      * @Assert\NotBlank()
      */
+    private $gender;
+
+    /**
+     * @Assert\NotBlank()
+     */
     private $firstName;
 
     /**
@@ -27,6 +32,17 @@ class CustomerData
     public static function builder()
     {
         return new CustomerData();
+    }
+
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+        return $this;
     }
 
     public function getFirstName()

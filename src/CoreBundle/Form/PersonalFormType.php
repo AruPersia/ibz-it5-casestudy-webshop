@@ -13,7 +13,7 @@ class PersonalFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('gender', ChoiceType::class, ['choices' => ['Male' => 'male', 'Female' => 'female']])
+            ->add('gender', ChoiceType::class, ['choices' => ['Male' => 'm', 'Female' => 'f']])
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('email', TextType::class);

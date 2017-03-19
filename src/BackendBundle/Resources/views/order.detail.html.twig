@@ -16,6 +16,7 @@
                         <a href="#"><i class="fa fa-user fa-5x mr-3"></i></a>
                     </div>
                     <h3 class="card-title">Personal data</h3>
+                    <div>{{ customer.gender == 'f' ? 'Ms.' : 'Mr.' }}</div>
                     <div class="card-text">{{ customer.firstName }} {{ customer.lastName }}</div>
                     <div class="card-text">{{ customer.email }}</div>
                     <div class="card-text">{{ customer.address.street }} {{ customer.address.houseNumber }}</div>

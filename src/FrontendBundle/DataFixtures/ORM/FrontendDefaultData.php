@@ -29,19 +29,21 @@ class FrontendDefaultData extends AbstractFixtureInterface implements OrderedFix
         $data = array();
         $password = PasswordUtil::encrypt('123');
 
-        $data[] = $this->createRegistrationData('Brad', 'Pitt', $password);
-        $data[] = $this->createRegistrationData('Tom', 'Hardy', $password);
-        $data[] = $this->createRegistrationData('Johnny', 'Depp', $password);
-        $data[] = $this->createRegistrationData('Donald', 'Trump', $password);
+        $data[] = $this->createRegistrationData('m', 'Brad', 'Pitt', $password);
+        $data[] = $this->createRegistrationData('m', 'Tom', 'Hardy', $password);
+        $data[] = $this->createRegistrationData('m', 'Johnny', 'Depp', $password);
+        $data[] = $this->createRegistrationData('m', 'Donald', 'Trump', $password);
+        $data[] = $this->createRegistrationData('f', 'Jenifer', 'Lopez', $password);
 
         foreach ($data as $registrationData) {
             $this->registrationService()->create($registrationData);
         }
     }
 
-    private function createRegistrationData($firstName, $lastName, $password): RegistrationData
+    private function createRegistrationData($gender, $firstName, $lastName, $password): RegistrationData
     {
         $customerData = CustomerData::builder()
+            ->setGender($gender)
             ->setFirstName($firstName)
             ->setLastName($lastName)
             ->setEmail(mb_strtolower($firstName . '.' . $lastName . '@localhost.local'));

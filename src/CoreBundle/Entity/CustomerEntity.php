@@ -13,6 +13,11 @@ class CustomerEntity extends SecurityEntity
 {
 
     /**
+     * @ORM\Column(name="gender", type="string", length=1)
+     */
+    private $gender;
+
+    /**
      * @ORM\Column(name="firstName", type="string", length=50)
      */
     private $firstName;
@@ -37,6 +42,17 @@ class CustomerEntity extends SecurityEntity
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+    }
+
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    public function setGender($gender): CustomerEntity
+    {
+        $this->gender = $gender;
+        return $this;
     }
 
     public function getFirstName()

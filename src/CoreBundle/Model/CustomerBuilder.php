@@ -6,6 +6,7 @@ class CustomerBuilder
 {
 
     private $id;
+    private $gender;
     private $firstName;
     private $lastName;
     private $email;
@@ -24,6 +25,12 @@ class CustomerBuilder
     public function setId($id): CustomerBuilder
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function setGender($gender): CustomerBuilder
+    {
+        $this->gender = $gender;
         return $this;
     }
 
@@ -53,7 +60,7 @@ class CustomerBuilder
 
     public function build(): Customer
     {
-        return new Customer($this->id, $this->firstName, $this->lastName, $this->email, $this->address);
+        return new Customer($this->id, $this->gender, $this->firstName, $this->lastName, $this->email, $this->address);
     }
 
 }

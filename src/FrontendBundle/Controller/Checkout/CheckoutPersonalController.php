@@ -31,10 +31,10 @@ class CheckoutPersonalController extends CheckoutController
         if ($personalData == null && $this->getUser()) {
             $customer = $this->customerService()->findById($this->getUser()->getId());
             $personalData = PersonalData::builder()
+                ->setGender($customer->getGender())
                 ->setFirstName($customer->getFirstName())
                 ->setLastName($customer->getLastName())
-                ->setEmail($customer->getEmail())
-                ->setGender('male');
+                ->setEmail($customer->getEmail());
         }
 
         if ($personalData != null) {
