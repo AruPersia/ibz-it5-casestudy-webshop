@@ -132,6 +132,7 @@ class CheckoutController extends CategoryController
             ->build();
 
         return CustomerBuilder::instance()
+            ->setGender($personalData->getGender())
             ->setFirstName($personalData->getFirstName())
             ->setLastName($personalData->getLastName())
             ->setEmail($personalData->getEmail())
